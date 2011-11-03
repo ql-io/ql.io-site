@@ -1,0 +1,17 @@
+{
+    "name": "ql.io-demo-site",
+    "version": "0.0.1",
+    "dependencies":{
+        "ql.io-app": "",
+        "ql.io-compiler": "",
+        "mustache": "",
+        "headers": "",
+        "express": "",
+        "ejs": "",
+        "node-markdown": "0.1.0",
+        "underscore": ""
+    },
+    "devDependencies": {
+        "nodeunit": "0.5.1"
+    }
+}
