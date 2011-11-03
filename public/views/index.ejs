@@ -1,0 +1,78 @@
+<div id="contentwrapper">
+<div id="contentcolumn">
+    <div id="logo">
+        <img src='/images/ql.io-large.png' width="140px" height="70px" alt="ql.io logo"/>
+
+        <p id="logo-content">making API access as easy as SQL and JSON</p>
+
+        <p><a href='/'>Get the source</a> | <a href='/console'>Try now</a> | <a href='/examples'>See examples</a> |<a href='/docs'>Read docs</a></p>
+    </div>
+
+    <h2>Who is Behind ql.io?</h2>
+
+    <p>ql.io is being built by eBay's platform engineering group, and is actively managed on
+        <a href="https://github.com/ql-io/ql.io">github.</a> ql.io is released under
+        <a href="https://github.com/ql-io/ql.io/blob/master/LICENSE.md">Apache License, Version
+            2.0</a>.</p>
+</div>
+</div>
+
+<div id="rightcolumn">
+
+<div class="feature">
+    <p class="title">Use SQL as a DSL</p>
+
+    <p>You may not like SQL databases. But as Eric Meijer Meijer and Gavin Bierman of Microsoft <a
+    href="http://queue.acm.org/detail.cfm?id=1961297">explain</a>, or as demonstrated by Microsoft's
+    <a href="http://en.wikipedia.org/wiki/Language_Integrated_Query">LINQ</a>, Yaoo!'s <a
+    href="http://developer.yahoo.com/yql/">YQL</a>, and Richard Hipp and Damien Katz's <a
+    href="http://www.unqlspec.org/">unQL</a>, SQL is a quite powerful DSL to retrieve, filter,
+    project, and join data.</p>
+
+    <p><em>ql.io combines SQL, JSON, and a few procedural style constructs to let you express data
+    retrieval, joins, projections and even loops in a compact <a href="/docs/language">syntax</a> to
+    interact with Web APIs.</em></p>
+
+    <p>At eBay, we have seen code reductions from several hundreds of lines in Java to 10-20 lines
+    of ql.io.</p>
+
+</div>
+
+<div class="feature">
+    <p class="title">Cleanse APIs to Improve Interoperability</p>
+
+    <p>Not all APIs are created equal. Some suck more than others - built by different teams using
+    different stacks. Inconsistencies and syntax quirks between APIs can make client code complex.
+    Add SOAP style interfaces to the mix, and the life of a client developer can suck even more.</p>
+
+    <p>In stead of waiting for the API owners to clean them up, you can <em>apply ql.io's <a
+    href="/docs/language">routes</a> to offer new RESTful interfaces that are more consistent, more
+    conformant to HTTP, and easier to use</em>.</p>
+</div>
+
+<div class="feature">
+    <p class="title">Create Consumer-Centric Interfaces</p>
+
+    <p>APIs are designed for reuse, and hence they cater to the common denominator. Getting new
+    fields added, optimize responses, or combining multiple requests into involve drawn out
+    negotiations between API building teams and API consuming teams.</p>
+
+    <p>One of the goals of ql.io is to keep API consuming teams <em>move fast by creating
+    consumer-centric interfaces</em>. ql.io lets each consumer create their own optimized interfaces to
+    APIs.</p>
+</div>
+
+<div class="feature">
+    <p class="title">Orchestrate Without Pain</p>
+
+    <p>Most real-world client apps need to mashup data from multiple APIs in one go. Data mashup is
+    often complicated as you need to worry about order of requests, inter-dependencies, error
+    handling, and parallelization to reduce overall latency.</p>
+
+    <p>You don't need a complex multi-threaded fork-join or orchestration framework so solve this.
+    <em>ql.io knows how to schedule execution of statements asynchronously. You can write procedural
+    scripts, and let ql.io do the orchestration using async I/O</em>. Under the hood, ql.io uses
+    Node.js's evented IO.</p>
+</div>
+
+</div>

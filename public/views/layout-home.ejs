@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>ql.io - </title>
+    <link rel="stylesheet" type="text/css" href="/css/all.css"/>
+    <style type="text/css">
+
+        body {
+        }
+        
+        em {
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        div#top {
+            right: 1em;
+        }
+
+        div#logo img {
+            /*float: left;*/
+        }
+
+        div#logo p#logo-content {
+            /*margin-top: 30px;*/
+        }
+
+        div#top ul {
+            float: right;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        div#top ul li {
+            display: inline;
+        }
+
+        div#top ul li a {
+            right: 1em;
+        }
+
+        #contentwrapper {
+            float: left;
+            width: 100%;
+        }
+
+        #contentcolumn {
+            margin-right: 45%;
+        }
+
+        #rightcolumn {
+            float: left;
+            width: 45%;
+            margin-top: 1em;
+            margin-left: -45%;
+            font-size: .75em;
+        }
+
+        #footer {
+            clear: left;
+            width: 100%;
+            text-align: center;
+            padding: 4px 0;
+        }
+
+        #footer a {
+        }
+
+        div.feature {
+            display: block;
+            padding-left: 1em;
+            border-bottom: 1px dotted green;
+        }
+
+        div.feature p.title {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div id="maincontainer">
+
+    <%- body %>
+
+    <div id="footer">
+
+        <%- partial("footer") %>
+    </div>
+
+</div>
+</body>
+</html>
