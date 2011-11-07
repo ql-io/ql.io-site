@@ -70,3 +70,6 @@ blockquote {
     overflow: scroll;
 }
 
+#main h1 {
+    font-size: 2em;
+}
