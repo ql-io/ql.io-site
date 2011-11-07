@@ -4,100 +4,14 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>ql.io - APIs call as easy as SQL and JSON &amp; automatic orchestration</title>
     <link rel="stylesheet" type="text/css" href="/css/all.css"/>
-    <link rel="stylesheet" href="/css/prettify.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/site.css"/>
+    <link rel="stylesheet" href="/css/shCore.css"/>
+    <link rel="stylesheet" href="/css/shThemeEclipse.css"/>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
-    <script src="/scripts/prettify.js"></script>
-    <script src="/scripts/lang-sql.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            prettyPrint();
-        });
-        function showConsole(s) {
-            var q = $(s).text();
-            alert(q);
-            window.location = "/console?s=" + encodeURIComponent(q);
-            return false;
-        }
-    </script>
-    <style type="text/css">
-
-        body {
-            width: 70%;
-            margin-left: 15%;
-        }
-
-        #logo {
-            text-align: center;
-        }
-
-        div.main-navbar {
-            margin: 1em 15%;
-            width: 70%;
-            text-align: center;
-            box-shadow: 3px;
-            background: none;
-            background-color: #3871C1;
-            padding: 11px;
-            border-radius: 10px;
-            color: white;
-            font-size: large;
-            cursor: pointer;
-        }
-
-        a.main-navbar {
-            text-decoration: none;
-            color: white;
-        }
-
-        .highlights {
-            margin: 1em 10%;
-            width: 80%;
-            text-align: center;
-            box-shadow: 3px;
-            background: none;
-            /*background-color: #3871C1;*/
-            padding: 11px;
-            /*border-radius: 10px;*/
-            /*color: white;*/
-            font-size: large;
-            /*cursor: pointer;*/
-        }
-
-        div.center {
-            text-align: center;
-            font-size: small;
-            width: 100%;
-        }
-
-        em {
-            font-weight: bold;
-            font-style: normal;
-        }
-
-        .try {
-            float: right;
-            padding: 3px;
-            border-radius: 3px;
-            position: static;
-            margin-bottom: -2.2em;
-            text-align: right;
-            font-size: small;
-            color: #808080;
-            text-transform: uppercase;
-        }
-        
-        .try a {
-
-        }
-        
-        #footer {
-            clear: left;
-            width: 100%;
-            text-align: center;
-            padding: 4px 0;
-        }
-
-    </style>
+    <script src="/scripts/shCore.js"></script>
+    <script src="/scripts/shBrushSql.js"></script>
+    <script src="/scripts/shBrushJScript.js"></script>
+    <script src="/scripts/shBrushBash.js"></script>
 </head>
 <body>
 <div id="main">
@@ -110,5 +24,8 @@
     </div>
 
 </div>
+<script type="text/javascript">
+     SyntaxHighlighter.all()
+</script>
 </body>
 </html>

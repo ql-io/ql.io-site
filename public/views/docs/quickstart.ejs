@@ -1,74 +1,397 @@
 
+<span class='try'><canvas id="c0"></canvas></span>
 
-<h2>Prequisites</h2>
+<p>Here is the use case we will solve using ql.io:</p>
 
+<blockquote>
 
+<em>Given a keyword, find products. For each product found, get the title, a URL that can give
+details, total number of reviews and ratings.</em>
 
-<p>Three simple steps to create this experience yourself:</p>
+</blockquote>
+
+<p>We have three APIs that can give this data:</p>
 
 <ol>
-    <li>Use <code>create table</code> statements to map the API into a table focusing on the parts
-    of the response that you're interested in</li>
 
-    <li>
-    </li>
+<li><a
+href="http://developer.ebay.com/devzone/shopping/docs/callref/FindProducts.html">FindProducts</a>
+API that, given a keyword, returns up to a specified maximum number of products.</li>
 
-<h3>Step 1. Map the FindProducts API</h3>
+<li>The same FindProducts API that, given a <code>ProductID</code>, returns product details that
+include title, URL for details and total number of reviews among with several details.</li>
 
+<li><a
+href="http://developer.ebay.com/devzone/shopping/docs/callref/FindReviewsAndGuides.html">FindReviewsAndGuides</a>
+API that, given a <code>ProductID</code> returns ratings and guides.</li>
+</ol>
+
+<p>Imagine that we are interested in getting a maximum of <code>5</code> products for the keyword
+&quot;macbook pro&quot;. For getting title, details URL, total number of reviews and ratings, we
+will need to do the following:</p>
+
+<ol>
+    <li>Call the FindProducts API with with <code>QueryKeywords=macbook pro</code> and
+    <code>MaxEntries=5</code></li>
+
+    <li>For each product ID found, call the FindProducts API with
+    <code>ProductID.Value={id}</code>.</li>
+
+    <li>For each product ID found, call the FindReviewsAndGuides API with
+    <code>ProductID.Value={id}</code>.</li>
+</ol>
+
+<p>In order maximize performance and throughput, we want to fire up the second and third steps above
+in parallel using async IO - this means that we need to orchestrate <code>11</code> HTTP requests.
+Why <code>11</code>? Note that the second and third APIs take only one product ID, and so we need to
+call them once per product ID.</p>
+
+<blockquote> <em>Having bulk APIs for the second and third APIs would help, but the point of ql.io
+is to make consumers accomplish their tasks without waiting for API developers customize/optimize their
+interfaces for each and every consumer.</em> </blockquote>
+
+<h2>Step 0: Prequisites</h2>
+
+<span class='try'><canvas id="c1" prop="3"></canvas></span>
+
+<p>You will need <a href="http://nodejs.org">Node</a> version 0.4.10-0.4.12 and <a
+href='http://npmjs.org'>npm</a> installed on a Mac or Ubuntu before you get started. On Ubuntu, make
+sure to install <code>expat</code> and <code>libexpat1-dev</code>. See <a
+href="/docs/prerequisites">prerequisites</a> for detailed steps.</p>
+
+<pre class="brush: bash">
+sudo apt-get install expat libexpat1-dev
+</pre>
+
+<h2>Step 1: Build ql.io</h2>
+
+<span class='try'><canvas id="c2" prop="3"></canvas></span>
+
+<em>TODO: This step is temporary until we publish our modules in npm.</em>
+
+<p>We first need to build ql.io so that you can refer to qli.io modules from other apps on your box.</p>
+
+<pre class="brush: bash">
+git clone git@github.com:ql-io/ql.io.git
+cd ql.io
+make
+cd ..
+</pre>
+
+<h2>Step 2: Setup a New App</h2>
+
+<span class='try'><canvas id="c3" prop="3"></canvas></span>
+
+<em>TODO: This step will change once we publush our modules.</em>
+
+<p>Setup a new ql.io app and start the server.</p>
+
+<pre class="brush: bash">
+git clone https://github.com/ql-io/ql.io-template myapp
+cd myapp
+make
+bin/start.sh
+</pre>
+
+<blockquote> If <code>make</code> fails due to permission errors, enable write access to wherever
+npm stores global modules and binaries on your machine. On Ubuntu and Mac, these are
+<code>/usr/local/lib/node_modules</code> and <code>/usr/local/bin</code>. After enabling
+permissions, retry <code>make</code> and then <code>bin/start.sh</code>.
+</blockquote>
+
+<p>Using latest versions of Firefox or Chrome, go to <a
+href="http://localhost:3000">http://localhost:3000</a> to see ql.io's Web Console. In the text
+area, type the following.</p>
+
+<pre class="brush: sql">
+show tables
+</pre>
+
+<p>This statement shows an empty array in the response in the results area below the script area.</p>
+
+<pre class="brush: plain">
+[ ]
+</pre>
+
+<p>This step confirms that you have a working version of ql.io ready.</p>
+
+<h2>Step 3: Create Tables</h2>
+
+<span class='try'><canvas id="c4" prop="6"></canvas></span>
+
+<p>ql.io uses a SQL+JSON based DSL for calling APIs, and &quot;table&quot; as a
+&quot;consumer-centric&quot; interface to an API. For our use case, we need to setup three tables.
+We use <code>create table</code> statements for this purpose.</p>
+
+<p>Simply copy and paste the following statements in to the script area of the Web Console.</p>
 
 <div class='ql-example'>
-    <span class='try'><canvas id="c0"></canvas></span>
-    <pre class='prettyprint lang-sql linenums:'>
+    <pre class='brush: sql'>
+-- A table to find products
 create table ebay.FindProducts
-  on select get from "http://open.api.ebay.com/shopping?callname=FindProducts&amp;appid={^apikey}&responseencoding=JSON&version=725&QueryKeywords={^QueryKeywords}&MaxEntries={max}&ProductSort=Popularity&AvailableItemsOnly=true&siteid={siteid}"
+  on select get from "http://open.api.ebay.com/shopping?callname=FindProducts&amp;amp;appid={^apikey}&amp;responseencoding=JSON&amp;version=725&amp;QueryKeywords={^QueryKeywords}&amp;MaxEntries={max}&amp;ProductSort=Popularity&amp;AvailableItemsOnly=true&amp;siteid={siteid}"
     using defaults max = "5", apikey = "{config.ebay.apikey}", sideid = 0
-    resultset 'Product';</pre>
-</div>
+    resultset 'Product';
 
-<h3>Step 2. Map the ProductDetails API</h3>
-<div class='ql-example'>
-    <span class='try'><canvas id="c1"></canvas></span>
-    <pre class='prettyprint lang-sql linenums:'>create table ebay.ProductDetails
+-- A table to get product details
+create table ebay.ProductDetails
   on select get from "http://open.api.ebay.com/shopping?callname=FindProducts&appid={^apikey}&responseencoding=JSON&version=725&siteid={siteid}&ProductID.type={^ProductType}&ProductID.Value={^ProductID}"
     using defaults apikey = "{config.ebay.apikey}", sideid = 0
     resultset 'Product';
-</pre>
 
-<h3>Step 3. Map the ProductStats API</h3>
-<div class='ql-example'>
-    <span class='try'><canvas id="c2"></canvas></span>
-    <pre class='prettyprint lang-sql linenums:'>create table ebay.ProductStats
-  on select get from "http://svcs.ebay.com/services/search/ProductStatisticsService/v1?X-EBAY-SOA-SECURITY-APPNAME={^apikey}&X-EBAY-SOA-SERVICE-NAME=ProductStatisticsService&X-EBAY-SOA-OPERATION-NAME=getProductStatistics&X-EBAY-SOA-RESPONSE-DATA-FORMAT=JSON&productId={^productID}&buyBoxPriceRequest.includeAllConditions=true&inventoryCountRequest.includeAllConditions=true"
-    using defaults apikey = "{config.ebay.apikey}", sideid = 0
-    resultset 'getProductStatisticsResponse.productStatistics'; </pre>
+-- A table to get product reviews
+create table ebay.ProductReviews
+  on select get from "http://open.api.ebay.com/shopping?callname=FindReviewsAndGuides&ProductID.Value={#^ProductID}&ProductID.type={^ProductType}&appid={^apikey}&responseencoding=JSON&version=745&siteid={siteid}"
+     using apikey = "{config.ebay.apikey}", sideid = 0;
+</pre>
 </div>
 
-<p>All it takes is 15 minutes - try the <a href="/console?s=--%20Search%20with%20keyword%20to%20obtain%20product%20ids%0Acreate%20table%20ebay.FindProducts%0A%20%20on%20select%20get%20from%20%22http%3A%2F%2Fopen.api.ebay.com%2Fshopping%3Fcallname%3DFindProducts%26appid%3D%7B%5Eapikey%7D%26responseencoding%3DJSON%26version%3D725%26QueryKeywords%3D%7B%5EQueryKeywords%7D%26MaxEntries%3D%7Bmax%7D%26ProductSort%3DPopularity%26AvailableItemsOnly%3Dtrue%26siteid%3D%7Bsiteid%7D%22%0A%20%20%20%20%20using%20defaults%20max%20%3D%20%225%22%2C%20apikey%20%3D%20%22%7Bconfig.ebay.apikey%7D%22%2C%20sideid%20%3D%200%0A%20%20resultset%20'Product'%3B%0A%20%20%0A--%20Fetch%20product%20details%20given%20a%20product%20id%0Acreate%20table%20ebay.ProductDetails%0A%20%20on%20select%20get%20from%20%22http%3A%2F%2Fopen.api.ebay.com%2Fshopping%3Fcallname%3DFindProducts%26appid%3D%7B%5Eapikey%7D%26responseencoding%3DJSON%26version%3D725%26siteid%3D%7Bsiteid%7D%26ProductID.type%3D%7B%5EProductType%7D%26ProductID.Value%3D%7B%5EProductID%7D%22%0A%20%20%20%20%20%20using%20defaults%20apikey%20%3D%20%22%7Bconfig.ebay.apikey%7D%22%2C%20sideid%20%3D%200%0Aresultset%20'Product'%3B%0A%0A--%20Get%20stats%20for%20a%20given%20product%20id%0Acreate%20table%20ebay.ProductStats%0A%20%20on%20select%20get%20from%20%22http%3A%2F%2Fsvcs.ebay.com%2Fservices%2Fsearch%2FProductStatisticsService%2Fv1%3FX-EBAY-SOA-SECURITY-APPNAME%3D%7B%5Eapikey%7D%26X-EBAY-SOA-SERVICE-NAME%3DProductStatisticsService%26X-EBAY-SOA-OPERATION-NAME%3DgetProductStatistics%26X-EBAY-SOA-RESPONSE-DATA-FORMAT%3DJSON%26productId%3D%7B%5EproductID%7D%26buyBoxPriceRequest.includeAllConditions%3Dtrue%26inventoryCountRequest.includeAllConditions%3Dtrue%22%0A%20%20%20%20%20%20using%20defaults%20apikey%20%3D%20%22%7Bconfig.ebay.apikey%7D%22%2C%20sideid%20%3D%200%0Aresultset%20'getProductStatisticsResponse.productStatistics'%3B%0A%0A%0Aprodid%20%3D%20select%20ProductID%5B0%5D.Value%20from%20ebay.FindProducts%20where%0A%20%20%20%20QueryKeywords%20%3D%20'iphone'%3B%0Adetails%20%3D%20select%20*%20from%20ebay.ProductDetails%20where%0A%20%20%20%20ProductID%20in%20('%7Bprodid%7D')%20and%20ProductType%20%3D%20'Reference'%3B%0A%20%20%20%20stats%20%3D%20select%20*%20from%20ebay.ProductStats%20where%0A%20%20%20%20productID%20in%20('%7Bprodid%7D')%3B%0Areturn%20select%20d.ProductID%5B0%5D.Value%20as%20id%2C%20d.Title%20as%20title%2C%0A%20%20%20%20d.ReviewCount%20as%20reviewCount%2C%20s.inventoryCountResponse%20as%20inventory%0A%20%20%20%20from%20details%20as%20d%2C%20stats%20as%20s%0A%20%20%20%20where%20d.ProductID%5B0%5D.Value%20%3D%20s.productId%3B">full script</a> now.</p>
+<blockquote> Don't worry about the <code>apikey</code> in these tables - the app you created above
+includes a default demo API key for these APIs - see <code>config/dev.json</code>
+file.</blockquote>
 
-    <script>
-        var c0 = new CoolClock({
-        				canvasId:       'c0',
-        				skinId:         'classic',
-                        showSecondHand: false,
-        				displayRadius:  30
-        			});
-        var c1 = new CoolClock({
-        				canvasId:       'c1',
-        				skinId:         'classic',
-                        showSecondHand: false,
-        				displayRadius:  30
-        			});
-        var c2 = new CoolClock({
-        				canvasId:       'c2',
-        				skinId:         'classic',
-                        showSecondHand: false,
-        				displayRadius:  30
-        			});
-        var now = new Date();
-        c0.render(0, 0, 0);
-        c0.stop();
-        c1.render(0, 5, 0);
-        c1.stop();
-        c2.render(0, 10, 0);
-        c2.stop();
-        </script>
+<p>This will show the following in the results area.</p>
+
+<pre class="brush: js">
+{
+  "message": "ok"
+}
+</pre>
+
+<p>This shows that the statements are syntactically valid. In ql.io, a table is simply a mapping -
+creating a table does not involve storing anything permanently in the disk.</p>
+
+<p>You can now store these statements in a file under the &quot;tables&quot; directory so that we
+can reuse those table definitions across many scripts.</p>
+
+<ol>
+<li>Use <code>Control-C</code> to stop the server</li>
+<li><code>cd tables</code></li>
+<li><code>vi products.ql</code></li>
+<li>Paste the above statements and exist the editor.</li>
+<li><code>cd ..</code></li>
+<li><code>bin/start.sh</code></li>
+</ol>
+
+<p>Go back to the Web Console at <a href="http://localhost:3000">http://localhost:3000</a> and type
+<code>show tables</code> in the script area. This will show the following.
+
+<pre class="brush: js">
+[
+  "ebay.FindProducts",
+  "ebay.ProductDetails",
+  "ebay.ProductReviews"
+]
+</pre>
+
+<p>You can use <code>describe</code> statements now to find description of any of these tables.</p>
+
+<pre class="brush: sql">
+desc ebay.FindProducts
+</pre>
+
+<p>ql.io then shows you an HTML-formatted description of the table you just created. You can use <a
+href="http://daringfireball.net/projects/markdown/">Markdown</a> formatted comments beginning with
+<code>--</code> and ql.io will transform those comments into HTML to show in response to
+<code>describe</code> statements.</p>
+
+<h2>Step 4: Get the Data</h2>
+
+<span class='try'><canvas id="c5" prop="8"></canvas></span>
+
+<p>The final step is to write a script that gets the data we are interested in using
+<code>select</code> statements. For these steps, go back to the Web Console in your browser and
+clear the script area.</p>
+
+<p>We first need to find the products given the keywords.</p>
+
+<pre class="brush: sql">
+prodid = select ProductID[0].Value from ebay.FindProducts where
+    QueryKeywords = 'macbook pro';
+</pre>
+
+<p>This statement calls the FindProducts API, retrieves all <code>Product</code> fields, and selects
+<code>ProductID[0].Value</code> for each product. If you are curious to know to see all the fields,
+simply try <code>prodid = select ProductID[0].Value from ebay.FindProducts where QueryKeywords = 'macbook pro';</code>
+
+<p>The above statement calls the FindProducts API and assigns the result of the <code>select</code>
+statement in a variable <code>prodid</code>.</p>
+
+<p>The results area in the Web Console will show the results that looks like the following.</p>
+
+<pre id='find-products-resp'  class="brush: js">
+</pre>
+
+<p>Then add two more statement to the Web Console.</p>
+
+<pre class="brush: sql">
+details = select * from ebay.ProductDetails where
+    ProductID in ('{prodid}') and ProductType = 'Reference';
+return details;
+</pre>
+
+<p>The second <code>select</code> retrieves the product details for each product ID returned from
+the first <code>select</code> statement. Behind the scenes, ql.io forks <code>5</code> requests in
+parallel to the FindProducts API and joins when all of them complete.</p>
+
+<blockquote> This style of automatic forking of requests and joining of responses is intrinsic to
+ql.io. It requires no custom coding. </blockquote>
+
+<p>The result of the <code>return</code> statement would look like the following:</p>
+
+<pre id="find-details-resp" class="live-demo-result">
+</pre>
+
+<p>The next step is to enter a similar statement to invoke the FindReviewsAndGuides API. Simply
+replace the <code>return</code> statement in the Web Console with the following:</p>
+
+<pre class="brush: sql">
+reviews = select * from ebay.ProductReviews where
+  ProductID in ('{prodid}') and ProductType = 'Reference';
+
+return reviews;
+</pre>
+
+<p>This will show you review details.</p>
+
+<pre id="find-reviews-resp" class="live-demo-result">
+</pre>
+
+<p>We are almost ready. We need to join the product details from the second <code>select</code>
+statement with the reviews from the third <code>statement</code> to get the data we are actually
+interested in.</p>
+
+<p>Replace the <code>return</code> statement in the Web Console with the following:</p>
+
+<pre class="brush: sql">
+return select d.ProductID[0].Value as id, d.Title as title,
+    d.ReviewCount as reviewCount, r.ReviewDetails.AverageRating as rating
+    from details as d, reviews as r
+    where d.ProductID[0].Value = r.ProductID.Value;
+</pre>
+
+<p>This is a SQL style join statement that joins two result sets using a joining column - product
+ID.</p>
+
+<p>The complete script in the Web Console should now look like this:</p>
+
+<pre class="brush: sql">
+prodid = select ProductID[0].Value from ebay.FindProducts where
+    QueryKeywords = 'macbook pro';
+details = select * from ebay.ProductDetails where
+    ProductID in ('{prodid}') and ProductType = 'Reference';
+reviews = select * from ebay.ProductReviews where
+    ProductID in ('{prodid}') and ProductType = 'Reference';
+
+return select d.ProductID[0].Value as id, d.Title as title,
+    d.ReviewCount as reviewCount, r.ReviewDetails.AverageRating as rating
+    from details as d, reviews as r
+    where d.ProductID[0].Value = r.ProductID.Value;
+</pre>
+
+<p>This should result in the following:</p>
+
+<pre id="find-join-resp" class="live-demo-result">
+</pre>
+
+<p>Finally, to make it convenient for a client to invoke this script, add a <a
+href="/docs/routing">route</a> to the return statement</p>
+
+<pre class="brush: sql">
+prodid = select ProductID[0].Value from ebay.FindProducts where
+    QueryKeywords = 'macbook pro';
+details = select * from ebay.ProductDetails where
+    ProductID in ('{prodid}') and ProductType = 'Reference';
+reviews = select * from ebay.ProductReviews where
+    ProductID in ('{prodid}') and ProductType = 'Reference';
+
+return select d.ProductID[0].Value as id, d.Title as title,
+    d.ReviewCount as reviewCount, r.ReviewDetails.AverageRating as rating
+    from details as d, reviews as r
+    where d.ProductID[0].Value = r.ProductID.Value
+    via route '/myapi' using method get;
+</pre>
+  
+<p>Adding a route allows a client to make an HTTP <code>GET</code> request to the URI path
+<code>/myapi</code> to execute this script. Simply copy and paste the above script in a route
+script.</p>
+
+<ol>
+<li>Use <code>Control-C</code> to stop the server</li>
+<li><code>cd routes</code></li>
+<li><code>vi myapi.ql</code></li>
+<li>Paste the above statements and exist the editor.</li>
+<li><code>cd ..</code></li>
+<li><code>bin/start.sh</code></li>
+</ol>
+
+
+<h2>Step 5: Get the Data</h2>           
+
+<span class='try'><canvas id="c6"></canvas></span>
+
+<p>The last step is make a request to see your route in action: Simply click on <a
+href="/myapi">http://localhost:3000/myapi</a> to see your route in action.</p>
+
+<p>Aggregation and orchestration as easy as SQL and JSON!</p>
+
+<script>
+    var m = 0;
+    for(var i = 0; i < 7; i++) {
+        var diff = Number($('#c' + i).attr('prop') || 5);
+        var c = new CoolClock({
+            canvasId: 'c' + i,
+            skinId: 'classic',
+            showSecondHand: false,
+            displayRadius: 30
+        });
+        c.render(0, m, 0);
+        c.stop();
+        m = m + diff;
+    }
+
+    function runQuery(s, t) {
+        var url = "/q?s=" + encodeURIComponent(s);
+        $(t).html('Running ...');
+        $.ajax({
+            type: 'GET',
+            cache: false,
+            dataType: 'jsonp',
+            url: url,
+            success: function (data) {
+                try {
+                    var formatter = new JSONFormatter();
+                    $(t)[0].innerHTML = formatter.jsonToHTML(data);
+                    $(t).treeview();
+                }
+                catch(e) {
+                    alert(e);
+                }
+            },
+            error: function (req, status, e) {
+                $(t).html(e);
+                $(t).animate({
+                    opacity: 1.0
+                });
+            }
+
+        });
+        return false;
+    }
+    $(document).ready(function() {
+        runQuery("prodid = select ProductID[0].Value from ebay.FindProducts where QueryKeywords = 'macbook pro'",
+          '#find-products-resp');
+        runQuery("prodid = select ProductID[0].Value from ebay.FindProducts where QueryKeywords = 'macbook pro';\n" +
+          "details = select * from ebay.ProductDetails where ProductID in ('{prodid}') and ProductType = 'Reference'\n" +
+          "return details", '#find-details-resp');
+        runQuery("prodid = select ProductID[0].Value from ebay.FindProducts where QueryKeywords = 'macbook pro';\n" +
+          "details = select * from ebay.ProductDetails where ProductID in ('{prodid}') and ProductType = 'Reference'\n" +
+          "reviews = select * from ebay.ProductReviews where ProductID in ('{prodid}') and ProductType = 'Reference';\n" +
+          "return reviews", '#find-reviews-resp');
+        runQuery("prodid = select ProductID[0].Value from ebay.FindProducts where QueryKeywords = 'macbook pro';\n" +
+          "details = select * from ebay.ProductDetails where ProductID in ('{prodid}') and ProductType = 'Reference'\n" +
+          "reviews = select * from ebay.ProductReviews where ProductID in ('{prodid}') and ProductType = 'Reference';\n" +
+          "return select d.ProductID[0].Value as id, d.Title as title, d.ReviewCount as reviewCount, r.ReviewDetails.AverageRating as rating from details as d, reviews as r where d.ProductID[0].Value = r.ProductID.Value;",
+          '#find-join-resp');
+    });
+</script>

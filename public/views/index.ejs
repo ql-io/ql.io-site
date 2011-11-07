@@ -2,8 +2,6 @@
     <img src='/images/ql.io-large.png' alt="ql.io logo"/>
 </div>
 
-<script type="text/javascript" src="https://raw.github.com/simonbaird/CoolClock/master/coolclock.js"></script>
-
 <p>ql.io is a a data-retrieval and aggregation gateway to make orchestrating across HTTP APIs (from
 SOAP-style to RESTful) as simple as SQL and JSON.</p>
 
@@ -23,19 +21,21 @@ HTTP requests <br/> See the <a href="/docs/quickstart">Quick Start Guide</a> to 
 yourself in 30 minutes.</div>
 
 <div class='ql-example'>
-    <span class='try'><a href="/console?s=prodid%20%3D%20select%20ProductID%5B0%5D.Value%20from%20ebay.FindProducts%20where%0A%20%20%20%20QueryKeywords%20%3D%20'iphone'%3B%0Adetails%20%3D%20select%20*%20from%20ebay.ProductDetails%20where%0A%20%20%20%20ProductID%20in%20('%7Bprodid%7D')%20and%20ProductType%20%3D%20'Reference'%3B%0A%20%20%20%20stats%20%3D%20select%20*%20from%20ebay.ProductStats%20where%0A%20%20%20%20productID%20in%20('%7Bprodid%7D')%3B%0Areturn%20select%20d.ProductID%5B0%5D.Value%20as%20id%2C%20d.Title%20as%20title%2C%0A%20%20%20%20d.ReviewCount%20as%20reviewCount%2C%20s.inventoryCountResponse%20as%20inventory%0A%20%20%20%20from%20details%20as%20d%2C%20stats%20as%20s%0A%20%20%20%20where%20d.ProductID%5B0%5D.Value%20%3D%20s.productId%3B">Try me</a></span>
-    <pre id='ex-main-0' class="prettyprint lang-sql linenums:">prodid = select ProductID[0].Value from ebay.FindProducts where
-    QueryKeywords = 'iphone';
+    <span class='try'><a href="/console?s=prodid%20%3D%20select%20ProductID%5B0%5D.Value%20from%20ebay.FindProducts%20where%0A%20%20%20%20QueryKeywords%20%3D%20'macbook%20pro'%3B%0Adetails%20%3D%20select%20*%20from%20ebay.ProductDetails%20where%0A%20%20%20%20ProductID%20in%20('%7Bprodid%7D')%20and%20ProductType%20%3D%20'Reference'%3B%0Areviews%20%3D%20select%20*%20from%20ebay.ProductReviews%20where%20%0A%20%20%20%20ProductID%20in%20('%7Bprodid%7D')%20and%20ProductType%20%3D%20'Reference'%3B%0A%0Areturn%20select%20d.ProductID%5B0%5D.Value%20as%20id%2C%20d.Title%20as%20title%2C%0A%20%20%20%20d.ReviewCount%20as%20reviewCount%2C%20r.ReviewDetails.AverageRating%20as%20rating%0A%20%20%20%20from%20details%20as%20d%2C%20reviews%20as%20r%0A%20%20%20%20where%20d.ProductID%5B0%5D.Value%20%3D%20r.ProductID.Value%3B">Try me</a></span>
+
+    <pre id='ex-main-0' class="brush: sql">prodid = select ProductID[0].Value from ebay.FindProducts where
+    QueryKeywords = 'macbook pro';
 details = select * from ebay.ProductDetails where
     ProductID in ('{prodid}') and ProductType = 'Reference';
-stats = select * from ebay.ProductStats where
-    productID in ('{prodid}');
-return select d.ProductID[0].Value as id, d.Title as title,
-    d.ReviewCount as reviewCount, s.inventoryCountResponse as inventory
-    from details as d, stats as s
-    where d.ProductID[0].Value = s.productId;</pre>
-</div>
+reviews = select * from ebay.ProductReviews where
+    ProductID in ('{prodid}') and ProductType = 'Reference';
 
+return select d.ProductID[0].Value as id, d.Title as title,
+    d.ReviewCount as reviewCount, r.ReviewDetails.AverageRating as rating
+    from details as d, reviews as r
+    where d.ProductID[0].Value = r.ProductID.Value
+    via route '/myapi' using method get;</pre>
+</div>
 <div class="highlights"> SQL and JSON as a DSL &#8212; Maps HTTP's CRUD semantics
 to SQL &#8212; Supports both reads and writes &#8212; Interop with any
 HTTP API &#8212; Automatic parallelization and orchestration </div>
@@ -46,7 +46,7 @@ HTTP API &#8212; Automatic parallelization and orchestration </div>
 started with ql.io in two ways - either a stand alone server, or as a part of your node app. To use
 ql.io as a stand-alone server with the necessary modules, try </p>
 
-<pre class="prettyprint lang-sql linenums:">mkdir myapp
+<pre class="brush: bash">mkdir myapp
 cd myapp
 curl ..../init.sh | bash
 bin/start.sh
@@ -57,7 +57,7 @@ bin/start.sh
 <p>If you want to use ql.io as part of your node apps so that you can execute your scripts
 programmatically, install the core engine directly.</p>
 
-<pre class="prettyprint lang-sql linenums:">
+<pre class="brush: bash">
 npm install ql.io-engine
 </pre>
 
