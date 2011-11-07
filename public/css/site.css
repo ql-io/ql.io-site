@@ -26,20 +26,6 @@ a.main-navbar {
     color: white;
 }
 
-.highlights {
-    margin: 1em 10%;
-    width: 80%;
-    text-align: center;
-    box-shadow: 3px;
-    background: none;
-    /*background-color: #3871C1;*/
-    padding: 11px;
-    /*border-radius: 10px;*/
-    /*color: white;*/
-    font-size: large;
-    /*cursor: pointer;*/
-}
-
 div.center {
     text-align: center;
     font-size: small;
@@ -84,7 +70,3 @@ blockquote {
     overflow: scroll;
 }
 
-code {
-    display: inline-block;
-    background-color: #EFEFEF;
-}

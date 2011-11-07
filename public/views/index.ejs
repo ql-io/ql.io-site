@@ -36,15 +36,62 @@ return select d.ProductID[0].Value as id, d.Title as title,
     where d.ProductID[0].Value = r.ProductID.Value
     via route '/myapi' using method get;</pre>
 </div>
-<div class="highlights"> SQL and JSON as a DSL &#8212; Maps HTTP's CRUD semantics
-to SQL &#8212; Supports both reads and writes &#8212; Interop with any
-HTTP API &#8212; Automatic parallelization and orchestration </div>
+
+<h2>What can ql.io do?</h2>
+
+<h3>SQL and JSON as a DSL</h3>
+
+<p>You may not like SQL databases. But SQL is a quite powerful DSL to retrieve, filter,
+    project, and join data. See <a
+href="http://queue.acm.org/detail.cfm?id=1961297">A co-Relational Model of Data for Large Shared
+Data Banks</a>, <a href="http://en.wikipedia.org/wiki/Language_Integrated_Query">LINQ</a>, <a
+href="http://developer.yahoo.com/yql/">YQL</a>, or <a href="http://www.unqlspec.org/">unQL</a>,
+</p>
+
+<p>ql.io combines SQL, JSON, and a few procedural style constructs to let you express data
+retrieval, joins, projections and even loops in a compact <a href="/docs/language">syntax</a>. You
+can map this syntax to HTTP's CRUD interface arbitrarily. You can even offer a HTTP GET based
+interface to <a href="/docs/post">SOAP APIs</a> using ql.io.</p>
+
+<h3>Orchestrate Without Pain</h3>
+
+<p>Most real-world client apps need to mashup data from multiple APIs in one go. Data mashup is
+often complicated as you need to worry about order of requests, inter-dependencies, error
+handling, and parallelization to reduce overall latency.</p>
+
+<p>You don't need a complex multi-threaded fork-join or orchestration framework so solve this.
+ql.io knows how to schedule execution of statements asynchronously. You can write procedural
+scripts, and let ql.io do the orchestration using async I/O.</p>
+
+<p>A consequence - massive reductions in number of lines of code! See the <a
+href="/docs/quickstart">Quick Start Guide</a> to find out yourself.</p>
+
+<h3>Reduce Latency and Bandwidth Use</h3>
+
+<p>APIs are designed for reuse, and hence they cater to the common denominator. Getting new
+fields added, optimizing responses, or combining multiple requests into one involve drawn out
+negotiations between API building teams and API consuming teams.</p>
+
+<p>ql.io lets API consuming teams move fast by creating consumer-centric interfaces that are
+optimized for the client - this lets you save on bandwidth while reducing latencies.</p>
+  
+<h3>Cleanse APIs to Improve Interoperability</h3>
+
+<p>Not all APIs are created equal - inconsistency between APIs is a reality. You may have
+RESTful APIs on one end and SOAP on the other and a mixture in between. Working across all
+those APIs can cause code bloat. </p>
+
+<p>In stead of waiting for the API owners to agree on consistency and clean their APIs, you can
+apply ql.io's <a href="/docs/language">routes</a> to offer new RESTful interfaces that are more
+consistent, more conformant to HTTP, and easier to use.</p>
 
 <h2>Quick Installation</h2>
 
 <p>ql.io is built using <a href="http://nodejs.org">node.js</a> (requires version 4.x). You can get
 started with ql.io in two ways - either a stand alone server, or as a part of your node app. To use
 ql.io as a stand-alone server with the necessary modules, try </p>
+
+<em>TODO: These step does not work yet.</em>
 
 <pre class="brush: bash">mkdir myapp
 cd myapp

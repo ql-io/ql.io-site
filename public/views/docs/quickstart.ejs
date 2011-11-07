@@ -55,13 +55,16 @@ interfaces for each and every consumer.</em> </blockquote>
 <span class='try'><canvas id="c1" prop="3"></canvas></span>
 
 <p>You will need <a href="http://nodejs.org">Node</a> version 0.4.10-0.4.12 and <a
-href='http://npmjs.org'>npm</a> installed on a Mac or Ubuntu before you get started. On Ubuntu, make
-sure to install <code>expat</code> and <code>libexpat1-dev</code>. See <a
-href="/docs/prerequisites">prerequisites</a> for detailed steps.</p>
+href='http://npmjs.org'>npm</a> installed on a Mac or Ubuntu before you get started. We've not tried
+yet on other variants of Linux/Unix but there is very little that prevents you from running ql.io on
+other operating systems. On Ubuntu, make sure to install <code>expat</code> and
+<code>libexpat1-dev</code>.</p>
 
 <pre class="brush: bash">
 sudo apt-get install expat libexpat1-dev
 </pre>
+  
+<p>See <a href="/docs/prerequisites">prerequisites</a> for detailed steps.</p>
 
 <h2>Step 1: Build ql.io</h2>
 
@@ -78,11 +81,17 @@ make
 cd ..
 </pre>
 
+<blockquote> If <code>make</code> fails due to permission errors, enable write access to wherever
+npm stores global modules and binaries on your machine. On Ubuntu and Mac, these are
+<code>/usr/local/lib/node_modules</code> and <code>/usr/local/bin</code>. After enabling
+permissions, retry <code>make</code> and then <code>bin/start.sh</code>.
+</blockquote>
+  
 <h2>Step 2: Setup a New App</h2>
 
 <span class='try'><canvas id="c3" prop="3"></canvas></span>
 
-<em>TODO: This step will change once we publush our modules.</em>
+<em>TODO: This step will change once we publish our modules.</em>
 
 <p>Setup a new ql.io app and start the server.</p>
 
@@ -92,12 +101,6 @@ cd myapp
 make
 bin/start.sh
 </pre>
-
-<blockquote> If <code>make</code> fails due to permission errors, enable write access to wherever
-npm stores global modules and binaries on your machine. On Ubuntu and Mac, these are
-<code>/usr/local/lib/node_modules</code> and <code>/usr/local/bin</code>. After enabling
-permissions, retry <code>make</code> and then <code>bin/start.sh</code>.
-</blockquote>
 
 <p>Using latest versions of Firefox or Chrome, go to <a
 href="http://localhost:3000">http://localhost:3000</a> to see ql.io's Web Console. In the text
@@ -110,7 +113,7 @@ show tables
 <p>This statement shows an empty array in the response in the results area below the script area.</p>
 
 <pre class="brush: plain">
-[ ]
+[]
 </pre>
 
 <p>This step confirms that you have a working version of ql.io ready.</p>
@@ -325,8 +328,7 @@ script.</p>
 <li><code>bin/start.sh</code></li>
 </ol>
 
-
-<h2>Step 5: Get the Data</h2>           
+<h2>Step 5: Get the Data</h2>
 
 <span class='try'><canvas id="c6"></canvas></span>
 
@@ -336,19 +338,6 @@ href="/myapi">http://localhost:3000/myapi</a> to see your route in action.</p>
 <p>Aggregation and orchestration as easy as SQL and JSON!</p>
 
 <script>
-    var m = 0;
-    for(var i = 0; i < 7; i++) {
-        var diff = Number($('#c' + i).attr('prop') || 5);
-        var c = new CoolClock({
-            canvasId: 'c' + i,
-            skinId: 'classic',
-            showSecondHand: false,
-            displayRadius: 30
-        });
-        c.render(0, m, 0);
-        c.stop();
-        m = m + diff;
-    }
 
     function runQuery(s, t) {
         var url = "/q?s=" + encodeURIComponent(s);
@@ -379,6 +368,19 @@ href="/myapi">http://localhost:3000/myapi</a> to see your route in action.</p>
         return false;
     }
     $(document).ready(function() {
+        var m = 0;
+        for(var i = 0; i < 7; i++) {
+            var diff = Number($('#c' + i).attr('prop') || 5);
+            var c = new CoolClock({
+                canvasId: 'c' + i,
+                showSecondHand: false,
+                displayRadius: 30
+            });
+            c.render(0, m, 0);
+            c.stop();
+            m = m + diff;
+        }
+
         runQuery("prodid = select ProductID[0].Value from ebay.FindProducts where QueryKeywords = 'macbook pro'",
           '#find-products-resp');
         runQuery("prodid = select ProductID[0].Value from ebay.FindProducts where QueryKeywords = 'macbook pro';\n" +
