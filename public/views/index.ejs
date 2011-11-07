@@ -17,8 +17,7 @@ and bandwidth usage in a number of use cases.</p>
 </div>
 
 <div class='center'>A ql.io script that calls three APIs making <code>11</code> (<code>1 + 5 + 5</code>)
-HTTP requests <br/> See the <a href="/docs/quickstart">Quick Start Guide</a> to build this script
-yourself in 30 minutes.</div>
+HTTP requests.</div>
 
 <div class='ql-example'>
     <span class='try'><a href="/console?s=prodid%20%3D%20select%20ProductID%5B0%5D.Value%20from%20ebay.FindProducts%20where%0A%20%20%20%20QueryKeywords%20%3D%20'macbook%20pro'%3B%0Adetails%20%3D%20select%20*%20from%20ebay.ProductDetails%20where%0A%20%20%20%20ProductID%20in%20('%7Bprodid%7D')%20and%20ProductType%20%3D%20'Reference'%3B%0Areviews%20%3D%20select%20*%20from%20ebay.ProductReviews%20where%20%0A%20%20%20%20ProductID%20in%20('%7Bprodid%7D')%20and%20ProductType%20%3D%20'Reference'%3B%0A%0Areturn%20select%20d.ProductID%5B0%5D.Value%20as%20id%2C%20d.Title%20as%20title%2C%0A%20%20%20%20d.ReviewCount%20as%20reviewCount%2C%20r.ReviewDetails.AverageRating%20as%20rating%0A%20%20%20%20from%20details%20as%20d%2C%20reviews%20as%20r%0A%20%20%20%20where%20d.ProductID%5B0%5D.Value%20%3D%20r.ProductID.Value%3B">Try me</a></span>
@@ -36,6 +35,11 @@ return select d.ProductID[0].Value as id, d.Title as title,
     where d.ProductID[0].Value = r.ProductID.Value
     via route '/myapi' using method get;</pre>
 </div>
+
+<blockquote>
+    See the <a href="/docs/quickstart">Quick Start Guide</a> to build this script
+    yourself in 30 minutes.
+</blockquote>
 
 <h2>What can ql.io do?</h2>
 
