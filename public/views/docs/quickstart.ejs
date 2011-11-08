@@ -113,7 +113,7 @@ show tables
 <p>This statement shows an empty array in the response in the results area below the script area.</p>
 
 <pre class="brush: plain">
-[]
+[ ]
 </pre>
 
 <p>This step confirms that you have a working version of ql.io ready.</p>
@@ -122,9 +122,10 @@ show tables
 
 <span class='try'><canvas id="c4" prop="6"></canvas></span>
 
-<p>ql.io uses a SQL+JSON based DSL for calling APIs, and &quot;table&quot; as a
-&quot;consumer-centric&quot; interface to an API. For our use case, we need to setup three tables.
-We use <code>create table</code> statements for this purpose.</p>
+<p>ql.io uses a SQL+JSON based <a href="/docs/reference/ql">DSL</a> for sending HTTP requests to
+APIs. In this DSL, a &quot;table&quot; is a &quot;consumer-centric&quot; interface to an API. For
+our use case, we need to setup three tables. We use <code>create table</code> statements for this
+purpose.</p>
 
 <p>Simply copy and paste the following statements in to the script area of the Web Console.</p>
 
@@ -145,7 +146,7 @@ create table ebay.ProductDetails
 -- A table to get product reviews
 create table ebay.ProductReviews
   on select get from "http://open.api.ebay.com/shopping?callname=FindReviewsAndGuides&ProductID.Value={#^ProductID}&ProductID.type={^ProductType}&appid={^apikey}&responseencoding=JSON&version=745&siteid={siteid}"
-     using apikey = "{config.ebay.apikey}", sideid = 0;
+     using defaults apikey = "{config.ebay.apikey}", sideid = 0;
 </pre>
 </div>
 
@@ -217,15 +218,15 @@ prodid = select ProductID[0].Value from ebay.FindProducts where
 <code>ProductID[0].Value</code> for each product. If you are curious to know to see all the fields,
 simply try <code>prodid = select ProductID[0].Value from ebay.FindProducts where QueryKeywords = 'macbook pro';</code>
 
-<p>The above statement calls the FindProducts API and assigns the result of the <code>select</code>
-statement in a variable <code>prodid</code>.</p>
+<p>After selecting, this statement assigns the result to <code>prodid</code> so that you refer to it
+from other statements in the same script.</p>
 
-<p>The results area in the Web Console will show the results that looks like the following.</p>
+<p>The results area in the Web Console will show the result that looks like the following.</p>
 
 <pre id='find-products-resp'  class="brush: js">
 </pre>
 
-<p>Then add two more statement to the Web Console.</p>
+<p>Then add two more statements to the Web Console.</p>
 
 <pre class="brush: sql">
 details = select * from ebay.ProductDetails where
@@ -332,8 +333,12 @@ script.</p>
 
 <span class='try'><canvas id="c6"></canvas></span>
 
-<p>The last step is make a request to see your route in action: Simply click on <a
-href="/myapi">http://localhost:3000/myapi</a> to see your route in action.</p>
+<p>The last step is make a request to see your route in action. Click on <a
+href="/myapi">http://localhost:3000/myapi</a> or try <code>curl</code> from a shell window1.
+
+<pre class="brush: bash">
+curl http://localhost:3000/myapi
+</pre>
 
 <p>Aggregation and orchestration as easy as SQL and JSON!</p>
 
