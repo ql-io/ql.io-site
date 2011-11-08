@@ -73,3 +73,15 @@ blockquote {
 #main h1 {
     font-size: 2em;
 }
+
+li {
+    line-height: 1.5em;
+}
+
+.treeview li {
+    line-height: 1em;
+}
+
+.rrdiagram ul {
+    list-style-type: disc;
+}
