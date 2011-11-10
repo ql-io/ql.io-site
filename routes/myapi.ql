@@ -1,8 +1,8 @@
-prodid = select ProductID[0].Value from ebay.FindProducts where
+prodid = select ProductID[0].Value from eBay.FindProducts where
     QueryKeywords = 'macbook pro';
-details = select * from ebay.ProductDetails where
+details = select * from eBay.ProductDetails where
     ProductID in ('{prodid}') and ProductType = 'Reference';
-reviews = select * from ebay.ProductReviews where
+reviews = select * from eBay.ProductReviews where
     ProductID in ('{prodid}') and ProductType = 'Reference';
 
 return select d.ProductID[0].Value as id, d.Title as title,

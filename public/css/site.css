@@ -37,16 +37,19 @@ em {
 .try {
     z-index: 300;
     float: right;
-    padding: 3px;
+    padding: 4px;
     position: static;
     text-align: right;
+    font-weight: bold;
     font-size: small;
-    color: #808080;
-    text-transform: uppercase;
+    text-transform: lowercase;
+    background-color: green;
+    border-radius: 3px;
 }
 
 .try a {
-
+    color: white;
+    text-decoration: none;
 }
 
 #footer {

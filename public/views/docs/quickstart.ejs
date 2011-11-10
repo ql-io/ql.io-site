@@ -15,14 +15,14 @@ details, total number of reviews and ratings.</em>
 <ol>
 
 <li><a
-href="http://developer.ebay.com/devzone/shopping/docs/callref/FindProducts.html">FindProducts</a>
+href="http://developer.eBay.com/devzone/shopping/docs/callref/FindProducts.html">FindProducts</a>
 API that, given a keyword, returns up to a specified maximum number of products.</li>
 
 <li>The same FindProducts API that, given a <code>ProductID</code>, returns product details that
 include title, URL for details and total number of reviews among with several details.</li>
 
 <li><a
-href="http://developer.ebay.com/devzone/shopping/docs/callref/FindReviewsAndGuides.html">FindReviewsAndGuides</a>
+href="http://developer.eBay.com/devzone/shopping/docs/callref/FindReviewsAndGuides.html">FindReviewsAndGuides</a>
 API that, given a <code>ProductID</code> returns ratings and guides.</li>
 </ol>
 
@@ -132,21 +132,21 @@ purpose.</p>
 <div class='ql-example'>
     <pre class='brush: sql'>
 -- A table to find products
-create table ebay.FindProducts
+create table eBay.FindProducts
   on select get from "http://open.api.ebay.com/shopping?callname=FindProducts&amp;amp;appid={^apikey}&amp;responseencoding=JSON&amp;version=725&amp;QueryKeywords={^QueryKeywords}&amp;MaxEntries={max}&amp;ProductSort=Popularity&amp;AvailableItemsOnly=true&amp;siteid={siteid}"
-    using defaults max = "5", apikey = "{config.ebay.apikey}", sideid = 0
+    using defaults max = "5", apikey = "{config.eBay.apikey}", sideid = 0
     resultset 'Product';
 
 -- A table to get product details
-create table ebay.ProductDetails
+create table eBay.ProductDetails
   on select get from "http://open.api.ebay.com/shopping?callname=FindProducts&appid={^apikey}&responseencoding=JSON&version=725&siteid={siteid}&ProductID.type={^ProductType}&ProductID.Value={^ProductID}"
-    using defaults apikey = "{config.ebay.apikey}", sideid = 0
+    using defaults apikey = "{config.eBay.apikey}", sideid = 0
     resultset 'Product';
 
 -- A table to get product reviews
-create table ebay.ProductReviews
+create table eBay.ProductReviews
   on select get from "http://open.api.ebay.com/shopping?callname=FindReviewsAndGuides&ProductID.Value={#^ProductID}&ProductID.type={^ProductType}&appid={^apikey}&responseencoding=JSON&version=745&siteid={siteid}"
-     using defaults apikey = "{config.ebay.apikey}", sideid = 0;
+     using defaults apikey = "{config.eBay.apikey}", sideid = 0;
 </pre>
 </div>
 
@@ -182,16 +182,16 @@ can reuse those table definitions across many scripts.</p>
 
 <pre class="brush: js">
 [
-  "ebay.FindProducts",
-  "ebay.ProductDetails",
-  "ebay.ProductReviews"
+  "eBay.FindProducts",
+  "eBay.ProductDetails",
+  "eBay.ProductReviews"
 ]
 </pre>
 
 <p>You can use <code>describe</code> statements now to find description of any of these tables.</p>
 
 <pre class="brush: sql">
-desc ebay.FindProducts
+desc eBay.FindProducts
 </pre>
 
 <p>ql.io then shows you an HTML-formatted description of the table you just created. You can use <a
@@ -210,13 +210,13 @@ clear the script area.</p>
 <p>We first need to find the products given the keywords.</p>
 
 <pre class="brush: sql">
-prodid = select ProductID[0].Value from ebay.FindProducts where
+prodid = select ProductID[0].Value from eBay.FindProducts where
     QueryKeywords = 'macbook pro';
 </pre>
 
 <p>This statement calls the FindProducts API, retrieves all <code>Product</code> fields, and selects
 <code>ProductID[0].Value</code> for each product. If you are curious to know to see all the fields,
-simply try <code>prodid = select ProductID[0].Value from ebay.FindProducts where QueryKeywords = 'macbook pro';</code>
+simply try <code>prodid = select ProductID[0].Value from eBay.FindProducts where QueryKeywords = 'macbook pro';</code>
 
 <p>After selecting, this statement assigns the result to <code>prodid</code> so that you refer to it
 from other statements in the same script.</p>
@@ -229,7 +229,7 @@ from other statements in the same script.</p>
 <p>Then add two more statements to the Web Console.</p>
 
 <pre class="brush: sql">
-details = select * from ebay.ProductDetails where
+details = select * from eBay.ProductDetails where
     ProductID in ('{prodid}') and ProductType = 'Reference';
 return details;
 </pre>
@@ -250,7 +250,7 @@ ql.io. It requires no custom coding. </blockquote>
 replace the <code>return</code> statement in the Web Console with the following:</p>
 
 <pre class="brush: sql">
-reviews = select * from ebay.ProductReviews where
+reviews = select * from eBay.ProductReviews where
   ProductID in ('{prodid}') and ProductType = 'Reference';
 
 return reviews;
@@ -280,11 +280,11 @@ ID.</p>
 <p>The complete script in the Web Console should now look like this:</p>
 
 <pre class="brush: sql">
-prodid = select ProductID[0].Value from ebay.FindProducts where
+prodid = select ProductID[0].Value from eBay.FindProducts where
     QueryKeywords = 'macbook pro';
-details = select * from ebay.ProductDetails where
+details = select * from eBay.ProductDetails where
     ProductID in ('{prodid}') and ProductType = 'Reference';
-reviews = select * from ebay.ProductReviews where
+reviews = select * from eBay.ProductReviews where
     ProductID in ('{prodid}') and ProductType = 'Reference';
 
 return select d.ProductID[0].Value as id, d.Title as title,
@@ -302,11 +302,11 @@ return select d.ProductID[0].Value as id, d.Title as title,
 href="/docs/routing">route</a> to the return statement</p>
 
 <pre class="brush: sql">
-prodid = select ProductID[0].Value from ebay.FindProducts where
+prodid = select ProductID[0].Value from eBay.FindProducts where
     QueryKeywords = 'macbook pro';
-details = select * from ebay.ProductDetails where
+details = select * from eBay.ProductDetails where
     ProductID in ('{prodid}') and ProductType = 'Reference';
-reviews = select * from ebay.ProductReviews where
+reviews = select * from eBay.ProductReviews where
     ProductID in ('{prodid}') and ProductType = 'Reference';
 
 return select d.ProductID[0].Value as id, d.Title as title,
@@ -386,18 +386,18 @@ curl http://localhost:3000/myapi
             m = m + diff;
         }
 
-        runQuery("prodid = select ProductID[0].Value from ebay.FindProducts where QueryKeywords = 'macbook pro'",
+        runQuery("prodid = select ProductID[0].Value from eBay.FindProducts where QueryKeywords = 'macbook pro'",
           '#find-products-resp');
-        runQuery("prodid = select ProductID[0].Value from ebay.FindProducts where QueryKeywords = 'macbook pro';\n" +
-          "details = select * from ebay.ProductDetails where ProductID in ('{prodid}') and ProductType = 'Reference'\n" +
+        runQuery("prodid = select ProductID[0].Value from eBay.FindProducts where QueryKeywords = 'macbook pro';\n" +
+          "details = select * from eBay.ProductDetails where ProductID in ('{prodid}') and ProductType = 'Reference'\n" +
           "return details", '#find-details-resp');
-        runQuery("prodid = select ProductID[0].Value from ebay.FindProducts where QueryKeywords = 'macbook pro';\n" +
-          "details = select * from ebay.ProductDetails where ProductID in ('{prodid}') and ProductType = 'Reference'\n" +
-          "reviews = select * from ebay.ProductReviews where ProductID in ('{prodid}') and ProductType = 'Reference';\n" +
+        runQuery("prodid = select ProductID[0].Value from eBay.FindProducts where QueryKeywords = 'macbook pro';\n" +
+          "details = select * from eBay.ProductDetails where ProductID in ('{prodid}') and ProductType = 'Reference'\n" +
+          "reviews = select * from eBay.ProductReviews where ProductID in ('{prodid}') and ProductType = 'Reference';\n" +
           "return reviews", '#find-reviews-resp');
-        runQuery("prodid = select ProductID[0].Value from ebay.FindProducts where QueryKeywords = 'macbook pro';\n" +
-          "details = select * from ebay.ProductDetails where ProductID in ('{prodid}') and ProductType = 'Reference'\n" +
-          "reviews = select * from ebay.ProductReviews where ProductID in ('{prodid}') and ProductType = 'Reference';\n" +
+        runQuery("prodid = select ProductID[0].Value from eBay.FindProducts where QueryKeywords = 'macbook pro';\n" +
+          "details = select * from eBay.ProductDetails where ProductID in ('{prodid}') and ProductType = 'Reference'\n" +
+          "reviews = select * from eBay.ProductReviews where ProductID in ('{prodid}') and ProductType = 'Reference';\n" +
           "return select d.ProductID[0].Value as id, d.Title as title, d.ReviewCount as reviewCount, r.ReviewDetails.AverageRating as rating from details as d, reviews as r where d.ProductID[0].Value = r.ProductID.Value;",
           '#find-join-resp');
     });
