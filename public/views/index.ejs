@@ -2,19 +2,22 @@
     <img src='/images/ql.io-large.png' alt="ql.io logo"/>
 </div>
 
+
+  <div class="main-navbar">
+      <a class="main-navbar" href='/console'>Try now</a> &nbsp;&nbsp;&nbsp;
+      <a class="main-navbar" href='/examples'>See examples</a>&nbsp;&nbsp;&nbsp;
+      <a class="main-navbar" href='/docs'>Read docs</a>&nbsp;&nbsp;&nbsp;
+      <a class="main-navbar" href="http://groups.google.com/group/qlio">Discuss</a>
+  </div>
+
+<a href="http://github.com/ql-io/ql.io"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/abad93f42020b733148435e2cd92ce15c542d320/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub"></a>
+
 <p>ql.io is a a data-retrieval and aggregation gateway to make orchestrating across HTTP APIs (from
 SOAP-style to RESTful) as simple as SQL and JSON.</p>
 
 <p>ql.io can help you reduce number of lines of code &#8212; at eBay we have seen instances of over 50
 times reduction in number of lines of code &#8212; while simultaneously reducing network latency
 and bandwidth usage in a number of use cases.</p>
-
-<div class="main-navbar">
-    <a class="main-navbar" href='https://github.com/ql-io/ql.io'>Get the source</a> &nbsp;&#9679;&nbsp;
-    <a class="main-navbar" href='/console'>Try now</a> &nbsp;&#9679;&nbsp;
-    <a class="main-navbar" href='/examples'>See examples</a> &nbsp;&#9679;&nbsp;
-    <a class="main-navbar" href='/docs'>Read docs</a>
-</div>
 
 <div class='center'>A ql.io script that calls three APIs making <code>11</code> (<code>1 + 5 + 5</code>)
 HTTP requests.</div>
@@ -46,16 +49,16 @@ return select d.ProductID[0].Value as id, d.Title as title,
 <h3>SQL and JSON as a DSL</h3>
 
 <p>You may not like SQL databases. But SQL is a quite powerful DSL to retrieve, filter,
-    project, and join data. See <a
+ project, and join data. See <a
 href="http://queue.acm.org/detail.cfm?id=1961297">A co-Relational Model of Data for Large Shared
 Data Banks</a>, <a href="http://en.wikipedia.org/wiki/Language_Integrated_Query">LINQ</a>, <a
 href="http://developer.yahoo.com/yql/">YQL</a>, or <a href="http://www.unqlspec.org/">unQL</a>,
 </p>
 
-<p>ql.io combines SQL, JSON, and a few procedural style constructs to let you express data
-retrieval, joins, projections and even loops in a compact <a href="/docs/reference/ql">syntax</a>. You
-can map this syntax to HTTP's CRUD interface arbitrarily. You can even offer a HTTP GET based
-interface to <a href="/docs/post">SOAP APIs</a> using ql.io.</p>
+<p>ql.io combines SQL, JSON, and a few procedural style constructs into a compact <a
+href="/docs/reference/ql">scripting language</a>- you can use it to map to HTTP's CRUD interface,
+to retrieve data, to perform joins, projections and even loops. You can even offer a HTTP GET
+based interface to <a href="/docs/post">SOAP APIs</a> using ql.io.</p>
 
 <h3>Orchestrate Without Pain</h3>
 

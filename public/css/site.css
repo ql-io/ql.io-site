@@ -8,17 +8,14 @@ body {
 }
 
 div.main-navbar {
-    margin: 1em 15%;
-    width: 70%;
+    margin-bottom: 1em;
     text-align: center;
     box-shadow: 3px;
     background: none;
     background-color: #3871C1;
-    padding: 11px;
-    border-radius: 10px;
+    padding: 6px;
     color: white;
     font-size: large;
-    cursor: pointer;
 }
 
 a.main-navbar {
