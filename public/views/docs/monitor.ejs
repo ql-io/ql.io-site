@@ -1,0 +1,15 @@
+<h1>How to Monitor ql.io?</h1>
+  
+<p>When you lauch ql.io from the start script, ql.io server starts listening on two ports:
+<code>3000</code> and <code>3001</code>. The first port is meant for executing client requests while
+the second port is meant for monitoring. This allows you route requests on port 80 on your
+load-balancer or reverse proxy to port <code>3000</code> without exposing the monitoring
+interface.</p>
+  
+<p>You can go to <a href="http://localhost:3001">http://localhost:3001</a> to see the monitoring
+interface. You can also go to <a href="http://localhost:3001/logs">http://localhost:3001/logs</a> to
+see all log files.</p>
+  
+<blockquote>
+    This part of ql.io is still under development.
+</blockquote>

@@ -49,16 +49,18 @@ return select d.ProductID[0].Value as id, d.Title as title,
 <h3>SQL and JSON as a DSL</h3>
 
 <p>You may not like SQL databases. But SQL is a quite powerful DSL to retrieve, filter,
- project, and join data. See <a
+ project, and join data. See for instance <a
 href="http://queue.acm.org/detail.cfm?id=1961297">A co-Relational Model of Data for Large Shared
 Data Banks</a>, <a href="http://en.wikipedia.org/wiki/Language_Integrated_Query">LINQ</a>, <a
-href="http://developer.yahoo.com/yql/">YQL</a>, or <a href="http://www.unqlspec.org/">unQL</a>,
+href="http://developer.yahoo.com/yql/">YQL</a>, or <a href="http://www.unqlspec.org/">unQL</a>.
 </p>
 
 <p>ql.io combines SQL, JSON, and a few procedural style constructs into a compact <a
-href="/docs/reference/ql">scripting language</a>- you can use it to map to HTTP's CRUD interface,
-to retrieve data, to perform joins, projections and even loops. You can even offer a HTTP GET
-based interface to <a href="/docs/post">SOAP APIs</a> using ql.io.</p>
+href="/docs/reference/ql">scripting language</a> - you can use it to map HTTP's CRUD interface to
+SQL and then use SQL and JSON to retrieve data, to perform joins, projections and even loops.
+ql.io does not mind if you are using HTTP RESTfully or not - it can handle any API that can be
+reached over HTTP. You can even offer a HTTP GET based interface to <a href="/docs/post">SOAP
+APIs</a> using ql.io.</p>
 
 <h3>Orchestrate Without Pain</h3>
 
@@ -77,7 +79,7 @@ href="/docs/quickstart">Quick Start Guide</a> to find out yourself.</p>
 
 <p>APIs are designed for reuse, and hence they cater to the common denominator. Getting new
 fields added, optimizing responses, or combining multiple requests into one involve drawn out
-negotiations between API building teams and API consuming teams.</p>
+negotiations between API producing teams and API consuming teams.</p>
 
 <p>ql.io lets API consuming teams move fast by creating consumer-centric interfaces that are
 optimized for the client - this lets you save on bandwidth while reducing latencies.</p>
