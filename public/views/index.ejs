@@ -15,17 +15,18 @@
 <p>ql.io is a a data-retrieval and aggregation gateway to make orchestrating across HTTP APIs (from
 SOAP-style to RESTful) as simple as SQL and JSON.</p>
 
-<p>ql.io can help you reduce number of lines of code &#8212; at eBay we have seen instances of over 50
-times reduction in number of lines of code &#8212; while simultaneously reducing network latency
-and bandwidth usage in a number of use cases.</p>
+<p>ql.io can help you reduce number of lines of that you need to write code for making API calls
+&#8212; at eBay we have
+    seen instances of over 50 times reduction in number of lines of code &#8212; while
+    simultaneously reducing network latency and bandwidth usage in a number of use cases.</p>
 
-<div class='center'>A ql.io script that calls three APIs making <code>11</code> (<code>1 + 5 + 5</code>)
-HTTP requests.</div>
+<div class='highlight'>A ql.io script that calls three APIs to make <code>11</code> (<code>1 + 5 +
+5</code>) HTTP requests in the best order possible.</div>
 
 <div class='ql-example'>
     <span class='try'><a href="/console?s=prodid%20%3D%20select%20ProductID%5B0%5D.Value%20from%20eBay.FindProducts%20where%0A%20%20%20%20QueryKeywords%20%3D%20'macbook%20pro'%3B%0Adetails%20%3D%20select%20*%20from%20eBay.ProductDetails%20where%0A%20%20%20%20ProductID%20in%20('%7Bprodid%7D')%20and%20ProductType%20%3D%20'Reference'%3B%0Areviews%20%3D%20select%20*%20from%20eBay.ProductReviews%20where%20%0A%20%20%20%20ProductID%20in%20('%7Bprodid%7D')%20and%20ProductType%20%3D%20'Reference'%3B%0A%0Areturn%20select%20d.ProductID%5B0%5D.Value%20as%20id%2C%20d.Title%20as%20title%2C%0A%20%20%20%20d.ReviewCount%20as%20reviewCount%2C%20r.ReviewDetails.AverageRating%20as%20rating%0A%20%20%20%20from%20details%20as%20d%2C%20reviews%20as%20r%0A%20%20%20%20where%20d.ProductID%5B0%5D.Value%20%3D%20r.ProductID.Value%3B">Try me</a></span>
 
-    <pre id='ex-main-0' class="brush: sql">prodid = select ProductID[0].Value from eBay.FindProducts where
+<pre id='ex-main-0' class="brush: sql">prodid = select ProductID[0].Value from eBay.FindProducts where
     QueryKeywords = 'macbook pro';
 details = select * from eBay.ProductDetails where
     ProductID in ('{prodid}') and ProductType = 'Reference';
@@ -39,6 +40,11 @@ return select d.ProductID[0].Value as id, d.Title as title,
     via route '/myapi' using method get;</pre>
 </div>
 
+<div class='highlight'>A curl command to invoke the script.</div>
+
+<pre class="brush: bash">curl http://&lt;host&gt;:&lt;port&gt;/myapi
+</pre>
+
 <blockquote>
     See the <a href="/docs/quickstart">Quick Start Guide</a> to build this script
     yourself in 30 minutes.
@@ -48,17 +54,17 @@ return select d.ProductID[0].Value as id, d.Title as title,
 
 <h3>SQL and JSON as a DSL</h3>
 
-<p>You may not like SQL databases. But SQL is a quite powerful DSL to retrieve, filter,
- project, and join data. See for instance <a
+<p>SQL is a quite powerful DSL to retrieve, filter,
+ project, and join data &#8212; see efforts like <a
 href="http://queue.acm.org/detail.cfm?id=1961297">A co-Relational Model of Data for Large Shared
 Data Banks</a>, <a href="http://en.wikipedia.org/wiki/Language_Integrated_Query">LINQ</a>, <a
-href="http://developer.yahoo.com/yql/">YQL</a>, or <a href="http://www.unqlspec.org/">unQL</a>.
-</p>
+href="http://developer.yahoo.com/yql/">YQL</a>, or <a href="http://www.unqlspec.org/">unQL</a> for
+examples.</p>
 
 <p>ql.io combines SQL, JSON, and a few procedural style constructs into a compact <a
-href="/docs/reference/ql">scripting language</a> - you can use it to map HTTP's CRUD interface to
+href="/docs/reference/ql">scripting language</a> &#8212; you can use it to map HTTP's CRUD interface to
 SQL and then use SQL and JSON to retrieve data, to perform joins, projections and even loops.
-ql.io does not mind if you are using HTTP RESTfully or not - it can handle any API that can be
+ql.io does not mind if you are using HTTP RESTfully or not &#8212;  it can handle any API that can be
 reached over HTTP. You can even offer a HTTP GET based interface to <a href="/docs/post">SOAP
 APIs</a> using ql.io.</p>
 
@@ -97,7 +103,7 @@ consistent, more conformant to HTTP, and easier to use.</p>
 <h2>Quick Installation</h2>
 
 <p>ql.io is built using <a href="http://nodejs.org">node.js</a> (requires version 4.x). You can get
-started with ql.io in two ways - either a stand alone server, or as a part of your node app. To use
+started with ql.io in two ways &#8212;  either a stand alone server, or as a part of your node app. To use
 ql.io as a stand-alone server with the necessary modules, try </p>
 
 <em>TODO: These step does not work yet.</em>
@@ -116,6 +122,8 @@ programmatically, install the core engine directly.</p>
 <pre class="brush: bash">
 npm install ql.io-engine
 </pre>
+
+<p>See <a href="/docs/node-apps">How to use ql.io in Nodejs apps</a> for details.</p>
 
 <h2>Who is Behind ql.io?</h2>
 
