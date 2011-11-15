@@ -1,110 +1,22 @@
-# How to Build ql.io
+<div class="breadcrumb"><a href="/docs">/docs</a></div>
 
-<p>You need either Mac OS X (Snow Leopard or Lion) or Ubuntu to run ql.io on your machine.</p>
+<h1>Prerequisites</h1>
 
-Windows instalers of nodejs are bebinning to appear with nodejs v0.5.0 (unstable) on wards, but we
-have not yet had a chance to test ql.io with those builds. If you have tried and had success, we
-would love to know.
+<p>You will need a Linux or Mac to build ql.io apps. If using Mac, to be able to build Node, install
+Xcode and <a href="https://github.com/mxcl/homebrew">Homebrew</a>. On Ubuntu, install expat, and
+libexpat-dev.</p>
 
-## Setup SSH Keys
+<h2>Install Nodejs</h2>
+  
+<p>Install nodejs version 0.4.x.</p>
 
-If you've already set up your Mac or Ubuntu to pull from corp git repo and Github, you can skip this
-step.
+<blockquote>
+    See <a href="https://github.com/ql-io/ql.io/issues/57">Issue 57</a> for pending issues to fix for Nodejs version 0.6.x.
+</blockquote>
 
-Generate ssh keys.
+<p>The usual <code>configure;make;sudo make install</code> would do.</p>
 
-    ssh-keygen -t rsa
-
-Go to
-[http://crp-git01.corp.ebay.com/cgi-bin/git/apache.gitolite/keys.html.pl](http://crp-git01.corp.ebay.com/cgi-bin/git/apache.gitolite/keys.html.pl),
-click _Add_, and add the contents of the file `~/.ssh/id_rsa.pub`.
-
-Then go to [github](https://github.com/signup/free), create an account (or use your account if you already have
-one), and add the contents of the file `~/.ssh/id_rsa.pub` to your github account.
-
-
-## Mac OS X Snow Leopard or Lion
-
-Install XCode. On Lion, you can find XCode 4 in the App Store app. On Snow Leopard, go to [Mac
-Dev Center](http://developer.apple.com/devcenter/mac/index.action) to download XCode 3. If some of
-these steps fails due to lack of permissions, then open up appropriate directories or use `sudo`.
-
-Open a terminal for the steps below.
-
-    # Install [Homebrew](https://github.com/mxcl/homebrew)
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.github.com/gist/323731)"
-
-If this says that you need to be in the `staff` group, try:
-
-    dscl /Local/Default -append /Groups/staff GroupMembership <your Mac user name here>
-
-And then retry.
-
-If this does not work, you can try:
-
-    curl -LsSf https://github.com/mxcl/homebrew/tarball/master | sudo /usr/bin/tar xvz -C/usr/local --strip 1
-
-(This is not really recommended as you will need use `sudo` whenever you use `brew`.)
-
-    # Install git and scons.
-    brew install git
-    brew install scons
-
-    # Install [nodejs](http://nodejs.org) version 4.10 or later (avoid `-unstable` versions).
-    curl http://nodejs.org/dist/node-v0.4.10.tar.gz -o node.tar.gz
-    tar -zxvf node.tar.gz
-    cd node-v0.4.10
-    ./configure
-    make
-    sudo make install
-
-    # Install npm.
-    curl http://npmjs.org/install.sh | sh
-
-    # Install `python-pigments`.
-    easy_install Pygments
-
-If you want to actively make changes, add the following line to your `~/.bash_profile` or
-`~/.bashrc` and restart your terminal.
-
-    export NODE_PATH="/usr/local/lib/node:."
-
-Continue to [How to Create an App](how-to-create-an-app) to create an app.
-
-## Ubuntu 10.04 or Later
-
-Install dependencies.
-
-    sudo apt-get install build-essential scons libssl-dev git-core expat libexpat-dev python-setuptools ant curl
-
-Install python pygments.
-
-    sudo easy_install Pygments
-
-Download and install nodejs.
-
-    curl http://nodejs.org/dist/node-v0.4.10.tar.gz -o node.tar.gz
-    tar -zxvf node.tar.gz
-    cd node-v0.4.10
-    ./configure
-    make
-    sudo make install
-
-Install npm.
-
-    curl http://npmjs.org/install.sh | sudo sh
-
-Create /usr/local/lib/node_modules and open permissions.
-
-    cd /usr/local/lib
-    mkdir node_modules
-    sudo chmod go+rwx -R node_modules
-
-If you want to actively make changes, add the following line to your `~/.bash_profile` or
-`~/.bashrc` and restart your terminal.
-
-    export NODE_PATH="/usr/local/lib/node:."
-
-Continue to [How to Create an App](how-to-create-an-app) to create an app.
-
+<h2>Install npm</h2>
+  
+<p>Install <a href="http://npmjs.org">npm</a>.</p>
 
