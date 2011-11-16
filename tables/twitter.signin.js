@@ -1,3 +1,4 @@
+// Need Auth module
 var OAuth = require('oauth').OAuth;
 
 exports['patch headers'] = function(options) {

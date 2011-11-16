@@ -9,7 +9,8 @@
         "express": "",
         "ejs": "",
         "node-markdown": "0.1.0",
-        "underscore": ""
+        "underscore": "",
+	"oauth": ""
     },
     "devDependencies": {
         "nodeunit": "0.5.1"
