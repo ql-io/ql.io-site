@@ -1,0 +1,37 @@
+<h1>How to create a table for simple GET</h1>
+
+<p>ql.io provides an easy syntax to create a table for GET usage.
+Here is an example of a simple <code>create table</code> statement with GET.
+</p>
+
+<pre class="brush: sql">
+create table geocoder
+  on select get from "http://maps.googleapis.com/maps/api/geocode/json?address={address}&sensor=true"
+  resultset "results";
+</pre>
+
+<p>In the above statement "{address}" is a placeholder to provide the input while querying this table. More about the uri inputs <a href="/docs/uri-inputs">here</a>. 
+<br>
+For the select query below, ql.io supplies the value of <code>address</code> specified in the <code>where</code> clause. </p>
+
+<pre class="brush: sql">
+select address_components[0].long_name from geocoder where address = 'Sammamish, WA'
+</pre>
+
+
+<h2> Syntax for creating a table with GET </h2>
+
+
+<pre class="brush: sql">
+create table {table-name} on
+    select  get from {uri} 
+    with aliases {nvp}
+    using headers {nvp}
+    using defaults {nvp}
+    using patch {node-module-name}
+    using bodyTemplate {template-file-name} type {media-type}
+    auth using {node-module-name}
+    resultset {quoted-string}
+</pre>
+
+where {nvp} stands for name-value pairs. For further details on the syntax, please refer to the <a href="/docs/reference/ql">railroad diagrams</a>.
