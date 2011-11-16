@@ -23,15 +23,21 @@ a.main-navbar {
     color: white;
 }
 
-div.center {
-    text-align: center;
-    font-size: small;
-    width: 100%;
+pre, code {
+    white-space: normal;
+}
+
+div.highlight {
+    font-weight: bold;
 }
 
 em {
     font-weight: bold;
     font-style: normal;
+}
+
+.clock {
+    float: right;
 }
 
 .try {
