@@ -1,51 +1,68 @@
-# How to Build ql.io
+<h1>How to Build ql.io</h1>
 
-<p>You need either Mac OS X (Snow Leopard or Lion) or Ubuntu to run ql.io on your machine.</p>
+<blockquote>You need either Mac OS X (Snow Leopard or Lion) or Ubuntu to run ql.io on your machine.</blockquote>
 
-Windows instalers of nodejs are bebinning to appear with nodejs v0.5.0 (unstable) on wards, but we
+<p>
+Windows installers of nodejs are beginning to appear with nodejs v0.5.0 (unstable) on wards, but we
 have not yet had a chance to test ql.io with those builds. If you have tried and had success, we
 would love to know.
+</p>
 
-## Setup SSH Keys
+<h2>Setup SSH Keys</h2>
+
+<p>
 
 If you've already set up your Mac or Ubuntu to pull from corp git repo and Github, you can skip this
 step.
+</p>
 
-Generate ssh keys.
-
+<h4>1. Generate ssh keys</h4>
+<pre class="brush: shell">
     ssh-keygen -t rsa
+</pre>
 
+<h4>2. Set up the keys for ebay internal git repo</h4>
 Go to
-[http://crp-git01.corp.ebay.com/cgi-bin/git/apache.gitolite/keys.html.pl](http://crp-git01.corp.ebay.com/cgi-bin/git/apache.gitolite/keys.html.pl),
-click _Add_, and add the contents of the file `~/.ssh/id_rsa.pub`.
+<a href="http://crp-git01.corp.ebay.com/cgi-bin/git/apache.gitolite/keys.html.pl">http://crp-git01.corp.ebay.com/cgi-bin/git/apache.gitolite/keys.html.pl</a>,
+click Add, and add the contents of the file <code>`~/.ssh/id_rsa.pub`</code>.
 
-Then go to [github](https://github.com/signup/free), create an account (or use your account if you already have
-one), and add the contents of the file `~/.ssh/id_rsa.pub` to your github account.
+<h4>3. Set up the keys for github.com</h4>
+Go to <a href="https://github.com/signup/free">github</a>, create an account (or use your account if you already have
+one), and add the contents of the file <code> `~/.ssh/id_rsa.pub` </code> to your github account.
 
 
-## Mac OS X Snow Leopard or Lion
+<h2>Mac OS X Snow Leopard or Lion </h2>
 
-Install XCode. On Lion, you can find XCode 4 in the App Store app. On Snow Leopard, go to [Mac
+<h4>Install XCode</h4>. 
+<p>
+On Lion, you can find XCode 4 in the App Store app. On Snow Leopard, go to [Mac
 Dev Center](http://developer.apple.com/devcenter/mac/index.action) to download XCode 3. If some of
 these steps fails due to lack of permissions, then open up appropriate directories or use `sudo`.
+<p>
 
-Open a terminal for the steps below.
-
-    # Install [Homebrew](https://github.com/mxcl/homebrew)
+<h4> Install <a href="https://github.com/mxcl/homebrew">Homebrew</a></h4>
+<p>
+Open a terminal for the steps below. </p>
+<pre class="brush: shell">
     /usr/bin/ruby -e "$(curl -fsSL https://raw.github.com/gist/323731)"
+</pre>
 
 If this says that you need to be in the `staff` group, try:
 
-    dscl /Local/Default -append /Groups/staff GroupMembership <your Mac user name here>
-
+<pre class="brush: shell">
+    dscl /Local/Default -append /Groups/staff GroupMembership {your Mac user name here}
+</pre>
 And then retry.
 
 If this does not work, you can try:
 
+<pre class="brush: shell">
     curl -LsSf https://github.com/mxcl/homebrew/tarball/master | sudo /usr/bin/tar xvz -C/usr/local --strip 1
-
+</pre>
 (This is not really recommended as you will need use `sudo` whenever you use `brew`.)
 
+
+<pre class="brush: shell">
     # Install git and scons.
     brew install git
     brew install scons
@@ -63,48 +80,58 @@ If this does not work, you can try:
 
     # Install `python-pigments`.
     easy_install Pygments
+</pre>
 
-If you want to actively make changes, add the following line to your `~/.bash_profile` or
-`~/.bashrc` and restart your terminal.
+If you want to actively make changes, add the following line to your <code>`~/.bash_profile`</code> or <code>`~/.bashrc` </code>and restart your terminal.
 
+
+<pre class="brush: shell">
     export NODE_PATH="/usr/local/lib/node:."
+</pre>
+Continue to <a href="/docs/create-an-qlio-app">How to Create an App</a> to create an app.
 
-Continue to [How to Create an App](how-to-create-an-app) to create an app.
+<h2>Ubuntu 10.04 or Later</h2>
 
-## Ubuntu 10.04 or Later
+<h4>Install dependencies</h4>
 
-Install dependencies.
 
+<pre class="brush: shell">
     sudo apt-get install build-essential scons libssl-dev git-core expat libexpat-dev python-setuptools ant curl
+</pre>
 
-Install python pygments.
+<h4>Install python pygments</h4>
 
+<pre class="brush: shell">
     sudo easy_install Pygments
+</pre>
+<h4>Download and install nodejs</h4>
 
-Download and install nodejs.
-
+<pre class="brush: shell">
     curl http://nodejs.org/dist/node-v0.4.10.tar.gz -o node.tar.gz
     tar -zxvf node.tar.gz
     cd node-v0.4.10
     ./configure
     make
     sudo make install
+</pre>
+<h4>Install npm></h4>
 
-Install npm.
-
+<pre class="brush: shell">
     curl http://npmjs.org/install.sh | sudo sh
-
+</pre>
 Create /usr/local/lib/node_modules and open permissions.
 
+<pre class="brush: shell">
     cd /usr/local/lib
     mkdir node_modules
     sudo chmod go+rwx -R node_modules
+</pre>
+If you want to actively make changes, add the following line to your <code>`~/.bash_profile`</code> or<code>`~/.bashrc`</code> and restart your terminal.
 
-If you want to actively make changes, add the following line to your `~/.bash_profile` or
-`~/.bashrc` and restart your terminal.
 
+<pre class="brush: shell">
     export NODE_PATH="/usr/local/lib/node:."
-
+</pre>
 Continue to [How to Create an App](how-to-create-an-app) to create an app.
 
 
