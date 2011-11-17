@@ -1,0 +1,67 @@
+<h1>How to create a table with a body</h1>
+
+<p>If you want the ql.io to send HTTP POST when a <code>select</code> is executed on the table, we have to define a table with a body.
+Here is an example of such <code>create table</code> statement with POST.
+</p>
+
+<pre class="brush: sql">
+create table ebay.finding
+  on select post to 'http://svcs.ebay.com/services/search/FindingService/v1'
+     using headers 'Content-Type' = 'application/xml; charset=UTF-8',
+                   'REQUEST-DATA-FORMAT'= 'XML',
+                   'RESPONSE-DATA-FORMAT'= 'XML',
+                   'OPERATION-NAME'= 'findItems',
+                   'SECURITY-APPNAME'= '{your security app name}'
+     using bodyTemplate "finding.xml.mu" type 'application/xml'
+     resultset "findItemsResponse.searchResultSet"
+</pre>
+
+<p>
+The string <code>post</code> in the select clause is to instruct ql.io to send a POST request for the outgoing call.
+The <code>"using bobyTemplate"</code> clause specifies the <a href="http://mustache.github.com/">mustache</a> template to be used to build the POST request body.
+<br> 
+<p>
+Here is an example of such a template file.
+</p>
+<pre class="brush: plain">
+{{params}}
+<findItemsByCategoryRequest xmlns="http://www.ebay.com/marketplace/search/v1/services">
+  <categoryId>{{categoryId}}</categoryId>
+  <paginationInput>
+    <entriesPerPage>10</entriesPerPage>
+  </paginationInput>
+</findItemsByCategoryRequest>
+</pre>
+
+<p>
+For the select query below, ql.io substitutes <code>{{categoryId}}</code> in the above template with the value specified for <code>categoryId</code> in the where clause.
+
+</p>
+<pre class="brush: sql">
+select * from ebay.finding where categoryId = 10821
+</pre>
+
+
+The outgoing POST request look like,
+
+<pre class="brush: plain">
+
+POST http://finditemservice.vip.phx.ebay.com/services/search/FindItemService/v1
+Content-Type: application/xml; charset=UTF-8
+REQUEST-DATA-FORMAT: XML
+RESPONSE-DATA-FORMAT: XML
+OPERATION-NAME: findItems
+SOA-SECURITY-APPNAME: <your security appname>
+Content-Type: application/xml
+
+<findItemsByCategoryRequest xmlns="http://www.ebay.com/marketplace/search/v1/services">
+  <categoryId>10821</categoryId>
+  <paginationInput>
+    <entriesPerPage>10</entriesPerPage>
+  </paginationInput>
+</findItemsByCategoryRequest>
+</pre>
+
+
+
+

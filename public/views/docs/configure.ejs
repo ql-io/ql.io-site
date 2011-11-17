@@ -1,0 +1,65 @@
+<h2>How to configure ql.io</h2>
+
+<p>Let's say you want to change the API keys used by the table <code>bitly.shorten</code> table. Here are the steps to change the configuration.</p>
+
+<p>Find the file <code>dev.json</code> in the <code>config</code> directory and make a copy.</p>
+
+<pre class="brush: shell">
+cd config
+# Make your own copy of this file
+cp dev.json myconfig.json
+</pre>
+
+<p>Then open <code>myconfig.json</code> in a text editor, and find the <code>login</code> and <code>apikey</code> properties. The
+mapping from config parameter names to values is straight-forward.</p>
+
+<pre class="brush: plain">
+config                                          myconfig.json
+      .tables                                       property named "tables"
+             .bitly                                     child property named "bitly"
+                   .shorten                                 child property named "shorten"
+                           .login                               child property named "login"
+                           .apikey                              child property named "apikey"
+</pre>
+
+<p>ql.io itself does not mandate this kind of nesting, but we recommend it to keep the configuration
+intuitive to read.</p>
+
+<p>Modify the values of <code>login</code> and <code>apikey</code>.</p>
+
+<p>To use a config, specify the config name at the time of starting ql.io.</p>
+
+<pre class="brush: shell">
+cd site/console
+./start.sh config/myconfig.json
+</pre>
+
+<h2>Runtime Overriding</h2>
+
+<p>For any parameter that is included into the request to a remote service, ql.io uses the following
+approach to determine its value:</p>
+<blockquote>
+<ol>
+<li>Look for the parameter value from query parameters</li>
+<li>Then look the value from HTTP headers </li>
+<li>Then look for values specified in the statement (<code>where</code> clause for <code>select</code>, and <code>values</code> cluase
+in <code>insert into</code> etc.)</li>
+<li>Then look for values specified as defaults - these are in CoffeeScript files.</li>
+</ol>
+
+</blockquote>
+
+<p>For instance, you can override the default <code>apikey</code> for the <code>bitly.shorten</code> table using one of the
+following 3 ways.</p>
+
+
+<pre class="brush: plain">
+insert into bitly.shorten (longUrl, apikey) values ('http://www.subbu.org/archives', 'mykey')
+
+curl -v http://localhost:3000/q?s=insert%20into%20bitly.shorten%20(longUrl)%20
+     values%20('http%3A%2F%2Fwww.subbu.org%2Farchives')&amp;apikey=mykey
+
+curl -v http://localhost:3000/q?s=insert%20into%20bitly.shorten%20(longUrl)%20
+     values%20('http%3A%2F%2Fwww.subbu.org%2Farchives')
+     --header 'apikey: mykey'
+</pre>
