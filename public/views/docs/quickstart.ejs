@@ -1,3 +1,6 @@
+<div class="breadcrumb"><a href="/docs">/docs</a></div>
+
+<h1>Quick Start Guide</h1>
 
 <div class='clock'><canvas id="c0"></canvas></div>
 
@@ -16,15 +19,14 @@ details, total number of reviews and ratings.</em>
 
 <li><a
 href="http://developer.eBay.com/devzone/shopping/docs/callref/FindProducts.html">FindProducts</a>
-API that, given a keyword, returns up to a specified maximum number of products.</li>
+API that takes a keyword and returns up to a specified maximum number of products.</li>
 
-<li>The same FindProducts API that, given a <code>ProductID</code>, returns product details that
+<li>The same FindProducts API that takes a <code>ProductID</code> to return product details that
 include title, URL for details and total number of reviews among with several details.</li>
 
 <li><a
 href="http://developer.eBay.com/devzone/shopping/docs/callref/FindReviewsAndGuides.html">FindReviewsAndGuides</a>
-API that, given a <code>ProductID</code> returns ratings and guides.</li>
-</ol>
+API that takes a <code>ProductID</code> to return ratings and guides.</li> </ol>
 
 <p>Imagine that we are interested in getting a maximum of <code>5</code> products for the keyword
 &quot;macbook pro&quot;. For getting title, details URL, total number of reviews and ratings, we
@@ -96,7 +98,7 @@ permissions, retry <code>make</code> and then <code>bin/start.sh</code>.
 <p>Setup a new ql.io app and start the server.</p>
 
 <pre class="brush: bash">
-git clone https://github.com/ql-io/ql.io-template myapp
+git clone git@github.com:ql-io/ql.io-template.git myapp
 cd myapp
 make
 bin/start.sh
@@ -133,7 +135,7 @@ purpose.</p>
     <pre class='brush: sql'>
 -- A table to find products
 create table eBay.FindProducts
-  on select get from "http://open.api.ebay.com/shopping?callname=FindProducts&amp;amp;appid={^apikey}&amp;responseencoding=JSON&amp;version=725&amp;QueryKeywords={^QueryKeywords}&amp;MaxEntries={max}&amp;ProductSort=Popularity&amp;AvailableItemsOnly=true&amp;siteid={siteid}"
+  on select get from "http://open.api.ebay.com/shopping?callname=FindProducts&appid={^apikey}&responseencoding=JSON&version=725&QueryKeywords={^QueryKeywords}&MaxEntries={max}&ProductSort=Popularity&AvailableItemsOnly=true&siteid={siteid}"
     using defaults max = "5", apikey = "{config.eBay.apikey}", sideid = 0
     resultset 'Product';
 
@@ -172,7 +174,7 @@ can reuse those table definitions across many scripts.</p>
 <li>Use <code>Control-C</code> to stop the server</li>
 <li><code>cd tables</code></li>
 <li><code>vi products.ql</code></li>
-<li>Paste the above statements and exist the editor.</li>
+<li>Paste the above statements and exit vi.</li>
 <li><code>cd ..</code></li>
 <li><code>bin/start.sh</code></li>
 </ol>
@@ -324,17 +326,17 @@ script.</p>
 <li>Use <code>Control-C</code> to stop the server</li>
 <li><code>cd routes</code></li>
 <li><code>vi myapi.ql</code></li>
-<li>Paste the above statements and exist the editor.</li>
+<li>Paste the above statements and exit vi.</li>
 <li><code>cd ..</code></li>
 <li><code>bin/start.sh</code></li>
 </ol>
 
-<h2>Step 5: Get the Data</h2>
+<h2>Step 5: Call the APIs Like a Pro</h2>
 
 <div class='clock'><canvas id="c6"></canvas></div>
 
 <p>The last step is make a request to see your route in action. Click on <a
-href="/myapi">http://localhost:3000/myapi</a> or try <code>curl</code> from a shell window1.
+href="/myapi">http://localhost:3000/myapi</a> or try <code>curl</code> from a shell.
 
 <pre class="brush: bash">
 curl http://localhost:3000/myapi
