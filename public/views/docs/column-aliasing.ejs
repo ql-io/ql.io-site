@@ -1,0 +1,84 @@
+<h1>Column Aliasing</h1>
+
+<p>When you specify list of fields in the columns clause of a <code>select</code> statement, ql.io returns the
+results in the form of a table - with each row containing the selected fields. For instance, the
+query below return a table with each row containing three fields.</p>
+
+<pre class="brush: sql">select title, itemId, primaryCategory.categoryName,
+     sellingStatus.currentPrice from ebay.finding.items where keywords='iPhone'
+</pre>
+
+<p>A sample result set is below.</p>
+
+<pre class="brush: js">
+[
+  [
+    "Apple iPhone 4 (32GB) Black AT&amp;T b",
+    "390352995399",
+    "Cell Phones&amp;Smartphones",
+    {
+      "currencyId": "USD",
+      "$t": "379.99"
+    }
+  ],
+  [
+    "Apple iPhone 4 (Latest Model) - 16GB - Black (AT&amp;T) Smartphone",
+    "270828638551",
+    "Cell Phones&amp;Smartphones",
+    {
+      "currencyId": "USD",
+      "$t": "315.0"
+    }
+  ],
+  ...
+]
+</pre>
+
+<p>While this is a compact way getting the data you need, you need to refer to the selected columns to
+know which element in a row refers to which field. You can optionally use column aliases to annotate
+each field with a name.</p>
+
+<pre class="brush: sql">
+select title as title, itemId as id, primaryCategory.categoryName as cat,
+       sellingStatus.currentPrice as price 
+from ebay.finding.items 
+where keywords='iPhone'
+</pre>
+
+<p>This will change the above result set to</p>
+
+<pre class="brush: js">[
+  {
+    "title": "Apple iPhone 4 (32GB) Black AT&amp;T b",
+    "id": "390352995399",
+    "cat": "Cell Phones&amp;Smartphones",
+    "price": {
+      "currencyId": "USD",
+      "$t": "379.99"
+    }
+  },
+  {
+    "title": "Apple iPhone 4 (Latest Model) - 16GB - Black (AT&amp;T) Smartphone",
+    "id": "270828638551",
+    "cat": "Cell Phones&amp;Smartphones",
+    "price": {
+      "currencyId": "USD",
+      "$t": "315.0"
+    }
+  },
+  ...
+}
+</pre>
+
+<p>which is usually much more convenient to use.</p>
+
+<p>With respect to stadard SQL, note the following differences:</p>
+
+<blockquote>
+<ul>
+<li>Each alias must use 'as'. In SQL, 'as' is optional, but in ql.io 'as' is not optional.</li>
+<li>When you decide to use aliases, use alias names for all the selected fields. If not, ql.io will
+return an error.</li>
+</ul>
+</blockquote>
+<p>Apart from annotating fields in result sets, column aliases let you join result sets on the fly.</p>
