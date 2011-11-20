@@ -1,4 +1,9 @@
-<h1>Column Aliasing</h1>
+
+
+<h1>Selects</h1>
+
+<p>TODO.</p>
+
 
 <p>When you specify list of fields in the columns clause of a <code>select</code> statement, ql.io returns the
 results in the form of a table - with each row containing the selected fields. For instance, the
@@ -40,8 +45,8 @@ each field with a name.</p>
 
 <pre class="brush: sql">
 select title as title, itemId as id, primaryCategory.categoryName as cat,
-       sellingStatus.currentPrice as price 
-from ebay.finding.items 
+       sellingStatus.currentPrice as price
+from ebay.finding.items
 where keywords='iPhone'
 </pre>
 

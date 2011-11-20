@@ -1,27 +1,10 @@
-<h1>How to create a table for simple GET</h1>
-
-<p>ql.io provides an easy syntax to create a table for GET usage.
-Here is an example of a simple <code>create table</code> statement with GET.
-</p>
-
-<pre class="brush: sql">
-create table geocoder
-  on select get from "http://maps.googleapis.com/maps/api/geocode/json?address={address}&sensor=true"
-  resultset "results";
-</pre>
-
-<p>In the above statement "{address}" is a placeholder to provide the input while querying this table. More about the uri inputs <a href="/docs/uri-inputs">here</a>. 
-<br>
-For the select query below, ql.io supplies the value of <code>address</code> specified in the <code>where</code> clause. </p>
-
-<pre class="brush: sql">
-select address_components[0].long_name from geocoder where address = 'Sammamish, WA'
-</pre>
-
-
-<h2> Syntax for creating a table with GET </h2>
-
-
+<h1>Creating Tables</h1>
+  
+  
+<p>TODO: add a note format conversion to JSON.</p>
+  
+<p>TODO: add a note about XML namespaces.</p>
+  
 <pre class="brush: sql">
 create table {table-name} on
     select  get from {uri} 
@@ -34,4 +17,96 @@ create table {table-name} on
     resultset {quoted-string}
 </pre>
 
-where {nvp} stands for name-value pairs. For further details on the syntax, please refer to the <a href="/docs/reference/ql">railroad diagrams</a>.
+<p>where {nvp} stands for name-value pairs. For further details on the syntax, please refer to the <a
+href="/docs/reference/ql">railroad diagrams</a>.</p>
+  
+<p>Here are some examples. More docs to follow.</p>
+  
+<pre class="brush: sql">
+create table geocoder
+  on select get from "http://maps.googleapis.com/maps/api/geocode/json?address={address}&sensor=true"
+  resultset "results";
+</pre>
+
+<p>In the above statement "{address}" is a placeholder to provide the input while querying this
+table. More about the uri inputs <a href="/docs/uri-inputs">here</a>.
+
+<p>If the same table also supports other types of statements such as `delete` and `insert into` you
+can also describe them in `create table` statements. Here is an example.</p>
+
+<pre class="brush: sql">
+      create table bitly.shorten
+        on insert get from "http://api.bitly.com/v3/shorten?login={^login}&apiKey={^apikey}&longUrl={^longUrl}&format={format}"
+                  using defaults apikey = "{config.tables.bitly.shorten.apikey}",
+                                 login = "{config.tables.bitly.shorten.login}", format = "json"
+                  resultset 'data.url'
+        on select get from "http://api.bitly.com/v3/expand?login={^login}&apiKey={^apikey}&shortUrl={^shortUrl}&format={format}"
+                  using defaults apikey = "{config.tables.bitly.shorten.apikey}",
+                                 login = "{config.tables.bitly.shorten.login}", format = "json"
+                  resultset 'data.expand'
+</pre>
+
+<p>If you want the ql.io to send HTTP POST when a <code>select</code> is executed on the table, we
+have to define a table with a body. Here is an example of such <code>create table</code> statement
+with POST. </p>
+
+<pre class="brush: sql">
+create table ebay.finding
+  on select post to 'http://svcs.ebay.com/services/search/FindingService/v1'
+     using headers 'Content-Type' = 'application/xml; charset=UTF-8',
+                   'REQUEST-DATA-FORMAT'= 'XML',
+                   'RESPONSE-DATA-FORMAT'= 'XML',
+                   'OPERATION-NAME'= 'findItems',
+                   'SECURITY-APPNAME'= '{your security app name}'
+     using bodyTemplate "finding.xml.mu" type 'application/xml'
+     resultset "findItemsResponse.searchResultSet"
+</pre>
+
+<p>The string <code>post</code> in the select clause is to instruct ql.io to send a POST request for
+the outgoing call. The <code>"using bodyTemplate"</code> clause specifies the <a
+href="http://mustache.github.com/">mustache</a> template to be used to build the POST request body.
+</p>
+
+<p> Here is an example of such a template file. </p>
+
+<pre class="brush: plain"> {{params}}
+<findItemsByCategoryRequest xmlns="http://www.ebay.com/marketplace/search/v1/services">
+  <categoryId>{{categoryId}}</categoryId>
+  <paginationInput>
+    <entriesPerPage>10</entriesPerPage>
+  </paginationInput>
+</findItemsByCategoryRequest>
+</pre>
+
+<p>
+For the select query below, ql.io substitutes <code>{{categoryId}}</code> in the above template with the value specified for <code>categoryId</code> in the where clause.
+
+</p>
+<pre class="brush: sql">
+select * from ebay.finding where categoryId = 10821
+</pre>
+
+
+The outgoing POST request look like,
+
+<pre class="brush: plain">
+
+POST http://finditemservice.vip.phx.ebay.com/services/search/FindItemService/v1
+Content-Type: application/xml; charset=UTF-8
+REQUEST-DATA-FORMAT: XML
+RESPONSE-DATA-FORMAT: XML
+OPERATION-NAME: findItems
+SOA-SECURITY-APPNAME: <your security appname>
+Content-Type: application/xml
+
+<findItemsByCategoryRequest xmlns="http://www.ebay.com/marketplace/search/v1/services">
+  <categoryId>10821</categoryId>
+  <paginationInput>
+    <entriesPerPage>10</entriesPerPage>
+  </paginationInput>
+</findItemsByCategoryRequest>
+</pre>
+
+
+
+
