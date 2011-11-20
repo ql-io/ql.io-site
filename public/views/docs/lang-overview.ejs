@@ -1,0 +1,145 @@
+<div class="breadcrumb"><a href="/docs">/docs</a></div>
+
+
+<h1>Language Overview</h1>
+  
+<p>ql.io's core consists of a domain-specific procedural-style language consisting of one or more
+comments and statements, and an engine that schedules execution of statements in the best order
+possible.</p>
+
+<p>Comments are single-line, and start with <code>--</code>.</p>
+
+<pre class="brush: sql">
+-- Welcome to ql.io
+</pre>
+
+<p>In simple cases that consist of just a single statement, you can declare the statement with no
+assignment or terminal semi-colon. In such scripts, the return value of the script is implicit.</p>
+  
+<pre class="brush: sql">
+show tables
+</pre>
+  
+<p>Otherwise, statements end with a semi-colon. Statements can always be split into multiple
+lines. Multi-line scripts must always end with a <code>return</code> statement.</p>
+  
+<p>You can assign results of execution of statements to variables.</p>
+
+<pre class="brush: sql">
+items = select * from items;
+return items;    
+</pre>
+  
+<p>The assignment happens asynchronously when the right hand side completes. The right hand side can
+be one of the following:</p>
+  
+<ul>
+    <li>A string, number, JSON object, array, <code>true</code>, <code>false</code>, or
+    <code>null</code> - these are all values from <a href="http://json.org">JSON</a>.</li>
+
+    <li><code>select</code> statement</li>
+    <li><code>insert</code> statement</li>
+    <li><code>update</code> statement (not supported yet)</li>
+    <li><code>delete</code> statement (not supported yet)</li>
+</ul>
+  
+<p>The predicate following a <code>return</code> can also be any of the above. This lets you
+simplify the above script to the following single line script.</p>
+
+<pre class="brush: sql">
+return select * from items;
+</pre>
+  
+<p>Execution of each statement can result in one or more HTTP requests. The table referenced in the
+statement tells ql.io how to make the HTTP request to a resource. Consequently, a <a
+href="/docs/create-table"><code>create table</code> statement</a> abstracts the following
+information:</p>
+  
+<ul>
+    <li>A URI or a <a href="/docs/uri-template">URI template</a></li>
+
+    <li>Default values for tokens in the URI template - these are optional</li>
+
+    <li>Any HTTP headers that must be included - these are in addition to some common headers like
+    <code>Host</code>, <code>Content-Type</code>, <code>Content-Length</code> etc.</li>
+
+    <li>Optionally the template of the body for <code>POST</code>, <code>PUT</code>, and
+    <code>PATCH</code> requests. For <code>application/x-www-urlform-encoded</code> bodies,
+    templates are processed using the URI template syntax (i.e., tokens in curly braces). For other
+    media types such as <code>application/json</code>, or <code>application/xml</code>, bodies are
+    processed using <a href="http://mustache.github.com/">Mustache</a>.</li>
+
+    <li>Optionally a <a href="/docs/patches">monkey patch</a> - A monkey patch is a node module
+    that can be used to tweak or fix up requests and responses.</li>
+
+    <li>Optionally an <a href="/docs/auth">auth</a> module that can be used to authenticate a
+    request.</li>
+    
+    <li>Optionally a <a href="http://goessner.net/articles/JsonPath/">JSONPath</a>-styled expression
+    to map a collection in the response to a result set.</li>
+</ul>
+
+<p>A <code>create table</code> maps each of <code>select</code>, <code>insert</code>,
+<code>update</code> and <code>delete</code> statements into a HTTP method and a HTTP resource. The
+most common mapping is to map a <code>select</code> statement to <code>GET</code>.</p>
+  
+<pre class="brush: sql">
+create table geocoder
+  on select get from "http://maps.googleapis.com/maps/api/geocode/json?address={address}&sensor=true"
+  resultset "results";           
+</pre>
+ 
+<p>Since URIs for reads and writes could be different, a <code>create table</code> statement can map
+each of <code>select</code>, <code>insert</code>, <code>update</code>, and <code>delete</code> to a
+different HTTP resource with a different method.</p>
+
+<pre class="brush: sql">
+create table bitly.shorten
+  on insert get from "http://api.bitly.com/v3/shorten?login={^login}&apiKey={^apikey}&longUrl={^longUrl}&format={format}"
+    using defaults apikey = "{config.bitly.apikey}", login = "{config.bitly.login}", format = "json"
+    using patch 'shorten.js'
+    resultset 'data.url'
+  on select get from "http://api.bitly.com/v3/expand?login={^login}&apiKey={^apikey}&shortUrl={^shortUrl}&format={format}"
+    using defaults apikey = "{config.bitly.apikey}", login = "{config.bitly.login}", format = "json"
+    using patch 'shorten.js'
+    resultset 'data.expand'
+</pre>
+
+<p>The mapping between statement types and HTTP methods is arbitrary. ql.io does not impose any
+mapping between SQL statement types and HTTP methods. For instance, the above script maps an
+<code>insert into</code> statement to method <code>GET</code>.</p>
+
+<p>Statements can depend on other statements. You can express dependencies by using tokens in curly
+braces (<code>{token}</code>) in quoted (double or single) strings. Here is an example.</p>
+  
+<pre class="brush: sql">
+name = "Bob";
+details = select * from persons where name = "{name}";
+accounts = select * from accounts where name = "{accounts}";
+return {
+  "name": "{name}",
+  "details": "{details}",
+  "accounts": "{accounts}"
+}
+</pre>
+
+<p>This script has four statements - the first one assigns a string value to a variable, and the
+second and third statements refer to that name. The fourth statement refers to all the three. </p>
+
+<p>ql.io infers dependencies between statements at script compilation time by analyzing variable
+references between statements, and orders statement execution to resolve those dependencies. The
+above script leads to the following order.</p>
+
+<img src="/images/docs/simple-orch.png" alt="Fork-join"/>
+
+<p>You can also select from objects or tables.</p>
+
+<pre class="brush: sql">
+person = {
+ "f": "Jon",
+ "l": "Doe"
+}
+return select f from person;
+</pre>
+
+<p>TODO - a diagram for the overview.</p>

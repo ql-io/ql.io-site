@@ -9,7 +9,7 @@ SOAP-style to RESTful) as simple as SQL and JSON.</div>
 
 <div class="main-navbar">
     <a class="main-navbar" href='/console'>Try now</a> &nbsp;&nbsp;|&nbsp;&nbsp;
-    <a class="main-navbar" href='/examples'>See examples</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+    <a class="main-navbar" href='/docs/examples'>See examples</a>&nbsp;&nbsp;|&nbsp;&nbsp;
     <a class="main-navbar" href='/docs'>Read docs</a>&nbsp;&nbsp;|&nbsp;&nbsp;
     <a class="main-navbar" href="http://groups.google.com/group/qlio">Discuss</a>
 </div>
@@ -62,11 +62,11 @@ href="http://developer.yahoo.com/yql/">YQL</a>, or <a href="http://www.unqlspec.
 examples.</p>
 
 <p>ql.io combines SQL, JSON, and a few procedural style constructs into a compact <a
-href="/docs/reference/ql">scripting language</a> &#8212; you can use it to map HTTP's CRUD interface to
-SQL and then use SQL and JSON to retrieve data, to perform joins, projections and even loops.
-ql.io does not mind if you are using HTTP RESTfully or not &#8212;  it can handle any API that can be
-reached over HTTP. You can even offer a HTTP GET based interface to <a href="/docs/post">SOAP
-APIs</a> using ql.io.</p>
+href="/docs/reference/ql">DSL</a> &#8212; you can use it to map HTTP's CRUD interface to SQL and
+then use SQL and JSON to retrieve data, to perform joins, projections and even loops. ql.io does not
+mind if you are using HTTP RESTfully or not &#8212; it can handle any API that can be reached over
+HTTP. You can even offer a HTTP GET based interface to <a href="/docs/post">SOAP APIs</a> using
+ql.io.</p>
 
 <h3>Orchestrate Without Pain</h3>
 
@@ -74,9 +74,10 @@ APIs</a> using ql.io.</p>
 often complicated as you need to worry about order of requests, inter-dependencies, error
 handling, and parallelization to reduce overall latency.</p>
 
-<p>You don't need a complex multi-threaded fork-join or orchestration framework so solve this.
-ql.io knows how to schedule execution of statements asynchronously. You can write procedural
-scripts, and let ql.io do the orchestration using async I/O.</p>
+<p>You don't need a complex multi-threaded fork-join or orchestration framework so solve this. ql.io
+knows how to schedule execution of statements asynchronously. You can write procedural scripts using
+statements in the natural order of dependencies, and let ql.io do the orchestration using async
+I/O.</p>
 
 <p>A consequence - massive reductions in number of lines of code! See the <a
 href="/docs/quickstart">Quick Start Guide</a> to find out yourself.</p>
@@ -97,16 +98,17 @@ RESTful APIs on one end and SOAP on the other and a mixture in between. Working 
 APIs can cause code bloat. </p>
 
 <p>In stead of waiting for the API owners to agree on consistency and clean their APIs, you can
-apply ql.io's <a href="/docs/language">routes</a> to offer new RESTful interfaces that are more
+apply ql.io's <a href="/docs/routes">routes</a> to offer new RESTful interfaces that are more
 consistent, more conformant to HTTP, and easier to use.</p>
 
-<h2>Quick Installation</h2>
+<h2>How to Use ql.io</h2>
 
 <p>ql.io is built using <a href="http://nodejs.org">node.js</a> (requires version 4.x). You can get
-started with ql.io in two ways &#8212;  either a stand alone server, or as a part of your node app. To use
-ql.io as a stand-alone server with the necessary modules, try </p>
+started with ql.io in two ways &#8212; either a stand alone server, or as a part of your node app.
+To use ql.io as a stand-alone server with the necessary modules, try </p>
 
-<em>TODO: These step does not work yet.</em>
+<em>TODO: These steps don't work yet. See the <a href="/docs/quickstart">Quick Start Guide</a> for
+now.</em>
 
 <pre class="brush: bash">mkdir myapp
 cd myapp
@@ -121,13 +123,13 @@ programmatically, install the core engine directly.</p>
 npm install ql.io-engine
 </pre>
 
-<p>See <a href="/docs/node-apps">How to use ql.io in Nodejs apps</a> for details.</p>
+<p>See <a href="/docs/engine">ql.io engine</a> for details.</p>
 
 <h2>Who is Behind ql.io?</h2>
 
 <p>ql.io is being built by eBay's platform engineering group, and is actively managed on <a
 href="https://github.com/ql-io/ql.io">github.</a> ql.io is released under <a
 href="https://github.com/ql-io/ql.io/blob/master/LICENSE.md">Apache License, Version 2.0</a>.
-See <a href="http://www.ebayopensource.org">eBay Open Source</a> for other open source
-projects.</p>
+Just as soon as we get a CLA in place, contributions will be welcome. See <a
+href="http://www.ebayopensource.org">eBay Open Source</a> for other project contributed by eBay.</p>
 
