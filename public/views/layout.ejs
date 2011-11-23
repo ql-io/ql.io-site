@@ -24,12 +24,18 @@
 
 </head>
 <body>
-<div id="main">
+<div id="container">
 
     <%- partial("header") %>
 
-    <%- body %>
-
+    
+    <div id="leftnav">
+        <%- partial("leftnav") %>
+    </div>
+    <div id="content">
+        <%- body %>       
+    </div>
+    
     <div id="footer">
 
     <%- partial("footer") %>

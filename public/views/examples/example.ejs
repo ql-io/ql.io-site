@@ -1,0 +1,16 @@
+<% var id = Math.round(Math.random() * (1000 - 1) + 1); %>
+
+<h2><%=example.title%></h2>
+
+<% if(example.note) { %>
+  <p><%=example.note%></p>
+<% } %>
+
+<div>
+   <% if(example.inline === true || example.inline === undefined) { %>
+    <a class="go" href="#" onclick="return runQuery('<%=example.statement%>', '#<%=id%>-results');">Run</a> |
+   <% } %>
+    <a class="go" href="#" onclick="return showConsole('<%=example.statement%>');">View in Console</a>
+    <pre class="brush: sql" id="<%=id%>"><%=example.statement%></pre>
+</div>
+<pre class="results" id="<%=id%>-results"></pre>

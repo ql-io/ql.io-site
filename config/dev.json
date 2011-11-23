@@ -1,5 +1,11 @@
 {
     "eBay": {
         "apikey": "Qlio1a92e-fea5-485d-bcdb-1140ee96527"
+    },
+    "yahoo": {
+        "apikey": "5aqbtYvV34Fu7EIaOVPW8_ER1r7Rwtji7iLqMZx4q5ToSv0_qMeyNex7_OvCBGnnQ49Eqpw1tuVVLA--"
+    },
+    "google": {
+        "apikey": "AIzaSyCaq-Rwm-VoBHVAT8a3CPNr-Bgh-8HbbbA"
     }
 }

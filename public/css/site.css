@@ -1,7 +1,10 @@
 body {
+    line-height: 1.5em;
+}
+
+#main {
     width: 70%;
     margin-left: 15%;
-    line-height: 1.5em;
 }
 
 #logo {
@@ -98,4 +101,33 @@ li {
 
 .rrdiagram ul {
     list-style-type: disc;
+}
+
+#container {
+    width: 90%;
+    margin: 10px auto;
+    background-color: #fff;
+    color: #333;
+}
+
+#leftnav {
+    float: left;
+    width: 160px;
+    margin: 0;
+    padding: 1em;
+}
+
+#content {
+    margin-left: 200px;
+    border-left: 1px solid lightgray;
+    padding-left: 2em;
+}
+
+#leftnav p {
+    margin: 0;
+}
+
+#container h2 {
+    font-size: medium;
+    font-weight: bold;
 }
