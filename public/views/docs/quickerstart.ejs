@@ -1,0 +1,150 @@
+<h1>Quicker Start</h1>
+
+<div class='clock'><canvas id="c0"></canvas></div>
+
+<p>In this guide, we will build an API to drive google maps and eBay item search like it is 2005!
+<em>The outcome of this exercise is going to be a single <code>select</code> statement</em>. Our
+task is to search for items using eBay's <a
+href="http://developer.ebay.com/devzone/finding/Concepts/FindingAPIGuide.html">Finding API</a>, get
+their details using another API, and get then their geo-locations using Google's Map APIs. </p>
+
+<p>We need to make the following API calls for this:</p>
+
+<ul>
+    <li>Call the <a
+    href="http://developer.ebay.com/devzone/finding/Concepts/FindingAPIGuide.html">Finding API</a>
+    with a keyword to get item IDs.</li>
+
+    <li>Call the <a
+    href="http://developer.ebay.com/devzone/shopping/docs/callref/GetMultipleItems.html">GetMultipleItems
+    API</a> to find the details all items found.</li>
+
+    <li>Call the <a href="http://code.google.com/apis/maps/documentation/geocoding/">Geocoding
+    API</a> for each item found to find their geo locations.</li>
+</ul>
+  
+<p>For this guide, we will use the <a href="/console">Web Console</a> on this site and so you don't
+need to install anything locally.</p>
+
+<h2>Step 1: Create Tables</h2>
+
+<div class='clock'><canvas id="c1" prop="5"></canvas></div>
+
+<p>We will need the following tables to drive this exercise. Simply copy and paste the following
+statements in the <a href="/console" target="_blank">Web Console</a>.</p>
+
+<pre class="brush: sql">
+create table finditems
+ on select get from 'http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.8.0&GLOBAL-ID={globalid}&SECURITY-APPNAME={apikey}&RESPONSE-DATA-FORMAT={format}&REST-PAYLOAD&keywords={^keywords}&paginationInput.entriesPerPage={limit}&paginationInput.pageNumber={pageNumber}&outputSelector%280%29=SellerInfo&sortOrder={sortOrder}'
+   with aliases format = 'RESPONSE-DATA-FORMAT', json = 'JSON', xml = 'XML'
+   using defaults format = 'XML', globalid = 'EBAY-US', sortorder ='BestMatch',
+   apikey =  "{config.eBay.apikey}", limit = 10, pageNumber = 1
+   resultset 'findItemsByKeywordsResponse.searchResult.item';
+
+create table details
+  on select get from "htttp://open.api.ebay.com/shopping?callname=GetMultipleItems&ItemID={itemId}&responseencoding={format}&appid={^apikey}&version=713&IncludeSelector=ShippingCosts"
+     using defaults format = "JSON", apikey = "{config.eBay.apikey}"
+     resultset 'Item';
+
+create table google.geocode
+  on select get from "http://maps.googleapis.com/maps/api/geocode/{format}?sensor=true&address={^address}"
+    using defaults format = 'json'
+    resultset 'results';
+</pre>
+
+<p>Each of these statements bind the APIs we want to access into ql.io runtime as "tables".
+Subsequently we can use <code>select</code> statements to get the data we need.</p>
+
+<h2>Step 2: Write Selects and Joins</h2>
+
+<div class='clock'><canvas id="c2" prop="5"></canvas></div>
+
+<p>We will build the statement in three steps. The first step is to find items. The second step is
+to get their details including free form locations, and final step is to map free form locations
+into latitude, longitude values. Let us start by first searching for items.</p>
+  
+<pre class="brush: sql">
+select itemId from finditems where keywords='mini cooper';
+</pre>
+  
+<p>This just selects IDs of items. We will then send these items to
+the details using the <code>in</code> clause.</p>
+
+<pre class="brush: sql">
+select ItemID, ViewItemURLForNaturalSearch, Location from details where itemId in 
+  (select itemId from finditems where keywords='mini cooper');
+</pre>
+  
+<p>The next step is to send each <code>Location</code> field to the Google geocoding API to find
+their locations using a join.</p>
+
+<pre class="brush: sql">
+
+select e.ItemID, e.Title, e.ViewItemURLForNaturalSearch, g.geometry.location from details  as e, google.geocode as g where 
+  e.itemId in (select itemId from finditems where keywords = 'mini')      
+  and g.address = e.Location    
+</pre>
+
+<p>Finally, add aliases to selected columns to make the response descriptive.</p>
+
+<span class='try'><a href="/console?s=create%20table%20finditems%0A%20%20%20on%20select%20get%20from%20'http%3A%2F%2Fsvcs.ebay.com%2Fservices%2Fsearch%2FFindingService%2Fv1%3FOPERATION-NAME%3DfindItemsByKeywords%26SERVICE-VERSION%3D1.8.0%26GLOBAL-ID%3D%7Bglobalid%7D%26SECURITY-APPNAME%3D%7Bapikey%7D%26RESPONSE-DATA-FORMAT%3D%7Bformat%7D%26REST-PAYLOAD%26keywords%3D%7B%5Ekeywords%7D%26paginationInput.entriesPerPage%3D%7Blimit%7D%26paginationInput.pageNumber%3D%7BpageNumber%7D%26outputSelector%25280%2529%3DSellerInfo%26sortOrder%3D%7BsortOrder%7D'%0A%20%20%20%20%20with%20aliases%20format%20%3D%20'RESPONSE-DATA-FORMAT'%2C%20json%20%3D%20'JSON'%2C%20xml%20%3D%20'XML'%0A%20%20%20%20%20using%20defaults%20format%20%3D%20'XML'%2C%20globalid%20%3D%20'EBAY-US'%2C%20sortorder%20%3D'BestMatch'%2C%0A%20%20%20%20%20apikey%20%3D%20%20%22%7Bconfig.eBay.apikey%7D%22%2C%20limit%20%3D%2010%2C%20pageNumber%20%3D%201%0A%20%20%20%20%20resultset%20'findItemsByKeywordsResponse.searchResult.item'%3B%0A%20%0Acreate%20table%20details%0A%20%20on%20select%20get%20from%20%22htttp%3A%2F%2Fopen.api.ebay.com%2Fshopping%3Fcallname%3DGetMultipleItems%26ItemID%3D%7BitemId%7D%26responseencoding%3D%7Bformat%7D%26appid%3D%7B%5Eapikey%7D%26version%3D713%26IncludeSelector%3DShippingCosts%22%0A%20%20%20%20%20using%20defaults%20format%20%3D%20%22JSON%22%2C%20apikey%20%3D%20%22%7Bconfig.eBay.apikey%7D%22%0A%20%20%20%20%20resultset%20'Item'%3B%0A%20%0Acreate%20table%20google.geocode%0A%20%20on%20select%20get%20from%20%22http%3A%2F%2Fmaps.googleapis.com%2Fmaps%2Fapi%2Fgeocode%2F%7Bformat%7D%3Fsensor%3Dtrue%26address%3D%7B%5Eaddress%7D%22%0A%20%20%20%20using%20defaults%20format%20%3D%20'json'%0A%20%20%20%20resultset%20'results'%3B%0A%20%20%20%20%0Aselect%20e.ItemID%20as%20id%2C%20e.Title%20as%20title%2C%20e.ViewItemURLForNaturalSearch%20as%20url%2C%20g.geometry.location%20as%20latlng%20from%20details%20%20as%20e%2C%20google.geocode%20as%20g%20where%20%0A%20%20e.itemId%20in%20(select%20itemId%20from%20finditems%20where%20keywords%20%3D%20'mini')%20%20%20%20%20%20%0A%20%20and%20g.address%20%3D%20e.Location">Try me</a></span>
+<pre class="brush: sql">
+select e.ItemID as id, e.Title as title, e.ViewItemURLForNaturalSearch as url, g.geometry.location as latlng
+  from details  as e, google.geocode as g
+  where e.itemId in (select itemId from finditems where keywords = 'mini')
+  and g.address = e.Location
+</pre>
+  
+<p>That's it. The response should like the one below.</p>
+
+<pre id="ebay-goog-resp" class="live-demo-result">
+</pre>
+  
+<script>
+
+    function runQuery(url, t) {
+        $(t).html('Running ...');
+        $.ajax({
+            type: 'GET',
+            cache: false,
+            dataType: 'jsonp',
+            url: url,
+            success: function (data) {
+                try {
+                    var formatter = new JSONFormatter();
+                    $(t)[0].innerHTML = formatter.jsonToHTML(data);
+                    $(t).treeview();
+                }
+                catch(e) {
+                    alert(e);
+                }
+            },
+            error: function (req, status, e) {
+                $(t).html(e);
+                $(t).animate({
+                    opacity: 1.0
+                });
+            }
+
+        });
+        return false;
+    }
+    $(document).ready(function() {
+        var m = 0;
+        for(var i = 0; i < 3; i++) {
+            var diff = Number($('#c' + i).attr('prop') || 5);
+            var c = new CoolClock({
+                canvasId: 'c' + i,
+                showSecondHand: false,
+                displayRadius: 30
+            });
+            c.render(0, m, 0);
+            c.stop();
+            m = m + diff;
+        }
+
+        runQuery("/q?s=create%20table%20finditems%0A%20%20%20on%20select%20get%20from%20'http%3A%2F%2Fsvcs.ebay.com%2Fservices%2Fsearch%2FFindingService%2Fv1%3FOPERATION-NAME%3DfindItemsByKeywords%26SERVICE-VERSION%3D1.8.0%26GLOBAL-ID%3D%7Bglobalid%7D%26SECURITY-APPNAME%3D%7Bapikey%7D%26RESPONSE-DATA-FORMAT%3D%7Bformat%7D%26REST-PAYLOAD%26keywords%3D%7B%5Ekeywords%7D%26paginationInput.entriesPerPage%3D%7Blimit%7D%26paginationInput.pageNumber%3D%7BpageNumber%7D%26outputSelector%25280%2529%3DSellerInfo%26sortOrder%3D%7BsortOrder%7D'%0A%20%20%20%20%20with%20aliases%20format%20%3D%20'RESPONSE-DATA-FORMAT'%2C%20json%20%3D%20'JSON'%2C%20xml%20%3D%20'XML'%0A%20%20%20%20%20using%20defaults%20format%20%3D%20'XML'%2C%20globalid%20%3D%20'EBAY-US'%2C%20sortorder%20%3D'BestMatch'%2C%0A%20%20%20%20%20apikey%20%3D%20%20%22%7Bconfig.eBay.apikey%7D%22%2C%20limit%20%3D%2010%2C%20pageNumber%20%3D%201%0A%20%20%20%20%20resultset%20'findItemsByKeywordsResponse.searchResult.item'%3B%0A%20%0Acreate%20table%20details%0A%20%20on%20select%20get%20from%20%22htttp%3A%2F%2Fopen.api.ebay.com%2Fshopping%3Fcallname%3DGetMultipleItems%26ItemID%3D%7BitemId%7D%26responseencoding%3D%7Bformat%7D%26appid%3D%7B%5Eapikey%7D%26version%3D713%26IncludeSelector%3DShippingCosts%22%0A%20%20%20%20%20using%20defaults%20format%20%3D%20%22JSON%22%2C%20apikey%20%3D%20%22%7Bconfig.eBay.apikey%7D%22%0A%20%20%20%20%20resultset%20'Item'%3B%0A%20%0Acreate%20table%20google.geocode%0A%20%20on%20select%20get%20from%20%22http%3A%2F%2Fmaps.googleapis.com%2Fmaps%2Fapi%2Fgeocode%2F%7Bformat%7D%3Fsensor%3Dtrue%26address%3D%7B%5Eaddress%7D%22%0A%20%20%20%20using%20defaults%20format%20%3D%20'json'%0A%20%20%20%20resultset%20'results'%3B%0A%20%20%20%20%0Aselect%20e.ItemID%20as%20id%2C%20e.Title%20as%20title%2C%20e.ViewItemURLForNaturalSearch%20as%20url%2C%20g.geometry.location%20as%20latlng%20from%20details%20%20as%20e%2C%20google.geocode%20as%20g%20where%20%0A%20%20e.itemId%20in%20(select%20itemId%20from%20finditems%20where%20keywords%20%3D%20'mini')%20%20%20%20%20%20%0A%20%20and%20g.address%20%3D%20e.Location",
+          '#ebay-goog-resp');
+    });
+</script>
+

@@ -9,7 +9,7 @@ language currently has the following capabilities:.</p>
     <li>Map HTTP resources into tables using a <code>create table</code> statement for select,
     update, insert and delete operations.</li>
 
-    <li>Assignment of statements results or objects to variables.</li>
+    <li>Assignment of results of statements or objects to variables.</li>
 
     <li>Variable references in statements and objects.</li>
 
@@ -72,14 +72,14 @@ return select * from items;
 </pre>
   
 <p>Execution of each statement can result in one or more HTTP requests. The table referenced in the
-statement specifies how to make the HTTP request to a resource. A <a
-href="/docs/create-table"><code>create table</code> statement</a> abstracts the following
-information:</p>
+statement specifies how to make the HTTP request to a resource. Tables are declared using <a
+href="/docs/create-table"><code>create table</code></a> statements. A <code>create table</code>
+statement provides the following information:</p>
   
 <ul>
-    <li>A URI or a <a href="/docs/uri-template">URI template</a></li>
+    <li>A URI or a <a href="/docs/uri-template">URI template</a> of the HTTP resource.</li>
 
-    <li>Optionally, default values for tokens in the URI template</li>
+    <li>Optionally, default values for tokens in the URI template.</li>
 
     <li>Optionally, HTTP headers that must be included - these are in addition to some common
     headers like <code>Host</code>, <code>Content-Type</code>, <code>Content-Length</code>
