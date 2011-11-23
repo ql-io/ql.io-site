@@ -26,9 +26,9 @@
     },
 
     {
-        "title" : "Pagination",
-        "note" : "Paginate the above query",
-        "statement" : "select title, itemId, primaryCategory.categoryName, \n     sellingStatus.currentPrice from ebay.finding.items where keywords= 'cooper' and \n     FreeShippingOnly = 'true' and MinPrice = '100' limit 10 offset 20"
+        "title" : "Limit and Offset",
+        "note" : "You can paginate results by using limit and offset clauses.",
+        "statement" : "select id as id, from_user_name as user, text as text from twitter.search where q = &quot;ql.io&quot; limit 5"
     },
     {
         "title" : "Nested Selection",
