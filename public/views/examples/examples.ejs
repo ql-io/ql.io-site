@@ -72,7 +72,7 @@ the outcome of the first.</p>
 <pre class="brush: sql">
 select e.ItemID as id, e.Title as title, e.ViewItemURLForNaturalSearch as url, g.geometry.location as latlng
   from details  as e, google.geocode as g
-  where e.itemId in (select itemId from finditems where keywords = "iPad"
+  where e.itemId in (select itemId from finditems where keywords = "iPad")
         and g.address = e.Location
 </pre>
 <h2>JSON</h2>

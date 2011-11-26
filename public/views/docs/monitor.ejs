@@ -1,6 +1,5 @@
 <div class="breadcrumb"><a href="/docs">/docs</a></div>
 
-
 <h1>Runtime Monitoring</h1>
   
 <p>When you lauch ql.io from the start script, ql.io server starts listening on two ports:
@@ -12,7 +11,12 @@ interface.</p>
 <p>Go to <a href="http://localhost:3001">http://localhost:3001</a> to see the monitoring interface.
 Check <a href="http://localhost:3001/logs">http://localhost:3001/logs</a> to see all log
 files.</p>
+
+<h2>Health Checks</h2>
   
+<p>Send a GET request to <code>http://{host}:{port}:3000/ecv</code>.</p>
+
+
 <blockquote>
     This part of ql.io is still under development.
 </blockquote>

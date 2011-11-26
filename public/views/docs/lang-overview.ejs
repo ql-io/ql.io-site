@@ -11,9 +11,9 @@ capabilities:</p>
     <li>Mapping HTTP resources into tables using a <code>create table</code> statement for select,
     update, insert and delete operations</li>
 
-    <li>JSON object</li>
+    <li>JSON objects</li>
 
-    <li>Assign of results of statements or objects to variables</li>
+    <li>Assignment of results of statements or objects to variables</li>
 
     <li>Projections of assignments</li>
 
@@ -79,13 +79,14 @@ return select * from items;
   
 <p>Selections and projects are not limited to tables - you can apply them to objects as well.</p>
 
+<span class="try"><a href="/console?s=persons%20%3D%20%5B%0A%20%20%7B%22fname%22%3A%20%22John%22%2C%22lname%22%3A%20%22Doe%22%2C%20%22address%22%3A%20%7B%22city%22%3A%20%22San%20Francisco%22%7D%7D%2C%0A%20%20%7B%22fname%22%3A%20%22Jane%22%2C%22lname%22%3A%20%22Doe%22%2C%20%22address%22%3A%20%7B%22city%22%3A%20%22Bend%22%7D%7D%0A%5D%3B%0Areturn%20select%20woeid%20as%20woeid%2C%20centroid%20as%20centroid%20from%20yahoo.woe%20%0A%20%20where%20loc%20in%20(%22%7Bpersons.%24..city%7D%22)%3B">try me</a></span>
 <pre class="brush: sql">
 persons = [
-  "person": {
-      "fname": "John",
-      "lname": "Jane"
-
-
+  {"fname": "John","lname": "Doe", "address": {"city": "San Francisco"}},
+  {"fname": "Jane","lname": "Doe", "address": {"city": "Bend"}}
+];
+return select woeid as woeid, centroid as centroid from yahoo.woe where
+  loc in ("{persons.$..city}");
 </pre>
   
 <p>Execution of each statement can result in one or more HTTP requests. The table referenced in the
@@ -170,9 +171,9 @@ insert into bitly.shorten (longUrl) values ('http://ql.io/docs')
 
 <p>See <a href="/inserts">insert</a> for complete syntax and examples.</p>
 
-<p>Statements can depend on other statements by way of using variable references. A variable
-reference is a JSONPath-style token in curly braces (<code>{token}</code>) in quoted (double or
-single) strings. </p>
+<p>Statements can depend on other statements by way of using <a href="/docs/variable-ref">variable
+references</a>. A variable reference is a JSONPath-style token in curly braces
+(<code>{token}</code>) in quoted (double or single) strings. </p>
   
 <pre class="brush: sql">
 name = "Bob";

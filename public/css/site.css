@@ -29,9 +29,10 @@ a.main-navbar {
 }
 
 .about {
+    margin: 2em 15%;
+    width: 70%;
     font-size: large;
     line-height: 1.5;
-    margin: 2em;
     text-align: center
 }
 
