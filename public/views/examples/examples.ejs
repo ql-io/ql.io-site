@@ -1,51 +1,119 @@
-<script type="text/javascript">
-    function showConsole(q, t) {
-        window.location = "/console?s=" + encodeURIComponent(q);
-        return false;
-    }
-
-    var formatter = new JSONFormatter();
-    function runQuery(q, t) {
-        var url = "/q?s=" + encodeURIComponent(q);
-        $(t).show();
-        $(t)[0].innerHTML = 'Running ...';
-        $.ajax({
-            type: 'GET',
-            cache: false,
-            dataType: 'jsonp',
-            url: url,
-            success: function (data) {
-                try {
-                    $(t).attr('class', 'results tree json').html(formatter.jsonToHTML(data));
-                    $(t).treeview();
-                    $(t).animate({
-                        opacity: 1.0
-                    });
-                }
-                catch(e) {
-                    alert(e);
-                }
-            },
-            error: function (req, status, e) {
-                $(t)[0].innerHTML = e;
-                $(t).animate({
-                    opacity: 1.0
-                });
-            }
-
-        });
-        return false;
-    }
-
-
-</script>
-
 <h1>Examples</h1>
 
-<p>Below are some examples of statements that you can try. You can run them via some JSONP magic on this page, or open each query in the console.</p>
+<h2>List Tables</h2>
+  
+<p>This statement lists all statically declared tables.</p>
 
-<% if(examples) { %>
-<%- partial('example', examples) %>
-<% } %>
+<pre class="brush: sql">
+    show tables
+</pre>
 
-</div>
+<h2>Describe a Table</h2>
+
+<p>Describe a table. Comments can be Markdown formatted.</p>
+
+<pre class="brush: sql">
+    describe eBay.ProductReviews
+</pre>
+
+<h2>Select with Where</h2>
+  
+<p>The conditions supplied in the <code>where</code> clause become inputs to HTTP requests.</p>
+
+<pre class="brush: sql">
+    select * from google.geocode where address = "bora bora"
+</pre>
+
+<h2>Columns Clause for Projections</h2>
+
+<p>You can trim down the response by listing fields in the columns clause. The response will be an
+array of of array of fields selected. Column names can use <a
+href="github.com/s3u/JSONPath">JSONPath</a> format.</p>
+
+<pre class="brush: sql">
+select ProductID[0].Value, DetailsURL, StockPhotoURL
+  from eBay.FindProducts where QueryKeywords="mini cooper"
+</pre>    
+  
+<h2>Columns Aliases</h2>
+  
+<p>You can format the row in the results to be an object by using column aliases</p>
+
+<pre class="brush: sql">
+select ProductID[0].Value as id, DetailsURL as details, StockPhotoURL as photo
+  from eBay.FindProducts where QueryKeywords="mini cooper"
+</pre>
+
+<h2>Limit and Offset</h2>
+
+<p>You can paginate results by using limit and offset clauses.</p>
+  
+<pre class="brush: sql">
+select id as id, from_user_name as user, text as text
+  from twitter.search where q = "ql.io" limit 5
+</pre>
+
+<h2>Dependencies</h2>
+
+<p>In this example, the second statement depends on the first statement.</p>  
+  
+<pre class='brush: sql'>
+minis = select * from finditems where keywords = 'mini cooper' limit 10;
+return select PictureURL from details where itemId = "{minis.itemId}";
+</pre>
+  
+<p>These statements will be executed in sequence due to the dependency of the second statement on
+the outcome of the first.</p>
+
+<h2>Nested Selection and Joins</h2>
+
+<p>See <a href='/docs/quickerstart'>Even Quicker Start Guide</a> to construct this in steps.</p>
+
+<pre class="brush: sql">
+select e.ItemID as id, e.Title as title, e.ViewItemURLForNaturalSearch as url, g.geometry.location as latlng
+  from details  as e, google.geocode as g
+  where e.itemId in (select itemId from finditems where keywords = "iPad"
+        and g.address = e.Location
+</pre>
+<h2>JSON</h2>
+  
+<p>You can use JSON objects on the right hand side of assignments and use it for selections.</p>
+
+<pre class='brush: sql'>
+foo = {
+  "fname" : "Hello",
+  "lname" : "World",
+  "place" : "Sammamish, WA"};
+data = select fname, lname, place from foo;
+return {
+  "data" :  "{data}"
+};
+</pre>
+  
+<p>In this example, the value <code>foo</code> is a JSON object. Here is another example that uses
+a JSONPath based selector.</p>
+  
+<pre class='brush: sql'>
+    people = [
+      {"fname" : "John", "lname" : "Doe"},
+      {"fname" : "Jane", "lname" : "Doe"},
+      {"fname" : "Joe", "lname" : "Developer"}];
+    return "{people.$..fname}"
+</pre>
+
+<p>The selector in the <code>return</code> statement looks for all <code>fname</code> fields.</p>
+  
+<h2>Insert</h2>
+
+<p>This examples uses <code>insert into</code> to shorten a URL via bitly APIs.</p>
+
+<pre class='brush: sql'>
+insert into bitly.shorten (longUrl) values ('http://ql.io/docs')
+</pre>
+
+<p>You can then use a <code>select</code> to get the long form.</p>
+
+<pre class='brush: sql'>
+    select long_url from bitly.shorten where shortUrl = 'http://bit.ly/uZIvmY'
+</pre>
+

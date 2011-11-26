@@ -17,53 +17,33 @@
     {
         "title" :  "Columns Clause",
         "note" : "Select only some fields from response. The response will be an array of of array of fields selected.",
-        "statement" : "select ProductID[0].Value, DetailsURL, StockPhotoURL from eBay.FindProducts where QueryKeywords=&quot;mini cooper&quot;"
+        "statement" : "select ProductID[0].Value, DetailsURL, StockPhotoURL \n  from eBay.FindProducts where QueryKeywords=&quot;mini cooper&quot;"
     },
     {
         "title" :  "Columns Clause with Aliases",
         "note" : "You can change the shape of the row in the response to an object using column aliases.",
-        "statement" : "select ProductID[0].Value as id, DetailsURL as details, StockPhotoURL as photo from eBay.FindProducts where QueryKeywords=&quot;mini cooper&quot;"
+        "statement" : "select ProductID[0].Value as id, DetailsURL as details, StockPhotoURL as photo \n  from eBay.FindProducts where QueryKeywords=&quot;mini cooper&quot;"
     },
 
     {
         "title" : "Limit and Offset",
         "note" : "You can paginate results by using limit and offset clauses.",
-        "statement" : "select id as id, from_user_name as user, text as text from twitter.search where q = &quot;ql.io&quot; limit 5"
+        "statement" : "select id as id, from_user_name as user, text as text \n  from twitter.search where q = &quot;ql.io&quot; limit 5"
     },
     {
-        "title" : "Nested Selection",
-        "note" : "This query first finds items from findItemsByKeywords service and then gets their details from Shopping API's GetMultipleItems service all in one go. The engine takes care of coordinating concurrent IO to.",
-        "statement" : "select e.Title, e.ItemID from ebay.shopping.item as e where itemId in \n     (select itemId from ebay.finding.items where keywords = 'mini')"
+        "title" : "Nested Selection and Joins",
+        "note" : "This query first finds items and then gets their details. See <a href='/docs/quickerstart'>Even Quicker Start Guide</a>.",
+        "statement" : "select e.ItemID as id, e.Title as title, e.ViewItemURLForNaturalSearch as url, g.geometry.location as latlng\n  from details  as e, google.geocode as g\n  where e.itemId in (select itemId from finditems where keywords = &quot;mini&quot;) and g.address = e.Location"
     },
     {
-        "title" : "Table Aliases",
-        "note" : "You can also use aliases for tables.",
-        "statement" : "select e.Title, e.ItemID from ebay.shopping.item as e where e.itemId in \n     (select itemId from ebay.finding.items where keywords = 'mini')"
-    },
-    {
-        "title" :  "Column Aliases",
-        "note" : "You can shape the response by using column aliases.",
-        "statement" : "select title as title, itemId as id, primaryCategory.categoryName as cat, \n     sellingStatus.currentPrice as price from ebay.finding.items where keywords='cooper'"
-    },
-    {
-        "title" : "A More Complex Nested Selection",
-        "note" :  "Here is another example that finds IDs and titles of elements given a category ID. In this example, the category ID is found by example - i.e., by selecting the category Id of one item from findItemsByKeywords service given a keyword. It then restricts the location of items by zip code and distance.",
-        "statement" :  "select itemId, title from ebay.finding.category where categoryId in \n     (select primaryCategory.categoryId from ebay.finding.items where keywords='ipad' limit 1) \n     and zip = '98074' and distance = '10'"
-    },
-    {
-        "title": " Join",
-        "note" :  "Here is a complex join. This join combines data from three different sources forking several HTTP requests and joining on responses when the services respond.",
-        "statement" : "select e.Title, e.ItemID, g.geometry.location from ebay.shopping.item as e, google.geocode as g where \n      e.itemId in (select itemId from ebay.finding.items where keywords = 'mini') \n     and g.address = e.Location"
-    },
-    {
-        "title": " Join with column aliases",
-        "note" :  "Here is the same join with column aliases.",
-        "statement" : "select e.Title as title, e.ItemID as id, g.geometry.location as location from ebay.shopping.item as e, google.geocode as g where \n      e.itemId in (select itemId from ebay.finding.items where keywords = 'mini') \n     and g.address = e.Location"
-    },
-    {
-        "title" : "ql Script",
-        "note" : "This example shows how to select data from a JSON object. You cal always mix and match selects from remote resources and JSON objects.",
+        "title" : "JSON",
+        "note" : "You can mix and match selects from HTTP APIs and JSON objects.",
         "statement" : "foo = {\n  \"fname\" : \"Hello\",\n  \"lname\" : \"World\",\n  \"place\" : \"Sammamish, WA\"};\ndata = select fname, lname, place from foo;\nreturn {\n\"data\" :  \"{data}\"\n};"
+    },
+    {
+        "title" : "JSONPath",
+        "note" : "Here is another way",
+        "statement" : "people = [\n  {&quot;fname&quot; : &quot;John&quot;, &quot;lname&quot; : &quot;Doe&quot;},\n  {&quot;fname&quot; : &quot;Jane&quot;, &quot;lname&quot; : &quot;Doe&quot;},\n  {&quot;fname&quot; : &quot;Joe&quot;, &quot;lname&quot; : &quot;Developer&quot;}];\nreturn &quot;{people.$..fname}&quot;"
     },
     {
         "title": "Scripting as an alternative to join",

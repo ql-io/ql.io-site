@@ -7,10 +7,6 @@
 <% } %>
 
 <div>
-   <% if(example.inline === true || example.inline === undefined) { %>
-    <a class="go" href="#" onclick="return runQuery('<%=example.statement%>', '#<%=id%>-results');">Run</a> |
-   <% } %>
-    <a class="go" href="#" onclick="return showConsole('<%=example.statement%>');">View in Console</a>
+    <span class="try"><a href="/console?s=<%=encodeURIComponent(example.statement)%>" target="_blank">try me</a></span>
     <pre class="brush: sql" id="<%=id%>"><%=example.statement%></pre>
 </div>
-<pre class="results" id="<%=id%>-results"></pre>

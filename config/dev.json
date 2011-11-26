@@ -7,5 +7,9 @@
     },
     "google": {
         "apikey": "AIzaSyCaq-Rwm-VoBHVAT8a3CPNr-Bgh-8HbbbA"
+    },
+    "bitly": {
+        "login" : "o_2oqg3iledp",
+        "apikey" : "R_dae682c9cd43320f81df5aa1a61e9f4e"
     }
 }

@@ -3,24 +3,28 @@
 <div class='clock'><canvas id="c0"></canvas></div>
 
 <p>In this guide, we will build an API to drive google maps and eBay item search like it is 2005!
-<em>The outcome of this exercise is going to be a single <code>select</code> statement</em>. Our
-task is to search for items using eBay's <a
+<em>The outcome of this exercise is going to be a single <code>select</code> statement</em> that
+makes <em><code>12</code> HTTP requests</em>. Our task is to search for items using eBay's <a
 href="http://developer.ebay.com/devzone/finding/Concepts/FindingAPIGuide.html">Finding API</a>, get
-their details using another API, and get then their geo-locations using Google's Map APIs. </p>
+their details using the <a
+href="http://developer.ebay.com/devzone/shopping/docs/callref/GetMultipleItems.html">GetMultipleItems
+API</a>, and get then their geo-locations using Google's <a
+href="http://code.google.com/apis/maps/documentation/geocoding/">Geocoding API</a>. </p>
 
 <p>We need to make the following API calls for this:</p>
 
 <ul>
     <li>Call the <a
     href="http://developer.ebay.com/devzone/finding/Concepts/FindingAPIGuide.html">Finding API</a>
-    with a keyword to get item IDs.</li>
+    with a keyword to get <code>10</code> item IDs (<code>1</code> HTTP request)</li>
 
     <li>Call the <a
     href="http://developer.ebay.com/devzone/shopping/docs/callref/GetMultipleItems.html">GetMultipleItems
-    API</a> to find the details all items found.</li>
+    API</a> to find the details all items found (<code>1</code> HTTP request)</li>
 
     <li>Call the <a href="http://code.google.com/apis/maps/documentation/geocoding/">Geocoding
-    API</a> for each item found to find their geo locations.</li>
+    API</a> for each item found to find its geo locations (<code>10</code> HTTP requests - one per
+    address).</li>
 </ul>
   
 <p>For this guide, we will use the <a href="/console">Web Console</a> on this site and so you don't
@@ -67,16 +71,16 @@ into latitude, longitude values. Let us start by first searching for items.</p>
 select itemId from finditems where keywords='mini cooper';
 </pre>
   
-<p>This just selects IDs of items. We will then send these items to
-the details using the <code>in</code> clause.</p>
+<p>This just selects IDs of items. We will then send these IDs to the details table using the
+<code>in</code> clause.</p>
 
 <pre class="brush: sql">
 select ItemID, ViewItemURLForNaturalSearch, Location from details where itemId in 
   (select itemId from finditems where keywords='mini cooper');
 </pre>
   
-<p>The next step is to send each <code>Location</code> field to the Google geocoding API to find
-their locations using a join.</p>
+<p>The next step is to send each <code>Location</code> field from the response to the Google
+geocoding API to find their locations using a join.</p>
 
 <pre class="brush: sql">
 

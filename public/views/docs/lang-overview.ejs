@@ -2,20 +2,26 @@
 
 <h1>Language Overview</h1>
   
-<p>ql.io's core consists of a domain-specific procedural-style language based on SQL and JSON. This
-language currently has the following capabilities:.</p>
+<p>ql.io's core consists of a domain-specific procedural-style language based on SQL and JSON. The
+language does not conform to SQL, but it borrows several concepts from it to keep the language
+familiar, and extends it to apply to HTTP APIs This language currently has the following
+capabilities:</p>
 
 <ul>
-    <li>Map HTTP resources into tables using a <code>create table</code> statement for select,
-    update, insert and delete operations.</li>
+    <li>Mapping HTTP resources into tables using a <code>create table</code> statement for select,
+    update, insert and delete operations</li>
 
-    <li>Assignment of results of statements or objects to variables.</li>
+    <li>JSON object</li>
 
-    <li>Variable references in statements and objects.</li>
+    <li>Assign of results of statements or objects to variables</li>
 
-    <li>Return statements.</li>
+    <li>Projections of assignments</li>
 
-    <li>Routes to execute stored scripts.</li>
+    <li>Variable references in statements and objects</li>
+
+    <li>Return statements</li>
+
+    <li>Routes to execute stored scripts</li>
 </ul>
 
 <p>A ql script is a set of statements and comments. Statements must be declared in the order of
@@ -40,8 +46,8 @@ the return value of the script is implicit.</p>
 select * from items
 </pre>
   
-<p>Statements can always be split into multiple lines. Multi-statement scripts must always end with
-a <code>return</code> statement.</p>
+<p>Statements can always be split into multiple lines by using carriage return. Multi-statement
+scripts must always end with a <code>return</code> statement.</p>
   
 <p>Assignment of statements and objects allow later statements in the script to refer to those
 variables.</p>
@@ -69,6 +75,17 @@ simplify the above script to the following single line script.</p>
 
 <pre class="brush: sql">
 return select * from items;
+</pre>
+  
+<p>Selections and projects are not limited to tables - you can apply them to objects as well.</p>
+
+<pre class="brush: sql">
+persons = [
+  "person": {
+      "fname": "John",
+      "lname": "Jane"
+
+
 </pre>
   
 <p>Execution of each statement can result in one or more HTTP requests. The table referenced in the
