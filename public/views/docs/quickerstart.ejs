@@ -1,39 +1,40 @@
 <h1>Even Quicker Start</h1>
 
-<p>In this guide, we will build an API to drive google maps and eBay item search like it is 2005!
-<em>The outcome of this exercise will be a single <code>select</code> statement</em> that
-makes <em><code>12</code> HTTP requests</em>. Our task is to search for items using eBay's <a
+<p>The goal of this guide is to search for items using eBay's <a
 href="http://developer.ebay.com/devzone/finding/Concepts/FindingAPIGuide.html">Finding API</a>, get
 their details using the <a
 href="http://developer.ebay.com/devzone/shopping/docs/callref/GetMultipleItems.html">GetMultipleItems
-API</a>, and get then their geo-locations using Google's <a
-href="http://code.google.com/apis/maps/documentation/geocoding/">Geocoding API</a>. </p>
+API</a>, and then find their geo-locations using Google's <a
+href="http://code.google.com/apis/maps/documentation/geocoding/">Geocoding API</a> all with a single
+<code>select</code> statement</em> that makes <em><code>12</code> HTTP requests</em>. </p>
 
-<p>We need to make the following API calls for this:</p>
+<p>Here is the list of the requests made in this exercise:</p>
 
-<ul>
-    <li>Call the <a
+<ol>
+    <li>Send a request to the <a
     href="http://developer.ebay.com/devzone/finding/Concepts/FindingAPIGuide.html">Finding API</a>
     with a keyword to get <code>10</code> item IDs (<code>1</code> HTTP request)</li>
 
-    <li>Call the <a
+    <li>Send a request to the <a
     href="http://developer.ebay.com/devzone/shopping/docs/callref/GetMultipleItems.html">GetMultipleItems
-    API</a> to find the details all items found (<code>1</code> HTTP request)</li>
+    API</a> to find the details of all items found in the first step (<code>1</code> HTTP
+    request)</li>
 
-    <li>Call the <a href="http://code.google.com/apis/maps/documentation/geocoding/">Geocoding
-    API</a> for each item found to find its geo locations (<code>10</code> HTTP requests - one per
+    <li>For each item found, send a request to the <a
+    href="http://code.google.com/apis/maps/documentation/geocoding/">Geocoding API</a> with the
+    text-form location found in the second step (<code>10</code> HTTP requests - one per
     address).</li>
-</ul>
+</ol>
   
-<p>For this guide, we will use the <a href="/console">Web Console</a> on this site and so you don't
-need to install anything locally.</p>
+<p>The steps below use the <a href="/console">Web Console</a> on this site and no installation is
+necessary.</p>
 
 <h2>Step 1: Create Tables</h2>
 
-<p>We will need the following tables to drive this exercise. Simply copy and paste the following
-statements in the <a href="/console" target="_blank">Web Console</a>.</p>
+<p>Copy and paste the following statements in the <a href="/console" target="_blank">Web
+Console</a> to create tables for the above APIs.</p>
 
-<pre class="brush: sql">
+<pre class="brush: sql; toolbar: false;">
 create table finditems
  on select get from 'http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.8.0&GLOBAL-ID={globalid}&SECURITY-APPNAME={apikey}&RESPONSE-DATA-FORMAT={format}&REST-PAYLOAD&keywords={^keywords}&paginationInput.entriesPerPage={limit}&paginationInput.pageNumber={pageNumber}&outputSelector%280%29=SellerInfo&sortOrder={sortOrder}'
    with aliases format = 'RESPONSE-DATA-FORMAT', json = 'JSON', xml = 'XML'
@@ -52,23 +53,31 @@ create table google.geocode
     resultset 'results';
 </pre>
 
-<p>Each of these statements bind the APIs we want to access into ql.io runtime as "tables".
-Subsequently we can use <code>select</code> statements to get the data we need.</p>
+<p>Each of these statements bind the above APIs into ql.io runtime as "tables".</p>
 
 <h2>Step 2: Write Selects and Joins</h2>
 
-<p>We will build the statement in three steps. The first step is to find items. The second step is
-to get their details including free form locations, and final step is to map free form locations
-into latitude, longitude values. Let us start by first searching for items.</p>
-  
-<pre class="brush: sql">
+<p>This exercise requires three steps. </p>
+
+<ol>
+    <li>Find items.</li>
+
+    <li>Get the details, including free form location, of items found.</li>
+
+    <li>Map free form locations into latitude, longitude values.</li>
+</ol>
+
+<p>Copy and paste the following statement below the <code>create table</code> statements in the
+Web Console.</p>
+
+<pre class="brush: sql; toolbar: false;">
 select itemId from finditems where keywords='mini cooper';
 </pre>
   
-<p>This just selects IDs of items. We will then send these IDs to the details table using the
-<code>in</code> clause.</p>
+<p>This just selects IDs of items. In order to send these IDs to the details table, replace the
+above <code>select</code> statement with the one below.</p>
 
-<pre class="brush: sql">
+<pre class="brush: sql; toolbar: false;">
 select ItemID, ViewItemURLForNaturalSearch, Location from details where itemId in 
   (select itemId from finditems where keywords='mini cooper');
 </pre>
@@ -76,7 +85,7 @@ select ItemID, ViewItemURLForNaturalSearch, Location from details where itemId i
 <p>The next step is to send each <code>Location</code> field from the response to the Google
 geocoding API to find their locations using a join.</p>
 
-<pre class="brush: sql">
+<pre class="brush: sql; toolbar: false;">
 
 select e.ItemID, e.Title, e.ViewItemURLForNaturalSearch, g.geometry.location from details  as e, google.geocode as g where 
   e.itemId in (select itemId from finditems where keywords = 'mini')      
@@ -86,14 +95,14 @@ select e.ItemID, e.Title, e.ViewItemURLForNaturalSearch, g.geometry.location fro
 <p>Finally, add aliases to selected columns to make the response descriptive.</p>
 
 <span class='try'><a href="/console?s=select%20e.ItemID%20as%20id%2C%20e.Title%20as%20title%2C%20e.ViewItemURLForNaturalSearch%20as%20url%2C%20g.geometry.location%20as%20latlng%0A%20%20from%20details%20%20as%20e%2C%20google.geocode%20as%20g%0A%20%20where%20e.itemId%20in%20(select%20itemId%20from%20finditems%20where%20keywords%20%3D%20'mini')%0A%20%20and%20g.address%20%3D%20e.Location">Try me</a></span>
-<pre class="brush: sql">
+<pre class="brush: sql; toolbar: false;">
 select e.ItemID as id, e.Title as title, e.ViewItemURLForNaturalSearch as url, g.geometry.location as latlng
   from details  as e, google.geocode as g
   where e.itemId in (select itemId from finditems where keywords = 'mini')
   and g.address = e.Location
 </pre>
   
-<p>That's it. The response should like the one below.</p>
+<p>This single statement gives the data for this use case as shown below.</p>
 
 <pre id="ebay-goog-resp" class="live-demo-result">
 </pre>

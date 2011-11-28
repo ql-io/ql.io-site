@@ -28,14 +28,15 @@ headers, or body.</p>
 
 <h2>Columns Clause for Projections</h2>
 
-<p>Columns clause is used to project the response to just the desired fields. The result of a
-<code>select</code> with columns clause is an array of of array of fields selected. Column names
-can use <a href="github.com/s3u/JSONPath">JSONPath</a> format.</p>
+<p>Columns clause is used to project the response to just the desired fields. </p>
 
 <pre class="brush: sql toolbar: false;">
 select ProductID[0].Value, DetailsURL, StockPhotoURL
   from eBay.FindProducts where QueryKeywords="mini cooper"
 </pre>    
+  
+<p>The result of a <code>select</code> with columns clause is an array of of array of fields
+selected. Column names can use <a href="github.com/s3u/JSONPath">JSONPath</a> format.</p>
   
 <h2>Columns Aliases</h2>
   

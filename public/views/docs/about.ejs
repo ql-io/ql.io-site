@@ -1,4 +1,4 @@
-<h1>About</h1>
+<h1>About ql.io</h1>
 
 <h2>A SQL and JSON inspired DSL</h2>
 
@@ -10,9 +10,9 @@ href="http://developer.yahoo.com/yql/">YQL</a>, or <a href="http://www.unqlspec.
 examples.</p>
 
 <p>ql.io combines SQL, JSON, and a few procedural style constructs into a compact <a
-href="/docs/reference/ql">DSL</a> &#8212; to make HTTP requests to retrieve data, to perform joins
-between API responses, to project responses, and even calls in loop. But remember - ql.io's
-scripting language is not SQL - it is SQL inspired.</p>
+href="/docs/reference/ql">DSL</a>. Scripts written in this language can make HTTP requests to
+retrieve data, perform joins between API responses, project responses, or even make requests in
+a loop. But note that <em>ql.io's scripting language is not SQL - it is SQL inspired</em>.</p>
 
 <h3>Orchestration</h3>
 
@@ -20,11 +20,11 @@ scripting language is not SQL - it is SQL inspired.</p>
 often complicated as client apps need to worry about order of requests, inter-dependencies, error
 handling, and parallelization to reduce overall latency.</p>
 
-<p>ql.io's scripts are procedural in appearance - but are executed out of order based on
-dependencies scheduling some requests in parallel and some in series based on inter-dependencies
-between statements.</p>
+<p>ql.io's scripts are procedural in appearance but are executed out of order based on dependencies.
+Some statements may be scheduled in parallel and some in series based on inter-dependencies between
+them.</p>
 
-<h3>Latency and Bandwidth Use</h3>
+<h3>Consumer Centric Interfaces</h3>
 
 <p>APIs are designed for reuse, and hence they cater to the common denominator. Getting new fields
 added, optimizing responses, or combining multiple requests into one involve drawn out negotiations

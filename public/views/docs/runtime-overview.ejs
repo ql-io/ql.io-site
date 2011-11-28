@@ -1,5 +1,34 @@
 <h1>Runtime Overview</h1>
 
-<p>See the diagram below for an overview of ql.io's runtime.</p>
+<p>ql.io's runtime consists of several node.js modules. The modules can be combined in various ways
+to compose an HTTP server to act as a gateway, or as an embedded module in node.js
+applications. The following are the key modules:</p>
+  
+<ul>
+    <li><a href="https://github.com/ql-io/ql.io/tree/master/modules/compiler">ql.io-compiler</a>:
+    This module uses a <a href="http://pegjs.majda.cz/">PEG.js</a> based parser-generator to
+    validate a given script for the syntax, and to produce a semantic model. The semantic model is
+    an array of objects each of which describe how to process a given statement and
+    inter-dependencies between statements. This module caches the semantic model after a successful
+    compilation.</li>
 
+    <li><a href="https://github.com/ql-io/ql.io/tree/master/modules/engine">ql.io-engine</a>: Given
+    a script, this module uses ql.io-compiler to compile the script into a semantic model, executes
+    the script based on the semantic model, and calls the completion callback with the results. This
+    module takes tables, routes, and configuration as optional inputs. This module is designed to be
+    embedded in other node.js applications. See the <a href="/docs/engine">Engine API</a> for
+    details.</li>
+
+    <li><a href="https://github.com/ql-io/ql.io/tree/master/modules/console">ql.io-console</a>:
+    This module wraps ql.io-engine to offer an HTTP interface to ql.io. This interface exposes the
+    Web Console (<code>/console</code>), an end point to execute scripts (<code>/q</code>) and a
+    WebSocket interface to execute scripts on persistent connections.</li>
+
+    <li><a href="https://github.com/ql-io/ql.io/tree/master/modules/app">ql.io-app</a>: This module
+    wraps ql.io-console and start scripts to launch ql.io as a stand-alone gateway.</li>
+</ul>
+
+<p>The diagram below shows the runtime flow of script execution.</p>
+  
 <img src="/images/docs/runtime-overview.png"/>
+

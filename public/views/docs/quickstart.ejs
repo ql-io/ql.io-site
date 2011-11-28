@@ -1,16 +1,16 @@
 <h1>Quick Start Guide</h1>
 
-<p>In this guide, our goal is to build a solution for the following use case in under 30
+<p>The goal of the exercise below is to build a solution to the following use case in under 30
 minutes.</p>
 
 <blockquote>
 
-<em>Given a keyword, find products. For each product found, get the title, a URL that can give
-details, total number of reviews and ratings.</em>
+<em>Given a keyword &quot;macbook pro&quot;, find up to <code>5</code> products. For each product
+found, get the title, a URL that can give details, total number of reviews and ratings.</em>
 
 </blockquote>
 
-<p>We have three APIs that can give this data:</p>
+<p>There are three HTTP APIs that provide the data:</p>
 
 <ol>
 
@@ -18,47 +18,44 @@ details, total number of reviews and ratings.</em>
 href="http://developer.eBay.com/devzone/shopping/docs/callref/FindProducts.html">FindProducts</a>
 API that takes a keyword and returns up to a specified maximum number of products.</li>
 
-<li>The same FindProducts API that takes a <code>ProductID</code> to return product details that
-include title, URL for details and total number of reviews among with several details.</li>
+<li>The same <a
+href="http://developer.eBay.com/devzone/shopping/docs/callref/FindProducts.html">FindProducts</a>
+API that takes a <code>ProductID</code> to return product details that include title, URL for
+details and total number of reviews among with several details.</li>
 
 <li><a
 href="http://developer.eBay.com/devzone/shopping/docs/callref/FindReviewsAndGuides.html">FindReviewsAndGuides</a>
 API that takes a <code>ProductID</code> to return ratings and guides.</li> </ol>
 
-<p>Imagine that we are interested in getting a maximum of <code>5</code> products for the keyword
-&quot;macbook pro&quot;. For getting title, details URL, total number of reviews and ratings, we
-will need to do the following:</p>
+<p>Retrieving title, details URL, total number of reviews and ratings takes the following:</p>
 
 <ol>
-    <li>Call the FindProducts API with with <code>QueryKeywords=macbook pro</code> and
-    <code>MaxEntries=5</code></li>
+    <li>Send a request to the FindProducts API with <code>QueryKeywords=macbook pro</code> and
+    <code>MaxEntries=5</code>.</li>
 
-    <li>For each product ID found, call the FindProducts API with
+    <li>For each product ID found, send a request to the FindProducts API with
     <code>ProductID.Value={id}</code>.</li>
 
-    <li>For each product ID found, call the FindReviewsAndGuides API with
+    <li>For each product ID found, send a request to the FindReviewsAndGuides API with
     <code>ProductID.Value={id}</code>.</li>
 </ol>
 
-<p>In order maximize performance and throughput, we want to fire up the second and third steps above
-in parallel using async IO - this means that we need to orchestrate <code>11</code> HTTP requests.
-Why <code>11</code>? The second and third APIs take only one product ID, and so we need to call
-them once per product ID.</p>
+<p>In order maximize performance and throughput, the second and third steps above must be in done in
+parallel - this means an orchestration of <code>11</code> HTTP requests. Why <code>11</code>? The
+second and third APIs take only one product ID, and hence must be requested once per product
+ID.</p>
 
 <blockquote> <em>Having bulk APIs for the second and third APIs would help, but the point of ql.io
 is to make consumers accomplish their tasks without waiting for API developers customize/optimize their
 interfaces for each and every consumer.</em> </blockquote>
 
-<h2>Step 0: Prequisites</h2>
+<h2>Step 0: Prerequisites</h2>
 
-
-<p>You will need <a href="http://nodejs.org">Node</a> version 0.4.10-0.4.12 and <a
-href='http://npmjs.org'>npm</a> installed on a Mac or Ubuntu before you get started. We've not tried
-yet on other variants of Linux/Unix but there is very little that prevents you from running ql.io on
-other operating systems. On Ubuntu, make sure to install <code>expat</code> and
+<p>Install <a href="http://nodejs.org">Node</a> version 0.4.10-0.4.12 and <a
+href='http://npmjs.org'>npm</a> on a Mac or Ubuntu. On Ubuntu, install <code>expat</code> and
 <code>libexpat1-dev</code>.</p>
 
-<pre class="brush: bash toolbar: false;">
+<pre class="brush: bash; toolbar: false;">
 sudo apt-get install expat libexpat1-dev
 </pre>
   
@@ -96,12 +93,12 @@ show tables
 
 <h2>Step 2: Create Tables</h2>
 
-<p>ql.io uses a SQL+JSON based <a href="/docs/reference/ql">DSL</a> for sending HTTP requests to
-APIs. In this DSL, a &quot;table&quot; is a &quot;consumer-centric&quot; interface to an API. For
-our use case, we need to setup three tables. We use <code>create table</code> statements for this
-purpose.</p>
+<p>ql.io uses a SQL and JSON inspired <a href="/docs/reference/ql">language</a> for sending HTTP
+requests to APIs. In this DSL, a &quot;table&quot; is a &quot;consumer-centric&quot; interface to an
+API. For this use case, use the following <code>create table</code> statements to setup tables.</p>
 
-<p>Simply copy and paste the following statements in to the script area of the Web Console.</p>
+<p>Simply copy and paste the following statements in to the script area of the <a
+href="/console">Web Console</a>.</p>
 
 <div class='ql-example'>
     <pre class='brush: sql toolbar: false;'>
@@ -124,9 +121,8 @@ create table eBay.ProductReviews
 </pre>
 </div>
 
-<blockquote> Don't worry about the <code>apikey</code> in these tables - the app you created above
-includes a default demo API key for these APIs - see <code>config/dev.json</code>
-file.</blockquote>
+<blockquote>The app created above includes a default demo API key for these APIs - see
+<code>config/dev.json</code> file.</blockquote>
 
 <p>This will show the following in the results area.</p>
 
@@ -136,11 +132,11 @@ file.</blockquote>
 }
 </pre>
 
-<p>This shows that the statements are syntactically valid. In ql.io, a table is simply a mapping -
+<p>This shows that the statements are syntactically valid. Note that a table is simply a mapping -
 creating a table does not involve storing anything permanently on the disk.</p>
 
-<p>You can now store these statements in a file under the &quot;tables&quot; directory so that we
-can reuse them across many scripts.</p>
+<p>Now store these statements in a file under the &quot;tables&quot; directory so that they can be
+used across many scripts.</p>
 
 <ol>
 <li>Use <code>Control-C</code> to stop the server</li>
@@ -162,21 +158,10 @@ can reuse them across many scripts.</p>
 ]
 </pre>
 
-<p>You can use <code>describe</code> statements now to find description of any of these tables.</p>
-
-<pre class="brush: sql toolbar: false;">
-desc eBay.FindProducts
-</pre>
-
-<p>You will see an HTML-formatted description of the table you just created. You can use <a
-href="http://daringfireball.net/projects/markdown/">Markdown</a> formatted comments beginning with
-<code>--</code> in your scripts. and ql.io will transform those comments into HTML to show in
-response to <code>describe</code> statements.</p>
-
 <h2>Step 3: Write Selects and Joins</h2>
 
 <p>The final step is to write a script that gets the data we are interested in using
-<code>select</code> statements. For these steps, go back to the Web Console in your browser and
+<code>select</code> statements. For these steps, go back to the Web Console in the browser and
 clear the script area.</p>
 
 <p>Copy and paste the following in the script area of the Web Console.</p>
@@ -200,13 +185,11 @@ fields, selects <code>ProductID[0].Value</code> for each product, and assigns th
 <code>prodid</code>.</p>
 
 <p>The second <code>select</code> retrieves the product details for each product ID returned from
-the first <code>select</code> statement. Behind the scenes, ql.io forks <code>5</code> requests in
-parallel to the FindProducts API and joins when all of them complete.</p>
+the first <code>select</code> statement. Behind the scenes, ql.io's engine forks <code>5</code>
+requests in parallel to the FindProducts API and joins when all of them complete.</p>
 
-<p>The third statement is similar to the second except that it calls the FindReviewsAndGuides
-API.</p>
-
-<p>The final statement joins results from second and third statements and returns the selected
+<p>The third statement is similar to the second except that it calls the FindReviewsAndGuides API.
+The final statement joins results from second and third statements and returns the selected
 fields.</p>
 
 <p>The results of these four lines will be as follows.</p>
@@ -252,7 +235,7 @@ script.</p>
 <li><code>bin/start.sh</code></li>
 </ol>
 
-<h2>Step 3: Call the APIs Like a Pro</h2>
+<h2>Step 3: Call the APIs Using the Route</h2>
 
 <p>The last step is make a request to see your route in action. Click on <a
 href="/myapi">http://localhost:3000/myapi</a> or try <code>curl</code> from a shell.
@@ -260,8 +243,6 @@ href="/myapi">http://localhost:3000/myapi</a> or try <code>curl</code> from a sh
 <pre class="brush: bash toolbar: false;">
 curl http://localhost:3000/myapi
 </pre>
-
-<p>Aggregation and orchestration as easy as SQL and JSON!</p>
 
 <script>
 

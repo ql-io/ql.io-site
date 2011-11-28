@@ -2,27 +2,36 @@
   
 <p>ql.io's core consists of a domain-specific procedural-style language based on SQL and JSON. The
 language does not conform to SQL, but it borrows several concepts from it to keep the language
-familiar, and extends it to apply to HTTP APIs. This language currently has the following
-capabilities:</p>
+familiar, and extends it to apply to HTTP APIs.</p>
+
+<blockquote>
+    We use the term &quot;HTTP API&quot; as a generic reference to any HTTP addressable resource or
+    service. Neither the language nor the runtime of ql.io require the resource of service to be
+    RESTful.
+</blockquote>
+
+<p>This language currently has the following capabilities:</p>
 
 <ul>
-    <li>Mapping HTTP resources into tables using a <code>create table</code> statement for select,
-    update, insert and delete operations</li>
+    <li>Mapping HTTP resources into tables using a <a href="/docs/create-table"><code>create
+    table</code></a> statement for <a href="/docs/select">select</a>, <a
+    href="/docs/update">update</a>, <a href="/docs/insert">insert</a> and <a
+    href="/docs/delete">delete</a> operations.</li>
 
-    <li>JSON objects</li>
+    <li><a href="/docs/json">JSON</a> objects to declare data.</li>
 
-    <li>Assignment of results of statements or objects to variables</li>
+    <li>Assignment of results of statements or objects to variables.</li>
 
-    <li>Projections of assignments</li>
+    <li>Projections of assignments.</li>
 
-    <li>Variable references in statements and objects</li>
+    <li><a href="/docs/variable-ref">Variable references</a> in statements and objects.</li>
 
-    <li>Return statements</li>
+    <li>Return statements.</li>
 
-    <li>Routes to execute stored scripts</li>
+    <li><a href="/docs/routes">Routes</a> to execute stored scripts.</li>
 </ul>
 
-<p>A ql script is a set of statements and comments. Statements must be declared in the order of
+<p>A script is a set of statements and comments. Statements must be declared in the order of
 dependencies.</p>
 
 <blockquote>
@@ -32,25 +41,26 @@ dependencies.</p>
 
 <p>Comments are single-line, and start with <code>--</code>.</p>
 
-<pre class="brush: sql">
+<pre class="brush: sql; toolbar: false;">
 -- Welcome to ql.io
 </pre>
 
 <p>Assignments are optional for <code>create table</code> statements and scripts that have only one
 statement. Otherwise, statements must be terminated with semi-colons. In single-statement scripts,
-the return value of the script is implicit.</p>
+the return value of the script is implicit as for the script below.</p>
   
-<pre class="brush: sql">
+<pre class="brush: sql; toolbar: false;">
 select * from items
 </pre>
   
-<p>Statements can always be split into multiple lines by using carriage return. Multi-statement
-scripts must always end with a <code>return</code> statement.</p>
+<p>Statements can always be split into multiple lines by using carriage return. Line breaks and
+other white space is insignificant. Multi-statement scripts must always end with a
+<code>return</code> statement.</p>
   
 <p>Assignment of statements and objects allow later statements in the script to refer to those
 variables.</p>
 
-<pre class="brush: sql">
+<pre class="brush: sql; toolbar: false;">
 items = select * from items;
 return items;    
 </pre>
@@ -68,24 +78,24 @@ following:</p>
     <li><code>delete</code> statement (not supported yet)</li>
 </ul>
   
-<p>The predicate following a <code>return</code> can also be any of the above. This lets you
-simplify the above script to the following single line script.</p>
+<p>The predicate following a <code>return</code> can also be any of the above. The above script can
+be simplified to the following single line script.</p>
 
-<pre class="brush: sql">
+<pre class="brush: sql; toolbar: false;">
 return select * from items;
 </pre>
 
-<p>Since <code>return</code> is implicit in single statement scripts, this is the same as using the
+<p>Since <code>return</code> is implicit in single statement scripts, this is the same as the
 following:</p>
 
-<pre class="brush: sql">
+<pre class="brush: sql; toolbar: false;">
 select * from items
 </pre>
 
-<p>Selections and projects are not limited to tables - you can apply them to objects as well.</p>
+<p>Selections and projections are not limited to tables - they can applied to objects as well.</p>
 
 <span class="try"><a href="/console?s=persons%20%3D%20%5B%0A%20%20%7B%22fname%22%3A%20%22John%22%2C%22lname%22%3A%20%22Doe%22%2C%20%22address%22%3A%20%7B%22city%22%3A%20%22San%20Francisco%22%7D%7D%2C%0A%20%20%7B%22fname%22%3A%20%22Jane%22%2C%22lname%22%3A%20%22Doe%22%2C%20%22address%22%3A%20%7B%22city%22%3A%20%22Bend%22%7D%7D%0A%5D%3B%0Areturn%20select%20woeid%20as%20woeid%2C%20centroid%20as%20centroid%20from%20yahoo.woe%20%0A%20%20where%20loc%20in%20(%22%7Bpersons.%24..city%7D%22)%3B">try me</a></span>
-<pre class="brush: sql">
+<pre class="brush: sql; toolbar: false;">
 persons = [
   {"fname": "John","lname": "Doe", "address": {"city": "San Francisco"}},
   {"fname": "Jane","lname": "Doe", "address": {"city": "Bend"}}
@@ -114,8 +124,8 @@ statement provides the following information:</p>
     media types such as <code>application/json</code>, or <code>application/xml</code>, bodies are
     processed using <a href="http://mustache.github.com/">Mustache</a>.</li>
 
-    <li>Optionally, a <a href="/docs/patches">monkey patch</a> - A monkey patch is a module that
-    can be used to tweak requests and responses.</li>
+    <li>Optionally, a <a href="/docs/patches">monkey patch</a> - A monkey patch is a module that can
+    be used to modify requests and responses.</li>
 
     <li>Optionally, an <a href="/docs/auth">auth</a> module that can be used to authenticate a
     request.</li>
@@ -125,10 +135,10 @@ statement provides the following information:</p>
 </ul>
 
 <p>A <code>create table</code> maps each of <code>select</code>, <code>insert</code>,
-<code>update</code> and <code>delete</code> statements into a HTTP method and a HTTP resource. The
-most common mapping is to map a <code>select</code> statement to <code>GET</code>.</p>
+<code>update</code> and <code>delete</code> statements into HTTP requests. The most common
+mapping is to map a <code>select</code> statement to <code>GET</code>.</p>
   
-<pre class="brush: sql">
+<pre class="brush: sql; toolbar: false;">
 create table geocoder
   on select get from "http://maps.googleapis.com/maps/api/geocode/json?address={address}&sensor=true"
   resultset "results";           
@@ -138,7 +148,7 @@ create table geocoder
 each of <code>select</code>, <code>insert</code>, <code>update</code>, and <code>delete</code> to a
 different HTTP resource with a different method.</p>
 
-<pre class="brush: sql">
+<pre class="brush: sql; toolbar: false;">
 create table bitly.shorten
   on insert get from "http://api.bitly.com/v3/shorten?login={^login}&apiKey={^apikey}&longUrl={^longUrl}&format={format}"
     using defaults apikey = "{config.bitly.apikey}", login = "{config.bitly.login}", format = "json"
@@ -155,9 +165,9 @@ any particular mapping between SQL statement types and HTTP methods. For instanc
 maps an <code>insert into</code> statement to method <code>GET</code>.</p>
 
 <p>The language uses <code>select</code> statements to select all (<code>*</code>) or particular
-fields from HTTP resources. The naming of fields follow the <code>JSONPath</code> convention.</p>
+fields from HTTP resources. The naming of fields follow the JSONPath convention.</p>
   
-<pre class="brush: sql">
+<pre class="brush: sql; toolbar: false;">
 select name.first, name.last, address.street from users where zip = 98074
 </pre>  
   
@@ -166,7 +176,7 @@ object. See <a href="/selects">select</a> for complete syntax and examples.</p>
   
 <p><code>insert into</code> statements are used to add data. </p>
 
-<pre class="brush: sql">
+<pre class="brush: sql; toolbar: false;">
 insert into bitly.shorten (longUrl) values ('http://ql.io/docs')
 </pre>
 
@@ -180,32 +190,33 @@ insert into bitly.shorten (longUrl) values ('http://ql.io/docs')
 references</a>. A variable reference is a JSONPath-style token in curly braces
 (<code>{token}</code>) in quoted (double or single) strings. </p>
   
-<pre class="brush: sql">
-name = "Bob";
-details = select * from persons where name = "{name}";
-accounts = select * from accounts where name = "{accounts}";
+<span class="try"><a href="/console?s=keyword%20%3D%20%22ql.io%22%3B%0Aweb%20%3D%20select%20*%20from%20bing.search%20where%20q%20%3D%20%22%7Bkeyword%7D%22%3B%0Atweets%20%3D%20select%20id%20as%20id%2C%20from_user_name%20as%20user%2C%20text%20as%20text%0A%20%20from%20twitter.search%20where%20q%20%3D%20%22ql.io%22%3B%0A%20%0Areturn%20%7B%0A%20%20%22keyword%22%3A%20%22%7Bkeyword%7D%22%2C%0A%20%20%22web%22%3A%20%22%7Bweb%7D%22%2C%0A%20%20%22tweets%22%3A%20%22%7Btweets%7D%22%0A%7D">try me</a></span>
+<pre class="brush: sql; toolbar: false;">
+keyword = "ql.io";
+web = select * from bing.search where q = "{keyword}";
+tweets = select id as id, from_user_name as user, text as text
+  from twitter.search where q = "ql.io";
+
 return {
-  "name": "{name}",
-  "details": "{details}",
-  "accounts": "{accounts}"
+  "keyword": "{keyword}",
+  "web": "{web}",
+  "tweets": "{tweets}"
 }
 </pre>
 
 <p>This script has four statements - the first one assigns a string value to a variable, and the
-second and third statements refer to that name. The fourth statement refers to all the three. </p>
+second and third statements refer to that variable, and assign the results to two variables. The
+fourth statement refers to all the three. </p>
 
-<p>Variable references determine the order of executuion of statements in a script. The above
-script leads to the following order.</p>
+<p>Variable references determine the order of execution of statements in a script.</p>
 
-<img src="/images/docs/simple-orch.png" alt="Fork-join"/>
+<p>The language also supporting selecting from objects.</p>
 
-<p>You can also select from objects or tables.</p>
-
-<pre class="brush: sql">
+<pre class="brush: sql; toolbar: false;">
 person = {
  "f": "Jon",
  "l": "Doe"
 }
 return select f from person;
 </pre>
-
+  
