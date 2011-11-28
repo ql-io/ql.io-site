@@ -4,27 +4,21 @@
 
 <a href="http://github.com/ql-io/ql.io"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/abad93f42020b733148435e2cd92ce15c542d320/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub"></a>
 
+<div class="about">A declarative, data-retrieval and aggregation gateway for quickly consuming HTTP APIs</div>
+
 <div class="main-navbar">
-    <a class="main-navbar" href='/console'>Try now</a> &nbsp;&nbsp;|&nbsp;&nbsp;
-    <a class="main-navbar" href='/examples'>See examples</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-    <a class="main-navbar" href='/docs'>Read docs</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-    <a class="main-navbar" href="http://groups.google.com/group/qlio">Discuss</a>
+    <a class="main-navbar" href='/console'>Web Console</a> &nbsp;&nbsp;|&nbsp;&nbsp;
+    <a class="main-navbar" href='/examples'>Examples</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+    <a class="main-navbar" href='/docs'>Documentation</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+    <a class="main-navbar" href="http://groups.google.com/group/qlio">Discussion</a>
 </div>
 
-<p>ql.io is a declarative, evented, data-retrieval and aggregation gateway for HTTP APIs - it can
-help you reduce number of lines of that you need to write for making API calls while simultaneously
-cutting down network latency and bandwidth usage when possible. At eBay we have seen instances of
-over 30 times reduction in number of lines of code, 150% reduction in data size and 60% reduction in
-number of HTTP requests &#8212; the actual numbers depend on the deployment topology of the API
-servers and client apps.</p>
 
-<div class='highlight'>A ql.io script that calls three APIs to make <code>11</code> (<code>1 + 5 +
-5</code>) HTTP requests in the best order possible.</div>
+<div class='highlight'>To call three HTTP APIs, write this script</div>
 
-<div class='ql-example'>
-    <span class='try'><a href="/console?s=prodid%20%3D%20select%20ProductID%5B0%5D.Value%20from%20eBay.FindProducts%20where%0A%20%20%20%20QueryKeywords%20%3D%20'macbook%20pro'%3B%0Adetails%20%3D%20select%20*%20from%20eBay.ProductDetails%20where%0A%20%20%20%20ProductID%20in%20('%7Bprodid%7D')%20and%20ProductType%20%3D%20'Reference'%3B%0Areviews%20%3D%20select%20*%20from%20eBay.ProductReviews%20where%20%0A%20%20%20%20ProductID%20in%20('%7Bprodid%7D')%20and%20ProductType%20%3D%20'Reference'%3B%0A%0Areturn%20select%20d.ProductID%5B0%5D.Value%20as%20id%2C%20d.Title%20as%20title%2C%0A%20%20%20%20d.ReviewCount%20as%20reviewCount%2C%20r.ReviewDetails.AverageRating%20as%20rating%0A%20%20%20%20from%20details%20as%20d%2C%20reviews%20as%20r%0A%20%20%20%20where%20d.ProductID%5B0%5D.Value%20%3D%20r.ProductID.Value%3B">Try me</a></span>
 
-<pre id='ex-main-0' class="brush: sql">prodid = select ProductID[0].Value from eBay.FindProducts where
+<span class='try'><a href="/console?s=prodid%20%3D%20select%20ProductID%5B0%5D.Value%20from%20eBay.FindProducts%20where%0A%20%20%20%20QueryKeywords%20%3D%20'macbook%20pro'%3B%0Adetails%20%3D%20select%20*%20from%20eBay.ProductDetails%20where%0A%20%20%20%20ProductID%20in%20('%7Bprodid%7D')%20and%20ProductType%20%3D%20'Reference'%3B%0Areviews%20%3D%20select%20*%20from%20eBay.ProductReviews%20where%20%0A%20%20%20%20ProductID%20in%20('%7Bprodid%7D')%20and%20ProductType%20%3D%20'Reference'%3B%0A%0Areturn%20select%20d.ProductID%5B0%5D.Value%20as%20id%2C%20d.Title%20as%20title%2C%0A%20%20%20%20d.ReviewCount%20as%20reviewCount%2C%20r.ReviewDetails.AverageRating%20as%20rating%0A%20%20%20%20from%20details%20as%20d%2C%20reviews%20as%20r%0A%20%20%20%20where%20d.ProductID%5B0%5D.Value%20%3D%20r.ProductID.Value%3B">Try me</a></span>
+<pre id='ex-main-0' class="brush: sql toolbar: false;">prodid = select ProductID[0].Value from eBay.FindProducts where
     QueryKeywords = 'macbook pro';
 details = select * from eBay.ProductDetails where
     ProductID in ('{prodid}') and ProductType = 'Reference';
@@ -36,100 +30,16 @@ return select d.ProductID[0].Value as id, d.Title as title,
     from details as d, reviews as r
     where d.ProductID[0].Value = r.ProductID.Value
     via route '/myapi' using method get;</pre>
+
+<div class='highlight'>and <code>curl</code> away</div>
+
+<pre class="brush: bash toolbar: false;">curl http://&lt;host&gt;:&lt;port&gt;/myapi
+</pre>
+
+<div class="main-navbar">
+    <a class="main-navbar" href='/docs/about'>About</a> &nbsp;&nbsp;|&nbsp;&nbsp;
+    <a class="main-navbar" href='/docs/quickstart'>Quick Start</a> &nbsp;&nbsp;|&nbsp;&nbsp;
+    <a class="main-navbar" href='/docs/quickerstart'>Even Quicker Start</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+    <a class="main-navbar" href='/reference/ql'>Syntax Reference</a>
 </div>
-
-<div class='highlight'>A curl command to invoke the script.</div>
-
-<pre class="brush: bash">curl http://&lt;host&gt;:&lt;port&gt;/myapi
-</pre>
-
-<blockquote>
-    See the <a href="/docs/quickstart">Quick Start Guide</a> to build this script
-    yourself in 30 minutes.
-</blockquote>
-
-<h2>What can ql.io do?</h2>
-
-<h3>A SQL and JSON inspired DSL</h3>
-
-<p>SQL is a quite powerful DSL to retrieve, filter,
- project, and join data &#8212; see efforts like <a
-href="http://queue.acm.org/detail.cfm?id=1961297">A co-Relational Model of Data for Large Shared
-Data Banks</a>, <a href="http://en.wikipedia.org/wiki/Language_Integrated_Query">LINQ</a>, <a
-href="http://developer.yahoo.com/yql/">YQL</a>, or <a href="http://www.unqlspec.org/">unQL</a> for
-examples.</p>
-
-<p>ql.io combines SQL, JSON, and a few procedural style constructs into a compact <a
-href="/docs/reference/ql">DSL</a> &#8212; that you can use to make HTTP requests to retrieve data,
-to perform joins between API responses, to project responses, and even calls in loop. ql.io does not
-mind if you are using HTTP RESTfully or not &#8212; it can handle any API that can be reached over
-HTTP. You can even offer a HTTP GET based interface to SOAP APIs using ql.io. But remember -
-ql.io's scripting language is not SQL - it is SQL inspired.</p>
-
-<h3>Orchestrate Without Pain</h3>
-
-<p>Most real-world client apps need to mashup data from multiple APIs in one go. Data mashup is
-often complicated as you need to worry about order of requests, inter-dependencies, error
-handling, and parallelization to reduce overall latency.</p>
-
-<p>You don't need a complex multi-threaded fork-join or orchestration framework so solve this. ql.io
-knows how to schedule execution of statements asynchronously. You can write procedural scripts using
-statements in the natural order of dependencies, and let ql.io do the orchestration using async
-I/O.</p>
-
-<p>A consequence - massive reductions in number of lines of code! See the <a
-href="/docs/quickstart">Quick Start Guide</a> to find out yourself.</p>
-
-<h3>Reduce Latency and Bandwidth Use</h3>
-
-<p>APIs are designed for reuse, and hence they cater to the common denominator. Getting new
-fields added, optimizing responses, or combining multiple requests into one involve drawn out
-negotiations between API producing teams and API consuming teams.</p>
-
-<p>ql.io lets API consuming teams move fast by creating consumer-centric interfaces that are
-optimized for the client - this lets you save on bandwidth while reducing latencies.</p>
-  
-<h3>Cleanse APIs to Improve Interoperability</h3>
-
-<p>Not all APIs are created equal &#8212; inconsistency between APIs is a reality. You may have
-RESTful APIs on one end and SOAP on the other and a mixture in between. Working across all those
-APIs can cause code bloat. </p>
-
-<p>In stead of waiting for the API owners to agree on consistency and clean their APIs, you can
-apply ql.io's <a href="/docs/routes">routes</a> to offer new RESTful interfaces that are more
-consistent, more conformant to HTTP, and easier to use.</p>
-
-<h2>How to Use ql.io</h2>
-
-<p>ql.io is built using <a href="http://nodejs.org">node.js</a> (requires version 4.x). You can get
-started with ql.io in two ways &#8212; either a stand alone server, or as a part of your node app.
-To use ql.io as a stand-alone server with the necessary modules, try </p>
-
-<em>TODO: These steps don't work yet. See the <a href="/docs/quickstart">Quick Start Guide</a> for
-now.</em>
-
-<pre class="brush: bash">mkdir myapp
-cd myapp
-curl ..../init.sh | bash
-bin/start.sh
-</pre>
-
-<p>If you want to use ql.io as part of your node apps so that you can execute your scripts
-programmatically, install the core engine directly.</p>
-
-<pre class="brush: bash">
-npm install ql.io-engine
-</pre>
-
-<p>See <a href="/docs/engine">ql.io engine</a> for details.</p>
-
-<h2>Who is Behind ql.io?</h2>
-
-<p>ql.io is being built by eBay's platform engineering group, and is actively managed on <a
-href="https://github.com/ql-io/ql.io">github</a>. See <a
-href="https://github.com/ql-io/ql.io/blob/master/AUTHORS.md">AUTHORS.md</a> for the list of
-contributors. ql.io is released under <a
-href="https://github.com/ql-io/ql.io/blob/master/LICENSE.md">Apache License, Version 2.0</a>.
-Just as soon as we get a CLA in place, additional contributions will be welcome. See <a
-href="http://www.ebayopensource.org">eBay Open Source</a> for other project contributed by eBay.</p>
 

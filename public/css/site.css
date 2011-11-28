@@ -13,19 +13,19 @@ body {
 }
 
 div.main-navbar {
-    margin-bottom: 1em;
+    margin: 1em;
     text-align: center;
     box-shadow: 3px;
-    background: none;
-    background-color: #3871C1;
+    color: #3871C1;
     padding: 6px;
-    color: white;
     font-size: large;
+    text-transform: uppercase;
 }
 
 a.main-navbar {
+    font-weight: bold;
     text-decoration: none;
-    color: white;
+    color: #3871C1;
 }
 
 .about {
@@ -33,7 +33,9 @@ a.main-navbar {
     width: 70%;
     font-size: large;
     line-height: 1.5;
-    text-align: center
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 pre, code {
@@ -60,7 +62,7 @@ em {
     text-transform: lowercase;
     background-color: #a9a9a9;
     border-radius: 3px;
-    margin-top: -22pt;
+    margin-top: -2em;
 }
 
 .try a {

@@ -4,42 +4,44 @@
   
 <p>This statement lists all statically declared tables.</p>
 
-<pre class="brush: sql">
+<pre class="brush: sql toolbar: false;">
     show tables
 </pre>
 
 <h2>Describe a Table</h2>
 
-<p>Describe a table. Comments can be Markdown formatted.</p>
+<p>Describe a table. Comments before <code>create table</code> statements are used to generate
+HTML. Such comments can be Markdown formatted.</p>
 
-<pre class="brush: sql">
+<pre class="brush: sql toolbar: false;">
     describe eBay.ProductReviews
 </pre>
 
 <h2>Select with Where</h2>
   
-<p>The conditions supplied in the <code>where</code> clause become inputs to HTTP requests.</p>
+<p>The conditions supplied in the <code>where</code> clause become inputs to HTTP request URIs,
+headers, or body.</p>
 
-<pre class="brush: sql">
+<pre class="brush: sql toolbar: false;">
     select * from google.geocode where address = "bora bora"
 </pre>
 
 <h2>Columns Clause for Projections</h2>
 
-<p>You can trim down the response by listing fields in the columns clause. The response will be an
-array of of array of fields selected. Column names can use <a
-href="github.com/s3u/JSONPath">JSONPath</a> format.</p>
+<p>Columns clause is used to project the response to just the desired fields. The result of a
+<code>select</code> with columns clause is an array of of array of fields selected. Column names
+can use <a href="github.com/s3u/JSONPath">JSONPath</a> format.</p>
 
-<pre class="brush: sql">
+<pre class="brush: sql toolbar: false;">
 select ProductID[0].Value, DetailsURL, StockPhotoURL
   from eBay.FindProducts where QueryKeywords="mini cooper"
 </pre>    
   
 <h2>Columns Aliases</h2>
   
-<p>You can format the row in the results to be an object by using column aliases</p>
+<p>Column aliases change the format of the row in the results to be an object.</p>
 
-<pre class="brush: sql">
+<pre class="brush: sql toolbar: false;">
 select ProductID[0].Value as id, DetailsURL as details, StockPhotoURL as photo
   from eBay.FindProducts where QueryKeywords="mini cooper"
 </pre>
@@ -48,16 +50,17 @@ select ProductID[0].Value as id, DetailsURL as details, StockPhotoURL as photo
 
 <p>You can paginate results by using limit and offset clauses.</p>
   
-<pre class="brush: sql">
+<pre class="brush: sql toolbar: false;">
 select id as id, from_user_name as user, text as text
   from twitter.search where q = "ql.io" limit 5
 </pre>
 
 <h2>Dependencies</h2>
 
-<p>In this example, the second statement depends on the first statement.</p>  
+<p>The second statement depends on the first statement via the <a href="/docs/variable-ref">variable
+reference</a> <code>{minis.itemId}</code>.</p>
   
-<pre class='brush: sql'>
+<pre class='brush: sql toolbar: false;'>
 minis = select * from finditems where keywords = 'mini cooper' limit 10;
 return select PictureURL from details where itemId = "{minis.itemId}";
 </pre>
@@ -69,7 +72,7 @@ the outcome of the first.</p>
 
 <p>See <a href='/docs/quickerstart'>Even Quicker Start Guide</a> to construct this in steps.</p>
 
-<pre class="brush: sql">
+<pre class="brush: sql toolbar: false;">
 select e.ItemID as id, e.Title as title, e.ViewItemURLForNaturalSearch as url, g.geometry.location as latlng
   from details  as e, google.geocode as g
   where e.itemId in (select itemId from finditems where keywords = "iPad")
@@ -77,9 +80,9 @@ select e.ItemID as id, e.Title as title, e.ViewItemURLForNaturalSearch as url, g
 </pre>
 <h2>JSON</h2>
   
-<p>You can use JSON objects on the right hand side of assignments and use it for selections.</p>
+<p>The right hand side of a variable assignment can also be an object.</p>
 
-<pre class='brush: sql'>
+<pre class='brush: sql toolbar: false;'>
 foo = {
   "fname" : "Hello",
   "lname" : "World",
@@ -93,7 +96,7 @@ return {
 <p>In this example, the value <code>foo</code> is a JSON object. Here is another example that uses
 a JSONPath based selector.</p>
   
-<pre class='brush: sql'>
+<pre class='brush: sql toolbar: false;'>
     people = [
       {"fname" : "John", "lname" : "Doe"},
       {"fname" : "Jane", "lname" : "Doe"},
@@ -107,13 +110,13 @@ a JSONPath based selector.</p>
 
 <p>This examples uses <code>insert into</code> to shorten a URL via bitly APIs.</p>
 
-<pre class='brush: sql'>
+<pre class='brush: sql toolbar: false;'>
 insert into bitly.shorten (longUrl) values ('http://ql.io/docs')
 </pre>
 
-<p>You can then use a <code>select</code> to get the long form.</p>
+<p>A <code>select</code> statement can be used to get the long form.</p>
 
-<pre class='brush: sql'>
+<pre class='brush: sql toolbar: false;'>
     select long_url from bitly.shorten where shortUrl = 'http://bit.ly/uZIvmY'
 </pre>
 

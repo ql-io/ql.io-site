@@ -1,5 +1,3 @@
-<div class="breadcrumb"><a href="/docs">/docs</a></div>
-
 <h1>Quick Start Guide</h1>
 
 <p>In this guide, our goal is to build a solution for the following use case in under 30
@@ -60,7 +58,7 @@ yet on other variants of Linux/Unix but there is very little that prevents you f
 other operating systems. On Ubuntu, make sure to install <code>expat</code> and
 <code>libexpat1-dev</code>.</p>
 
-<pre class="brush: bash">
+<pre class="brush: bash toolbar: false;">
 sudo apt-get install expat libexpat1-dev
 </pre>
   
@@ -73,7 +71,7 @@ sudo apt-get install expat libexpat1-dev
 <p>Setup a new ql.io app and start the server. This step uses a template to create an app, and
 install ql.io modules using npm.</p>
 
-<pre class="brush: bash">
+<pre class="brush: bash toolbar: false;">
 mkdir myapp
 cd myapp
 curl https://raw.github.com/ql-io/ql.io/master/modules/template/init.sh | bash
@@ -84,13 +82,13 @@ bin/start.sh
 href="http://localhost:3000">http://localhost:3000</a> to see ql.io's Web Console. In the text
 area, type the following.</p>
 
-<pre class="brush: sql">
+<pre class="brush: sql toolbar: false;">
 show tables
 </pre>
 
 <p>This statement shows an empty array in the response in the results area below the script area.</p>
 
-<pre class="brush: plain">
+<pre class="brush: plain toolbar: false;">
 [ ]
 </pre>
 
@@ -106,7 +104,7 @@ purpose.</p>
 <p>Simply copy and paste the following statements in to the script area of the Web Console.</p>
 
 <div class='ql-example'>
-    <pre class='brush: sql'>
+    <pre class='brush: sql toolbar: false;'>
 -- A table to find products
 create table eBay.FindProducts
   on select get from "http://open.api.ebay.com/shopping?callname=FindProducts&appid={^apikey}&responseencoding=JSON&version=725&QueryKeywords={^QueryKeywords}&MaxEntries={max}&ProductSort=Popularity&AvailableItemsOnly=true&siteid={siteid}"
@@ -132,7 +130,7 @@ file.</blockquote>
 
 <p>This will show the following in the results area.</p>
 
-<pre class="brush: js">
+<pre class="brush: js toolbar: false;">
 {
   "message": "ok"
 }
@@ -156,7 +154,7 @@ can reuse them across many scripts.</p>
 <p>Go back to the Web Console at <a href="http://localhost:3000">http://localhost:3000</a> and type
 <code>show tables</code> in the script area. This will show the following.
 
-<pre class="brush: js">
+<pre class="brush: js toolbar: false;">
 [
   "eBay.FindProducts",
   "eBay.ProductDetails",
@@ -166,7 +164,7 @@ can reuse them across many scripts.</p>
 
 <p>You can use <code>describe</code> statements now to find description of any of these tables.</p>
 
-<pre class="brush: sql">
+<pre class="brush: sql toolbar: false;">
 desc eBay.FindProducts
 </pre>
 
@@ -183,7 +181,7 @@ clear the script area.</p>
 
 <p>Copy and paste the following in the script area of the Web Console.</p>
   
-<pre class="brush: sql">
+<pre class="brush: sql toolbar: false;">
 prodid = select ProductID[0].Value from eBay.FindProducts where
     QueryKeywords = 'macbook pro';
 details = select * from eBay.ProductDetails where
@@ -226,7 +224,7 @@ ql.io. It requires no custom coding. </blockquote>
 <p>Finally, to make it convenient for a client to invoke this script, add a <a
 href="/docs/routing">route</a> to the return statement (see line 12 below)</p>
 
-<pre class="brush: sql">
+<pre class="brush: sql; highlight: 12; toolbar: false;">
 prodid = select ProductID[0].Value from eBay.FindProducts where
     QueryKeywords = 'macbook pro';
 details = select * from eBay.ProductDetails where
@@ -259,7 +257,7 @@ script.</p>
 <p>The last step is make a request to see your route in action. Click on <a
 href="/myapi">http://localhost:3000/myapi</a> or try <code>curl</code> from a shell.
 
-<pre class="brush: bash">
+<pre class="brush: bash toolbar: false;">
 curl http://localhost:3000/myapi
 </pre>
 
