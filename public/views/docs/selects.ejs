@@ -1,6 +1,154 @@
-<div class="breadcrumb"><a href="/docs">/docs</a></div>
-
 <h1>Selects</h1>
+
+<p>Select statement is used to retrieve data. For well-designed HTTP APIs, a <code>select</code>
+maps to HTTP <code>GET</code>. But if your APIs are using POST over XML or SOAP, a
+<code>select</code> may map to a <code>POST</code> request.</p>
+  
+<p>The syntax of a <code>select</code> statement is as follows:</p>
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="932"
+     height="68">
+    <defs>
+        <style type="text/css">
+            @namespace "http://www.w3.org/2000/svg";
+            .line {
+                fill: none;
+                stroke: #332900;
+            }
+
+            filled {
+                fill: #332900;
+                stroke: none;
+            }
+
+            text {
+                font-family: Verdana, Sans-serif;
+                font-size: 12px;
+                fill: #4D3D00;
+            }
+
+            text.terminal {
+                font-family: Verdana, Sans-serif;
+                font-size: 12px;
+                fill: #4D3D00;
+                font-weight: bold;
+            }
+
+            rect, circle, polygon {
+                fill: #332900;
+                stroke: #332900;
+            }
+
+            rect.terminal {
+                fill: #FFCC00;
+                stroke: #332900;
+            }
+
+            rect.nonterminal {
+                fill: #FFEB99;
+                stroke: #332900;
+            }
+
+            polygon.regexp {
+                fill: #FFF5CC;
+                stroke: #332900;
+            }
+        </style>
+    </defs>
+    <polygon points="9 33 1 29 1 37" class="filled"/>
+    <polygon points="17 33 9 29 9 37" class="filled"/>
+    <line x1="17" y1="33" x2="19" y2="33" class="line"/>
+    <rect x="31" y="19" width="58" height="32" rx="10"/>
+    <rect x="29" y="17" width="58" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="39" y="37">select</text>
+    <line x1="19" y1="33" x2="29" y2="33" class="line"/>
+    <line x1="87" y1="33" x2="97" y2="33" class="line"/>
+    <a href="#columnsClause" xlink:title="columnsClause">
+        <rect x="109" y="19" width="114" height="32"/>
+        <rect x="107" y="17" width="114" height="32" class="nonterminal"/>
+        <text class="nonterminal" x="117" y="37">columnsClause</text>
+    </a>
+    <line x1="97" y1="33" x2="107" y2="33" class="line"/>
+    <line x1="221" y1="33" x2="231" y2="33" class="line"/>
+    <rect x="243" y="19" width="50" height="32" rx="10"/>
+    <rect x="241" y="17" width="50" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="251" y="37">from</text>
+    <line x1="231" y1="33" x2="241" y2="33" class="line"/>
+    <line x1="291" y1="33" x2="301" y2="33" class="line"/>
+    <a href="#fromClause" xlink:title="fromClause">
+        <rect x="313" y="19" width="90" height="32"/>
+        <rect x="311" y="17" width="90" height="32" class="nonterminal"/>
+        <text class="nonterminal" x="321" y="37">fromClause</text>
+    </a>
+    <line x1="301" y1="33" x2="311" y2="33" class="line"/>
+    <line x1="401" y1="33" x2="411" y2="33" class="line"/>
+    <a href="#whereClause" xlink:title="whereClause">
+        <rect x="463" y="19" width="102" height="32"/>
+        <rect x="461" y="17" width="102" height="32" class="nonterminal"/>
+        <text class="nonterminal" x="471" y="37">whereClause</text>
+    </a>
+    <line x1="451" y1="33" x2="461" y2="33" class="line"/>
+    <line x1="563" y1="33" x2="573" y2="33" class="line"/>
+    <path d="M431 33 L451 33 M450 33 Q441 33 441 23 L441 11 Q441 1 451 1" class="line"/>
+    <path d="M573 33 L593 33 M573 33 Q583 33 583 23 L583 11 Q583 1 573 1" class="line"/>
+    <line x1="451" y1="1" x2="461" y2="1" class="line"/>
+    <line x1="461" y1="1" x2="573" y2="1" class="line"/>
+    <line x1="411" y1="33" x2="431" y2="33" class="line"/>
+    <line x1="593" y1="33" x2="613" y2="33" class="line"/>
+    <path d="M411 33 Q421 33 421 43" class="line"/>
+    <path d="M603 43 Q603 33 613 33" class="line"/>
+    <line x1="421" y1="43" x2="421" y2="57" class="line"/>
+    <line x1="603" y1="57" x2="603" y2="43" class="line"/>
+    <path d="M421 57 Q421 67 431 67" class="line"/>
+    <path d="M593 67 Q603 67 603 57" class="line"/>
+    <line x1="431" y1="67" x2="441" y2="67" class="line"/>
+    <line x1="441" y1="67" x2="593" y2="67" class="line"/>
+    <a href="#limit" xlink:title="limit">
+        <rect x="665" y="19" width="44" height="32"/>
+        <rect x="663" y="17" width="44" height="32" class="nonterminal"/>
+        <text class="nonterminal" x="673" y="37">limit</text>
+    </a>
+    <line x1="653" y1="33" x2="663" y2="33" class="line"/>
+    <line x1="707" y1="33" x2="717" y2="33" class="line"/>
+    <path d="M633 33 L653 33 M652 33 Q643 33 643 23 L643 11 Q643 1 653 1" class="line"/>
+    <path d="M717 33 L737 33 M717 33 Q727 33 727 23 L727 11 Q727 1 717 1" class="line"/>
+    <line x1="653" y1="1" x2="663" y2="1" class="line"/>
+    <line x1="663" y1="1" x2="717" y2="1" class="line"/>
+    <line x1="613" y1="33" x2="633" y2="33" class="line"/>
+    <line x1="737" y1="33" x2="757" y2="33" class="line"/>
+    <path d="M613 33 Q623 33 623 43" class="line"/>
+    <path d="M747 43 Q747 33 757 33" class="line"/>
+    <line x1="623" y1="43" x2="623" y2="57" class="line"/>
+    <line x1="747" y1="57" x2="747" y2="43" class="line"/>
+    <path d="M623 57 Q623 67 633 67" class="line"/>
+    <path d="M737 67 Q747 67 747 57" class="line"/>
+    <line x1="633" y1="67" x2="643" y2="67" class="line"/>
+    <line x1="643" y1="67" x2="737" y2="67" class="line"/>
+    <a href="#offset" xlink:title="offset">
+        <rect x="809" y="19" width="56" height="32"/>
+        <rect x="807" y="17" width="56" height="32" class="nonterminal"/>
+        <text class="nonterminal" x="817" y="37">offset</text>
+    </a>
+    <line x1="797" y1="33" x2="807" y2="33" class="line"/>
+    <line x1="863" y1="33" x2="873" y2="33" class="line"/>
+    <path d="M777 33 L797 33 M796 33 Q787 33 787 23 L787 11 Q787 1 797 1" class="line"/>
+    <path d="M873 33 L893 33 M873 33 Q883 33 883 23 L883 11 Q883 1 873 1" class="line"/>
+    <line x1="797" y1="1" x2="807" y2="1" class="line"/>
+    <line x1="807" y1="1" x2="873" y2="1" class="line"/>
+    <line x1="757" y1="33" x2="777" y2="33" class="line"/>
+    <line x1="893" y1="33" x2="913" y2="33" class="line"/>
+    <path d="M757 33 Q767 33 767 43" class="line"/>
+    <path d="M903 43 Q903 33 913 33" class="line"/>
+    <line x1="767" y1="43" x2="767" y2="57" class="line"/>
+    <line x1="903" y1="57" x2="903" y2="43" class="line"/>
+    <path d="M767 57 Q767 67 777 67" class="line"/>
+    <path d="M893 67 Q903 67 903 57" class="line"/>
+    <line x1="777" y1="67" x2="787" y2="67" class="line"/>
+    <line x1="787" y1="67" x2="893" y2="67" class="line"/>
+    <line x1="916" y1="33" x2="913" y2="33" class="line"/>
+    <polygon points="923 33 931 29 931 37" class="filled"/>
+    <polygon points="923 33 915 29 915 37" class="filled"/>
+</svg>
 
 <p>TODO: add a note format conversion to JSON.</p>
 
@@ -84,21 +232,18 @@ where keywords='iPhone'
 
 <p>With respect to stadard SQL, note the following differences:</p>
 
-<blockquote>
 <ul>
 <li>Each alias must use 'as'. In SQL, 'as' is optional, but in ql.io 'as' is not optional.</li>
 <li>When you decide to use aliases, use alias names for all the selected fields. If not, ql.io will
 return an error.</li>
 </ul>
-</blockquote>
+
 <p>Apart from annotating fields in result sets, column aliases let you join result sets on the fly.</p>
 
-
-<div class="breadcrumb"><a href="/docs">/docs</a></div>
-
-<h1>How to Use Joins</h1>
+<h2>Joins</h2>
 
 <p>You can use joins in statements to join data from two HTTP resources at a time by using a join condition. Here is an example.</p>
+
 <pre class="brush: sql">
 select e.Title, e.ItemID, g.geometry.location
 from ebay.shopping.item as e, google.geocode as g

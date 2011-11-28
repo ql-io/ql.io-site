@@ -16,6 +16,386 @@ to create tables.</p>
 created on the fly can not be used to make <code>POST</code> or <code>PUT</code> or use monkey
 patches to tweak requests and responses.</p>
 
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="402"
+     height="68">
+    <defs>
+        <style type="text/css">
+            @namespace "http://www.w3.org/2000/svg";
+            .line {
+                fill: none;
+                stroke: #332900;
+            }
+
+            filled {
+                fill: #332900;
+                stroke: none;
+            }
+
+            text {
+                font-family: Verdana, Sans-serif;
+                font-size: 12px;
+                fill: #4D3D00;
+            }
+
+            text.terminal {
+                font-family: Verdana, Sans-serif;
+                font-size: 12px;
+                fill: #4D3D00;
+                font-weight: bold;
+            }
+
+            rect, circle, polygon {
+                fill: #332900;
+                stroke: #332900;
+            }
+
+            rect.terminal {
+                fill: #FFCC00;
+                stroke: #332900;
+            }
+
+            rect.nonterminal {
+                fill: #FFEB99;
+                stroke: #332900;
+            }
+
+            polygon.regexp {
+                fill: #FFF5CC;
+                stroke: #332900;
+            }
+        </style>
+    </defs>
+    <polygon points="9 33 1 29 1 37" class="filled"/>
+    <polygon points="17 33 9 29 9 37" class="filled"/>
+    <line x1="17" y1="33" x2="19" y2="33" class="line"/>
+    <rect x="31" y="19" width="62" height="32" rx="10"/>
+    <rect x="29" y="17" width="62" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="39" y="37">create</text>
+    <line x1="19" y1="33" x2="29" y2="33" class="line"/>
+    <line x1="91" y1="33" x2="101" y2="33" class="line"/>
+    <rect x="113" y="19" width="52" height="32" rx="10"/>
+    <rect x="111" y="17" width="52" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="121" y="37">table</text>
+    <line x1="101" y1="33" x2="111" y2="33" class="line"/>
+    <line x1="163" y1="33" x2="173" y2="33" class="line"/>
+    <a href="#table" xlink:title="table">
+        <rect x="185" y="19" width="52" height="32"/>
+        <rect x="183" y="17" width="52" height="32" class="nonterminal"/>
+        <text class="nonterminal" x="193" y="37">table</text>
+    </a>
+    <line x1="173" y1="33" x2="183" y2="33" class="line"/>
+    <line x1="235" y1="33" x2="245" y2="33" class="line"/>
+    <a href="#act" xlink:title="act">
+        <rect x="297" y="19" width="38" height="32"/>
+        <rect x="295" y="17" width="38" height="32" class="nonterminal"/>
+        <text class="nonterminal" x="305" y="37">act</text>
+    </a>
+    <line x1="285" y1="33" x2="295" y2="33" class="line"/>
+    <line x1="333" y1="33" x2="343" y2="33" class="line"/>
+    <path d="M265 33 L285 33 M284 33 Q275 33 275 23 L275 11 Q275 1 285 1" class="line"/>
+    <path d="M343 33 L363 33 M343 33 Q353 33 353 23 L353 11 Q353 1 343 1" class="line"/>
+    <line x1="285" y1="1" x2="295" y2="1" class="line"/>
+    <line x1="295" y1="1" x2="343" y2="1" class="line"/>
+    <line x1="245" y1="33" x2="265" y2="33" class="line"/>
+    <line x1="363" y1="33" x2="383" y2="33" class="line"/>
+    <path d="M245 33 Q255 33 255 43" class="line"/>
+    <path d="M373 43 Q373 33 383 33" class="line"/>
+    <line x1="255" y1="43" x2="255" y2="57" class="line"/>
+    <line x1="373" y1="57" x2="373" y2="43" class="line"/>
+    <path d="M255 57 Q255 67 265 67" class="line"/>
+    <path d="M363 67 Q373 67 373 57" class="line"/>
+    <line x1="265" y1="67" x2="275" y2="67" class="line"/>
+    <line x1="275" y1="67" x2="363" y2="67" class="line"/>
+    <line x1="386" y1="33" x2="383" y2="33" class="line"/>
+    <polygon points="393 33 401 29 401 37" class="filled"/>
+    <polygon points="393 33 385 29 385 37" class="filled"/>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="920"
+     height="250">
+    <defs>
+        <style type="text/css">
+            @namespace "http://www.w3.org/2000/svg";
+            .line {
+                fill: none;
+                stroke: #332900;
+            }
+
+            filled {
+                fill: #332900;
+                stroke: none;
+            }
+
+            text {
+                font-family: Verdana, Sans-serif;
+                font-size: 12px;
+                fill: #4D3D00;
+            }
+
+            text.terminal {
+                font-family: Verdana, Sans-serif;
+                font-size: 12px;
+                fill: #4D3D00;
+                font-weight: bold;
+            }
+
+            rect, circle, polygon {
+                fill: #332900;
+                stroke: #332900;
+            }
+
+            rect.terminal {
+                fill: #FFCC00;
+                stroke: #332900;
+            }
+
+            rect.nonterminal {
+                fill: #FFEB99;
+                stroke: #332900;
+            }
+
+            polygon.regexp {
+                fill: #FFF5CC;
+                stroke: #332900;
+            }
+        </style>
+    </defs>
+    <polygon points="9 17 1 13 1 21" class="filled"/>
+    <polygon points="17 17 9 13 9 21" class="filled"/>
+    <line x1="17" y1="17" x2="19" y2="17" class="line"/>
+    <rect x="31" y="3" width="36" height="32" rx="10"/>
+    <rect x="29" y="1" width="36" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="39" y="21">on</text>
+    <line x1="19" y1="17" x2="29" y2="17" class="line"/>
+    <line x1="65" y1="17" x2="75" y2="17" class="line"/>
+    <rect x="107" y="3" width="58" height="32" rx="10"/>
+    <rect x="105" y="1" width="58" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="115" y="21">select</text>
+    <line x1="95" y1="17" x2="105" y2="17" class="line"/>
+    <line x1="163" y1="17" x2="173" y2="17" class="line"/>
+    <line x1="173" y1="17" x2="179" y2="17" class="line"/>
+    <line x1="75" y1="17" x2="95" y2="17" class="line"/>
+    <line x1="179" y1="17" x2="199" y2="17" class="line"/>
+    <path d="M75 17 Q85 17 85 27" class="line"/>
+    <path d="M189 27 Q189 17 199 17" class="line"/>
+    <line x1="85" y1="27" x2="85" y2="51" class="line"/>
+    <line x1="189" y1="51" x2="189" y2="27" class="line"/>
+    <path d="M85 51 Q85 61 95 61" class="line"/>
+    <path d="M179 61 Q189 61 189 51" class="line"/>
+    <rect x="107" y="47" width="58" height="32" rx="10"/>
+    <rect x="105" y="45" width="58" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="115" y="65">insert</text>
+    <line x1="95" y1="61" x2="105" y2="61" class="line"/>
+    <line x1="163" y1="61" x2="173" y2="61" class="line"/>
+    <line x1="173" y1="61" x2="179" y2="61" class="line"/>
+    <line x1="85" y1="51" x2="85" y2="71" class="line"/>
+    <line x1="189" y1="71" x2="189" y2="51" class="line"/>
+    <line x1="85" y1="71" x2="85" y2="95" class="line"/>
+    <line x1="189" y1="95" x2="189" y2="71" class="line"/>
+    <path d="M85 95 Q85 105 95 105" class="line"/>
+    <path d="M179 105 Q189 105 189 95" class="line"/>
+    <rect x="107" y="91" width="60" height="32" rx="10"/>
+    <rect x="105" y="89" width="60" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="115" y="109">delete</text>
+    <line x1="95" y1="105" x2="105" y2="105" class="line"/>
+    <line x1="165" y1="105" x2="175" y2="105" class="line"/>
+    <line x1="175" y1="105" x2="179" y2="105" class="line"/>
+    <line x1="85" y1="95" x2="85" y2="115" class="line"/>
+    <line x1="189" y1="115" x2="189" y2="95" class="line"/>
+    <line x1="85" y1="115" x2="85" y2="139" class="line"/>
+    <line x1="189" y1="139" x2="189" y2="115" class="line"/>
+    <path d="M85 139 Q85 149 95 149" class="line"/>
+    <path d="M179 149 Q189 149 189 139" class="line"/>
+    <rect x="107" y="135" width="64" height="32" rx="10"/>
+    <rect x="105" y="133" width="64" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="115" y="153">update</text>
+    <line x1="95" y1="149" x2="105" y2="149" class="line"/>
+    <line x1="169" y1="149" x2="179" y2="149" class="line"/>
+    <rect x="231" y="3" width="40" height="32" rx="10"/>
+    <rect x="229" y="1" width="40" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="239" y="21">get</text>
+    <line x1="219" y1="17" x2="229" y2="17" class="line"/>
+    <line x1="269" y1="17" x2="279" y2="17" class="line"/>
+    <rect x="291" y="3" width="50" height="32" rx="10"/>
+    <rect x="289" y="1" width="50" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="299" y="21">from</text>
+    <line x1="279" y1="17" x2="289" y2="17" class="line"/>
+    <line x1="339" y1="17" x2="349" y2="17" class="line"/>
+    <line x1="199" y1="17" x2="219" y2="17" class="line"/>
+    <line x1="349" y1="17" x2="369" y2="17" class="line"/>
+    <path d="M199 17 Q209 17 209 27" class="line"/>
+    <path d="M359 27 Q359 17 369 17" class="line"/>
+    <line x1="209" y1="27" x2="209" y2="51" class="line"/>
+    <line x1="359" y1="51" x2="359" y2="27" class="line"/>
+    <path d="M209 51 Q209 61 219 61" class="line"/>
+    <path d="M349 61 Q359 61 359 51" class="line"/>
+    <rect x="231" y="47" width="48" height="32" rx="10"/>
+    <rect x="229" y="45" width="48" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="239" y="65">post</text>
+    <line x1="219" y1="61" x2="229" y2="61" class="line"/>
+    <line x1="277" y1="61" x2="287" y2="61" class="line"/>
+    <rect x="299" y="47" width="32" height="32" rx="10"/>
+    <rect x="297" y="45" width="32" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="307" y="65">to</text>
+    <line x1="287" y1="61" x2="297" y2="61" class="line"/>
+    <line x1="329" y1="61" x2="339" y2="61" class="line"/>
+    <line x1="339" y1="61" x2="349" y2="61" class="line"/>
+    <line x1="209" y1="51" x2="209" y2="71" class="line"/>
+    <line x1="359" y1="71" x2="359" y2="51" class="line"/>
+    <line x1="209" y1="71" x2="209" y2="95" class="line"/>
+    <line x1="359" y1="95" x2="359" y2="71" class="line"/>
+    <path d="M209 95 Q209 105 219 105" class="line"/>
+    <path d="M349 105 Q359 105 359 95" class="line"/>
+    <rect x="231" y="91" width="58" height="32" rx="10"/>
+    <rect x="229" y="89" width="58" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="239" y="109">put to</text>
+    <line x1="219" y1="105" x2="229" y2="105" class="line"/>
+    <line x1="287" y1="105" x2="297" y2="105" class="line"/>
+    <line x1="297" y1="105" x2="349" y2="105" class="line"/>
+    <line x1="209" y1="95" x2="209" y2="115" class="line"/>
+    <line x1="359" y1="115" x2="359" y2="95" class="line"/>
+    <line x1="209" y1="115" x2="209" y2="139" class="line"/>
+    <line x1="359" y1="139" x2="359" y2="115" class="line"/>
+    <path d="M209 139 Q209 149 219 149" class="line"/>
+    <path d="M349 149 Q359 149 359 139" class="line"/>
+    <rect x="231" y="135" width="60" height="32" rx="10"/>
+    <rect x="229" y="133" width="60" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="239" y="153">delete</text>
+    <line x1="219" y1="149" x2="229" y2="149" class="line"/>
+    <line x1="289" y1="149" x2="299" y2="149" class="line"/>
+    <line x1="299" y1="149" x2="349" y2="149" class="line"/>
+    <a href="#uri" xlink:title="uri">
+        <rect x="381" y="3" width="36" height="32"/>
+        <rect x="379" y="1" width="36" height="32" class="nonterminal"/>
+        <text class="nonterminal" x="389" y="21">uri</text>
+    </a>
+    <line x1="369" y1="17" x2="379" y2="17" class="line"/>
+    <line x1="415" y1="17" x2="425" y2="17" class="line"/>
+    <a href="#withAliases" xlink:title="withAliases">
+        <rect x="457" y="3" width="90" height="32"/>
+        <rect x="455" y="1" width="90" height="32" class="nonterminal"/>
+        <text class="nonterminal" x="465" y="21">withAliases</text>
+    </a>
+    <line x1="445" y1="17" x2="455" y2="17" class="line"/>
+    <line x1="545" y1="17" x2="555" y2="17" class="line"/>
+    <line x1="425" y1="17" x2="445" y2="17" class="line"/>
+    <line x1="555" y1="17" x2="575" y2="17" class="line"/>
+    <path d="M425 17 Q435 17 435 27" class="line"/>
+    <path d="M565 27 Q565 17 575 17" class="line"/>
+    <line x1="435" y1="27" x2="435" y2="41" class="line"/>
+    <line x1="565" y1="41" x2="565" y2="27" class="line"/>
+    <path d="M435 41 Q435 51 445 51" class="line"/>
+    <path d="M555 51 Q565 51 565 41" class="line"/>
+    <line x1="445" y1="51" x2="455" y2="51" class="line"/>
+    <line x1="455" y1="51" x2="555" y2="51" class="line"/>
+    <a href="#usingHeaders" xlink:title="usingHeaders">
+        <rect x="607" y="3" width="106" height="32"/>
+        <rect x="605" y="1" width="106" height="32" class="nonterminal"/>
+        <text class="nonterminal" x="615" y="21">usingHeaders</text>
+    </a>
+    <line x1="595" y1="17" x2="605" y2="17" class="line"/>
+    <line x1="711" y1="17" x2="721" y2="17" class="line"/>
+    <line x1="575" y1="17" x2="595" y2="17" class="line"/>
+    <line x1="721" y1="17" x2="741" y2="17" class="line"/>
+    <path d="M575 17 Q585 17 585 27" class="line"/>
+    <path d="M731 27 Q731 17 741 17" class="line"/>
+    <line x1="585" y1="27" x2="585" y2="41" class="line"/>
+    <line x1="731" y1="41" x2="731" y2="27" class="line"/>
+    <path d="M585 41 Q585 51 595 51" class="line"/>
+    <path d="M721 51 Q731 51 731 41" class="line"/>
+    <line x1="595" y1="51" x2="605" y2="51" class="line"/>
+    <line x1="605" y1="51" x2="721" y2="51" class="line"/>
+    <a href="#usingDefaults" xlink:title="usingDefaults">
+        <rect x="773" y="3" width="106" height="32"/>
+        <rect x="771" y="1" width="106" height="32" class="nonterminal"/>
+        <text class="nonterminal" x="781" y="21">usingDefaults</text>
+    </a>
+    <line x1="761" y1="17" x2="771" y2="17" class="line"/>
+    <line x1="877" y1="17" x2="887" y2="17" class="line"/>
+    <line x1="741" y1="17" x2="761" y2="17" class="line"/>
+    <line x1="887" y1="17" x2="907" y2="17" class="line"/>
+    <path d="M741 17 Q751 17 751 27" class="line"/>
+    <path d="M897 27 Q897 17 907 17" class="line"/>
+    <line x1="751" y1="27" x2="751" y2="41" class="line"/>
+    <line x1="897" y1="41" x2="897" y2="27" class="line"/>
+    <path d="M751 41 Q751 51 761 51" class="line"/>
+    <path d="M887 51 Q897 51 897 41" class="line"/>
+    <line x1="761" y1="51" x2="771" y2="51" class="line"/>
+    <line x1="771" y1="51" x2="887" y2="51" class="line"/>
+    <path class="line"
+          d="M909 17 L911 17 M913 17 L915 17 M917 17 L919 17 M161 215 L163 215 M165 215 L167 215 M169 215 L171 215"/>
+    <a href="#usingMonkeyPatch" xlink:title="usingMonkeyPatch">
+        <rect x="205" y="201" width="136" height="32"/>
+        <rect x="203" y="199" width="136" height="32" class="nonterminal"/>
+        <text class="nonterminal" x="213" y="219">usingMonkeyPatch</text>
+    </a>
+    <line x1="193" y1="215" x2="203" y2="215" class="line"/>
+    <line x1="339" y1="215" x2="349" y2="215" class="line"/>
+    <line x1="173" y1="215" x2="193" y2="215" class="line"/>
+    <line x1="349" y1="215" x2="369" y2="215" class="line"/>
+    <path d="M173 215 Q183 215 183 225" class="line"/>
+    <path d="M359 225 Q359 215 369 215" class="line"/>
+    <line x1="183" y1="225" x2="183" y2="239" class="line"/>
+    <line x1="359" y1="239" x2="359" y2="225" class="line"/>
+    <path d="M183 239 Q183 249 193 249" class="line"/>
+    <path d="M349 249 Q359 249 359 239" class="line"/>
+    <line x1="193" y1="249" x2="203" y2="249" class="line"/>
+    <line x1="203" y1="249" x2="349" y2="249" class="line"/>
+    <a href="#usingBodyTemplate" xlink:title="usingBodyTemplate">
+        <rect x="401" y="201" width="142" height="32"/>
+        <rect x="399" y="199" width="142" height="32" class="nonterminal"/>
+        <text class="nonterminal" x="409" y="219">usingBodyTemplate</text>
+    </a>
+    <line x1="389" y1="215" x2="399" y2="215" class="line"/>
+    <line x1="541" y1="215" x2="551" y2="215" class="line"/>
+    <line x1="369" y1="215" x2="389" y2="215" class="line"/>
+    <line x1="551" y1="215" x2="571" y2="215" class="line"/>
+    <path d="M369 215 Q379 215 379 225" class="line"/>
+    <path d="M561 225 Q561 215 571 215" class="line"/>
+    <line x1="379" y1="225" x2="379" y2="239" class="line"/>
+    <line x1="561" y1="239" x2="561" y2="225" class="line"/>
+    <path d="M379 239 Q379 249 389 249" class="line"/>
+    <path d="M551 249 Q561 249 561 239" class="line"/>
+    <line x1="389" y1="249" x2="399" y2="249" class="line"/>
+    <line x1="399" y1="249" x2="551" y2="249" class="line"/>
+    <a href="#authenticateUsing" xlink:title="authenticateUsing">
+        <rect x="603" y="201" width="134" height="32"/>
+        <rect x="601" y="199" width="134" height="32" class="nonterminal"/>
+        <text class="nonterminal" x="611" y="219">authenticateUsing</text>
+    </a>
+    <line x1="591" y1="215" x2="601" y2="215" class="line"/>
+    <line x1="735" y1="215" x2="745" y2="215" class="line"/>
+    <line x1="571" y1="215" x2="591" y2="215" class="line"/>
+    <line x1="745" y1="215" x2="765" y2="215" class="line"/>
+    <path d="M571 215 Q581 215 581 225" class="line"/>
+    <path d="M755 225 Q755 215 765 215" class="line"/>
+    <line x1="581" y1="225" x2="581" y2="239" class="line"/>
+    <line x1="755" y1="239" x2="755" y2="225" class="line"/>
+    <path d="M581 239 Q581 249 591 249" class="line"/>
+    <path d="M745 249 Q755 249 755 239" class="line"/>
+    <line x1="591" y1="249" x2="601" y2="249" class="line"/>
+    <line x1="601" y1="249" x2="745" y2="249" class="line"/>
+    <a href="#resultSet" xlink:title="resultSet">
+        <rect x="797" y="201" width="76" height="32"/>
+        <rect x="795" y="199" width="76" height="32" class="nonterminal"/>
+        <text class="nonterminal" x="805" y="219">resultSet</text>
+    </a>
+    <line x1="785" y1="215" x2="795" y2="215" class="line"/>
+    <line x1="871" y1="215" x2="881" y2="215" class="line"/>
+    <line x1="765" y1="215" x2="785" y2="215" class="line"/>
+    <line x1="881" y1="215" x2="901" y2="215" class="line"/>
+    <path d="M765 215 Q775 215 775 225" class="line"/>
+    <path d="M891 225 Q891 215 901 215" class="line"/>
+    <line x1="775" y1="225" x2="775" y2="239" class="line"/>
+    <line x1="891" y1="239" x2="891" y2="225" class="line"/>
+    <path d="M775 239 Q775 249 785 249" class="line"/>
+    <path d="M881 249 Q891 249 891 239" class="line"/>
+    <line x1="785" y1="249" x2="795" y2="249" class="line"/>
+    <line x1="795" y1="249" x2="881" y2="249" class="line"/>
+    <line x1="904" y1="215" x2="901" y2="215" class="line"/>
+    <polygon points="911 215 919 211 919 219" class="filled"/>
+    <polygon points="911 215 903 211 903 219" class="filled"/>
+</svg>
+
 <p>Here is the full syntax of a <code>create table</code> statement.</p>
 
 <pre class="brush: sql">
@@ -33,10 +413,8 @@ create table {table-name}
 </pre>
 
 <p>where {nvp} stands for name-value pairs.</p>
-  
-<h2>Simple Tables</h2>
-  
-<p>Here are some examples.</p>
+
+<p>Here is a simple example.</p>
   
 <pre class="brush: sql">
 create table geocoder
@@ -48,9 +426,8 @@ create table geocoder
 template into a URI.</p>
 
 <p>In this statement "{address}" is a placeholder filled in at runtime. See <a
-href="/docs/uri-template">URI Templates</a>.
-
-<p>Try the query below to see how this substitution works.</p>
+href="/docs/uri-template">URI Templates</a>. Try the query below to see how this substitution
+works.</p>
 
 <span class="try"><a href="/console?s=create%20table%20geocoder%0A%20%20on%20select%20get%20from%20%22http%3A%2F%2Fmaps.googleapis.com%2Fmaps%2Fapi%2Fgeocode%2Fjson%3Faddress%3D%7Baddress%7D%26sensor%3Dtrue%22%3B%0Aselect%20*%20from%20geocoder%20where%20address%20%3D%20'San%20Francisco'%3B">try me</a></span>
 <pre class="brush: sql">
@@ -59,8 +436,8 @@ create table geocoder
 select * from geocoder where address = 'San Francisco';
 </pre>
 
-<p>See the request/response show in the bottom of the Web Console to see the actual HTTP request
-made.</p>
+<p>Expand the request/response trace at the bottom of the Web Console to see the actual HTTP
+request made.</p>
 
 <h2>resultset</h2>
   
@@ -78,7 +455,37 @@ select * from geocoder where address = 'San Francisco';
 
 <h2>Aliases</h2>
 
+<p>Using aliases, you can map the following to API specific tokens.</p>
+  
+<ul>
+    <li><code>limit</code></li>
+    <li><code>offset</code></li>
+</ul>
+  
+<p>For instance, when an API uses a URI parameter <code>size</code> for the number of results to be
+returned, you can map it <code>limit</code> so that scripts can use <code>limit</code> for
+pagination.</p>
+
+<pre class="brush: sql">
+create table food
+  on select get from 'http://myserver/food?q={taste}&s={size};
+select * from food where taste = 'yummy' limit 10;
+</pre>
+  
 <h2>Headers</h2>
+
+<p>You can list the HTTP headers to be included using the <code>using headers</code> clause.</p>
+
+<pre class="brush: sql">
+create table food
+  on select get from 'http://myserver/food?q={taste}&s={size}
+            using headers 'x-app-id' = {config.food.id};
+select * from food where taste = 'yummy' limit 10;
+</pre>
+  
+<p>When a <code>select</code> is executed, ql.io will include the header <code>x-app-id</code>. In
+this example, the value of the header is derived from <a
+href="/docs/configure">configuration</a>.</p>
 
 <h2>Defaults</h2>
 

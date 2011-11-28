@@ -49,10 +49,6 @@ em {
     font-style: normal;
 }
 
-.clock {
-    float: right;
-}
-
 .try {
     z-index: 300;
     float: right;

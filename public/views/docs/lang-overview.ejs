@@ -1,10 +1,8 @@
-<div class="breadcrumb"><a href="/docs">/docs</a></div>
-
 <h1>Language Overview</h1>
   
 <p>ql.io's core consists of a domain-specific procedural-style language based on SQL and JSON. The
 language does not conform to SQL, but it borrows several concepts from it to keep the language
-familiar, and extends it to apply to HTTP APIs This language currently has the following
+familiar, and extends it to apply to HTTP APIs. This language currently has the following
 capabilities:</p>
 
 <ul>
@@ -56,7 +54,7 @@ variables.</p>
 items = select * from items;
 return items;    
 </pre>
-  
+
 <p>The assignment happens when the right hand side completes. The right hand side can be one of the
 following:</p>
   
@@ -76,7 +74,14 @@ simplify the above script to the following single line script.</p>
 <pre class="brush: sql">
 return select * from items;
 </pre>
-  
+
+<p>Since <code>return</code> is implicit in single statement scripts, this is the same as using the
+following:</p>
+
+<pre class="brush: sql">
+select * from items
+</pre>
+
 <p>Selections and projects are not limited to tables - you can apply them to objects as well.</p>
 
 <span class="try"><a href="/console?s=persons%20%3D%20%5B%0A%20%20%7B%22fname%22%3A%20%22John%22%2C%22lname%22%3A%20%22Doe%22%2C%20%22address%22%3A%20%7B%22city%22%3A%20%22San%20Francisco%22%7D%7D%2C%0A%20%20%7B%22fname%22%3A%20%22Jane%22%2C%22lname%22%3A%20%22Doe%22%2C%20%22address%22%3A%20%7B%22city%22%3A%20%22Bend%22%7D%7D%0A%5D%3B%0Areturn%20select%20woeid%20as%20woeid%2C%20centroid%20as%20centroid%20from%20yahoo.woe%20%0A%20%20where%20loc%20in%20(%22%7Bpersons.%24..city%7D%22)%3B">try me</a></span>

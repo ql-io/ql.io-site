@@ -1,9 +1,7 @@
-<h1>Quicker Start</h1>
-
-<div class='clock'><canvas id="c0"></canvas></div>
+<h1>Even Quicker Start</h1>
 
 <p>In this guide, we will build an API to drive google maps and eBay item search like it is 2005!
-<em>The outcome of this exercise is going to be a single <code>select</code> statement</em> that
+<em>The outcome of this exercise will be a single <code>select</code> statement</em> that
 makes <em><code>12</code> HTTP requests</em>. Our task is to search for items using eBay's <a
 href="http://developer.ebay.com/devzone/finding/Concepts/FindingAPIGuide.html">Finding API</a>, get
 their details using the <a
@@ -32,8 +30,6 @@ need to install anything locally.</p>
 
 <h2>Step 1: Create Tables</h2>
 
-<div class='clock'><canvas id="c1" prop="5"></canvas></div>
-
 <p>We will need the following tables to drive this exercise. Simply copy and paste the following
 statements in the <a href="/console" target="_blank">Web Console</a>.</p>
 
@@ -60,8 +56,6 @@ create table google.geocode
 Subsequently we can use <code>select</code> statements to get the data we need.</p>
 
 <h2>Step 2: Write Selects and Joins</h2>
-
-<div class='clock'><canvas id="c2" prop="5"></canvas></div>
 
 <p>We will build the statement in three steps. The first step is to find items. The second step is
 to get their details including free form locations, and final step is to map free form locations
@@ -134,19 +128,6 @@ select e.ItemID as id, e.Title as title, e.ViewItemURLForNaturalSearch as url, g
         return false;
     }
     $(document).ready(function() {
-        var m = 0;
-        for(var i = 0; i < 3; i++) {
-            var diff = Number($('#c' + i).attr('prop') || 5);
-            var c = new CoolClock({
-                canvasId: 'c' + i,
-                showSecondHand: false,
-                displayRadius: 30
-            });
-            c.render(0, m, 0);
-            c.stop();
-            m = m + diff;
-        }
-
         runQuery("/q?s=select%20e.ItemID%20as%20id%2C%20e.Title%20as%20title%2C%20e.ViewItemURLForNaturalSearch%20as%20url%2C%20g.geometry.location%20as%20latlng%0A%20%20from%20details%20%20as%20e%2C%20google.geocode%20as%20g%0A%20%20where%20e.itemId%20in%20(select%20itemId%20from%20finditems%20where%20keywords%20%3D%20'mini')%0A%20%20and%20g.address%20%3D%20e.Location",
           '#ebay-goog-resp');
     });

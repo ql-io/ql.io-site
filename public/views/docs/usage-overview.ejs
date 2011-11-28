@@ -1,3 +1,31 @@
 <h1>How to Use</h1>
+
+<p>ql.io is not intended to replace frameworks (such as JAX-RS in the Java-land) that are currently
+used to build HTTP APIs. API producers can continue to use existing frameworks to offer that
+interfaces that are generic and broadly reusable. ql.io comes into play when a consumer of APIs
+wants to implement consumer-specific aggregation, orchestration, and optimizations. In other words,
+while existing frameworks continue to support "producer-controlled" interfaces, you can use ql.io to
+create "consumer-controlled" interfaces.</p>
+
+<p>We are building ql.io with flexible deployment in mind. Depending on where the network costs are
+felt, you can deploy ql.io closer to API servers or closer to users on the edge, or even on the
+front-end machines.</p>
+
+<p>The primary use of ql.io is to run it as a gateway at the reverse proxy tier, potentially between
+your load balancers and API servers.</p>
+
+<img  alt="ql.io as a gateway on the reverse-proxy tier" src="/images/docs/ql.io-as-gateway.png"/>
+
+<p>A secondary usage is deploy ql.io closer to client apps on the edge.</p>
+
+<img alt="[ql.io on the edge" src="/images/docs/ql.io-on-the-edge.png"/>
+
+<p>Edge side deployment can further reduce network costs for client apps by pushing API
+orchestration closer to them. Edge side deployment may yield significant gains when API servers are
+globally distributed, and the best place for aggregation may be closer to client apps.</p>
+
+<p>In addition, our choice of Javascript and node.js for building ql.io allows front-end apps built
+on node.js to use ql.io programmatically.</p>
+
+<img alt="ql.io on the node front end apps" src="/images/docs/ql.io-on-node.png"/>
   
-<p>TODO</p>

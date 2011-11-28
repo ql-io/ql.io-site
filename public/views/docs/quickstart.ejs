@@ -2,8 +2,6 @@
 
 <h1>Quick Start Guide</h1>
 
-<div class='clock'><canvas id="c0"></canvas></div>
-
 <p>In this guide, our goal is to build a solution for the following use case in under 30
 minutes.</p>
 
@@ -55,7 +53,6 @@ interfaces for each and every consumer.</em> </blockquote>
 
 <h2>Step 0: Prequisites</h2>
 
-<div class='clock'><canvas id="c1" prop="5"></canvas></div>
 
 <p>You will need <a href="http://nodejs.org">Node</a> version 0.4.10-0.4.12 and <a
 href='http://npmjs.org'>npm</a> installed on a Mac or Ubuntu before you get started. We've not tried
@@ -70,8 +67,6 @@ sudo apt-get install expat libexpat1-dev
 <p>See <a href="/docs/prerequisites">prerequisites</a> for detailed steps.</p>
 
 <h2>Step 1: Setup a New App</h2>
-
-<div class='clock'><canvas id="c2" prop="3"></canvas></div>
 
 <em>This step does not work until we (a) publish npm modules, and (b) open up github.</em>
 
@@ -102,8 +97,6 @@ show tables
 <p>This step confirms that you have a working version of ql.io ready.</p>
 
 <h2>Step 2: Create Tables</h2>
-
-<div class='clock'><canvas id="c3" prop="6"></canvas></div>
 
 <p>ql.io uses a SQL+JSON based <a href="/docs/reference/ql">DSL</a> for sending HTTP requests to
 APIs. In this DSL, a &quot;table&quot; is a &quot;consumer-centric&quot; interface to an API. For
@@ -184,8 +177,6 @@ response to <code>describe</code> statements.</p>
 
 <h2>Step 3: Write Selects and Joins</h2>
 
-<div class='clock'><canvas id="c4" prop="8"></canvas></div>
-
 <p>The final step is to write a script that gets the data we are interested in using
 <code>select</code> statements. For these steps, go back to the Web Console in your browser and
 clear the script area.</p>
@@ -265,8 +256,6 @@ script.</p>
 
 <h2>Step 3: Call the APIs Like a Pro</h2>
 
-<div class='clock'><canvas id="c5"></canvas></div>
-
 <p>The last step is make a request to see your route in action. Click on <a
 href="/myapi">http://localhost:3000/myapi</a> or try <code>curl</code> from a shell.
 
@@ -307,19 +296,6 @@ curl http://localhost:3000/myapi
         return false;
     }
     $(document).ready(function() {
-        var m = 0;
-        for(var i = 0; i < 6; i++) {
-            var diff = Number($('#c' + i).attr('prop') || 5);
-            var c = new CoolClock({
-                canvasId: 'c' + i,
-                showSecondHand: false,
-                displayRadius: 30
-            });
-            c.render(0, m, 0);
-            c.stop();
-            m = m + diff;
-        }
-
         runQuery("prodid = select ProductID[0].Value from eBay.FindProducts where QueryKeywords = 'macbook pro';\n" +
           "details = select * from eBay.ProductDetails where ProductID in ('{prodid}') and ProductType = 'Reference'\n" +
           "reviews = select * from eBay.ProductReviews where ProductID in ('{prodid}') and ProductType = 'Reference';\n" +

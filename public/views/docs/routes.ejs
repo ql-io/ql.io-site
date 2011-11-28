@@ -1,4 +1,45 @@
-<div class="breadcrumb"><a href="/docs">/docs</a></div>
+<h1>Script Routes</h1>
+  
+<p>A "route" is a new HTTP interface that maps to a script stored in the <code>routes</code>
+directory. In other words, a route is an extra level of indirection for stored scripts. For the
+client, a route looks like any other HTTP resource. Here is an example from the <a
+href="/docs/quickstart">Quick Start</a> guide.</p>
+
+<pre class="brush: sql">
+prodid = select ProductID[0].Value from eBay.FindProducts where
+    QueryKeywords = 'macbook pro';
+details = select * from eBay.ProductDetails where
+    ProductID in ('{prodid}') and ProductType = 'Reference';
+reviews = select * from eBay.ProductReviews where
+    ProductID in ('{prodid}') and ProductType = 'Reference';
+
+return select d.ProductID[0].Value as id, d.Title as title,
+    d.ReviewCount as reviewCount, r.ReviewDetails.AverageRating as rating
+    from details as d, reviews as r
+    where d.ProductID[0].Value = r.ProductID.Value
+    via route '/myapi' using method get;
+</pre>
+
+<p>The client submits a request to the path <code>/myapi</code> to execute this script.</p>
+  
+<p>Some common use cases for routes include the following:</p>
+  
+<ol>
+    <li>You want to keep clients independent of the orchestration logic. For instance, the client
+    may be an iOS app, and you want to avoid the need to upgrade the app by users when the
+    orchestration changes. </li>
+    
+    <li>You have an API and want to provide a simpler version of the API that removes some sensitive
+    fields from the response.</li>
+    
+    <li>You have some legacy SOAP based APIs and want to provide a simpler HTTP based
+    alternative serving JSON.</li>
+</ol>
+  
+<p>TODO</p>
+  
+<p>TODO: Route parameters</p>
+  
+<p>TODO: Route with POST or PUT</p>
 
 
-<li>How to supply inputs for routes (Headers should be lower case)</li>
