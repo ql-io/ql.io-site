@@ -129,6 +129,11 @@ li {
 }
 
 #container h2 {
+    font-size: large;
+    font-weight: bold;
+}
+
+#container h3 {
     font-size: medium;
     font-weight: bold;
 }
