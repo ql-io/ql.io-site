@@ -1,1 +1,143 @@
-TODO
+<h1><code>insert into</code> Statements</h1>
+  
+<p>This statement is used to add new data. Idempotency of this statement depends on the HTTP method
+used by the API.</p>
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="752"
+     height="36">
+    <defs>
+        <style type="text/css">
+            @namespace "http://www.w3.org/2000/svg";
+            .line {
+                fill: none;
+                stroke: #332900;
+            }
+
+            filled {
+                fill: #332900;
+                stroke: none;
+            }
+
+            text {
+                font-family: Verdana, Sans-serif;
+                font-size: 12px;
+                fill: #4D3D00;
+            }
+
+            text.terminal {
+                font-family: Verdana, Sans-serif;
+                font-size: 12px;
+                fill: #4D3D00;
+                font-weight: bold;
+            }
+
+            rect, circle, polygon {
+                fill: #332900;
+                stroke: #332900;
+            }
+
+            rect.terminal {
+                fill: #FFCC00;
+                stroke: #332900;
+            }
+
+            rect.nonterminal {
+                fill: #FFEB99;
+                stroke: #332900;
+            }
+
+            polygon.regexp {
+                fill: #FFF5CC;
+                stroke: #332900;
+            }
+        </style>
+    </defs>
+    <polygon points="9 17 1 13 1 21" class="filled"/>
+    <polygon points="17 17 9 13 9 21" class="filled"/>
+    <line x1="17" y1="17" x2="19" y2="17" class="line"/>
+    <rect x="31" y="3" width="58" height="32" rx="10"/>
+    <rect x="29" y="1" width="58" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="39" y="21">insert</text>
+    <line x1="19" y1="17" x2="29" y2="17" class="line"/>
+    <line x1="87" y1="17" x2="97" y2="17" class="line"/>
+    <rect x="109" y="3" width="32" height="32" rx="10"/>
+    <rect x="107" y="1" width="32" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="117" y="21">in</text>
+    <line x1="97" y1="17" x2="107" y2="17" class="line"/>
+    <line x1="139" y1="17" x2="149" y2="17" class="line"/>
+    <rect x="161" y="3" width="32" height="32" rx="10"/>
+    <rect x="159" y="1" width="32" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="169" y="21">to</text>
+    <line x1="149" y1="17" x2="159" y2="17" class="line"/>
+    <line x1="191" y1="17" x2="201" y2="17" class="line"/>
+    <a href="#table" xlink:title="table">
+        <rect x="213" y="3" width="52" height="32"/>
+        <rect x="211" y="1" width="52" height="32" class="nonterminal"/>
+        <text class="nonterminal" x="221" y="21">table</text>
+    </a>
+    <line x1="201" y1="17" x2="211" y2="17" class="line"/>
+    <line x1="263" y1="17" x2="273" y2="17" class="line"/>
+    <rect x="285" y="3" width="26" height="32" rx="10"/>
+    <rect x="283" y="1" width="26" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="293" y="21">(</text>
+    <line x1="273" y1="17" x2="283" y2="17" class="line"/>
+    <line x1="309" y1="17" x2="319" y2="17" class="line"/>
+    <a href="#columnsClause" xlink:title="columnsClause">
+        <rect x="331" y="3" width="114" height="32"/>
+        <rect x="329" y="1" width="114" height="32" class="nonterminal"/>
+        <text class="nonterminal" x="339" y="21">columnsClause</text>
+    </a>
+    <line x1="319" y1="17" x2="329" y2="17" class="line"/>
+    <line x1="443" y1="17" x2="453" y2="17" class="line"/>
+    <rect x="465" y="3" width="26" height="32" rx="10"/>
+    <rect x="463" y="1" width="26" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="473" y="21">)</text>
+    <line x1="453" y1="17" x2="463" y2="17" class="line"/>
+    <line x1="489" y1="17" x2="499" y2="17" class="line"/>
+    <rect x="511" y="3" width="62" height="32" rx="10"/>
+    <rect x="509" y="1" width="62" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="519" y="21">values</text>
+    <line x1="499" y1="17" x2="509" y2="17" class="line"/>
+    <line x1="571" y1="17" x2="581" y2="17" class="line"/>
+    <rect x="593" y="3" width="26" height="32" rx="10"/>
+    <rect x="591" y="1" width="26" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="601" y="21">(</text>
+    <line x1="581" y1="17" x2="591" y2="17" class="line"/>
+    <line x1="617" y1="17" x2="627" y2="17" class="line"/>
+    <a href="#csv" xlink:title="csv">
+        <rect x="639" y="3" width="40" height="32"/>
+        <rect x="637" y="1" width="40" height="32" class="nonterminal"/>
+        <text class="nonterminal" x="647" y="21">csv</text>
+    </a>
+    <line x1="627" y1="17" x2="637" y2="17" class="line"/>
+    <line x1="677" y1="17" x2="687" y2="17" class="line"/>
+    <rect x="699" y="3" width="26" height="32" rx="10"/>
+    <rect x="697" y="1" width="26" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="707" y="21">)</text>
+    <line x1="687" y1="17" x2="697" y2="17" class="line"/>
+    <line x1="723" y1="17" x2="733" y2="17" class="line"/>
+    <line x1="736" y1="17" x2="733" y2="17" class="line"/>
+    <polygon points="743 17 751 13 751 21" class="filled"/>
+    <polygon points="743 17 735 13 735 21" class="filled"/>
+</svg>
+
+<pre class="brush: sql; toolbar: false">
+insert into {table}  ({list of columns}) values ({comma-separated name-value pairs})
+</pre>
+  
+<h2>Examples</h2>
+
+<span class="try"><a href="/console?s=insert%20into%20bitly.shorten%20(longUrl)%20values%20('http%3A%2F%2Fql.io%2Fdocs')">try me</a></span>
+<pre class="brush: sql; toolbar: false">
+insert into bitly.shorten (longUrl) values ('http://ql.io/docs')
+</pre>
+  
+<h2>Clauses</h2>
+  
+<h3>Columns</h3>
+  
+<p>Comma separated list of columns.</p>
+  
+<h3>Values</h3>
+  
+<p>Comma-separated name-value pairs. The number of pairs must match the number of columns.</p>

@@ -1,10 +1,8 @@
-<h1>Selects</h1>
+<h1><code>select</code> Statements</h1>
 
 <p>Select statement is used to retrieve data. For well-designed HTTP APIs, a <code>select</code>
 maps to HTTP <code>GET</code>. But if your APIs are using POST over XML or SOAP, a
-<code>select</code> may map to a <code>POST</code> request.</p>
-  
-<p>The syntax of a <code>select</code> statement is as follows:</p>
+<code>select</code> may map to a <code>POST</code> request. </p>
 
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="932"
      height="68">
@@ -150,189 +148,91 @@ maps to HTTP <code>GET</code>. But if your APIs are using POST over XML or SOAP,
     <polygon points="923 33 915 29 915 37" class="filled"/>
 </svg>
 
-<p>TODO: add a note format conversion to JSON.</p>
-
-<p>TODO: add a note about XML namespaces.</p>
-
-
-<p>TODO.</p>
-
-
-<p>When you specify list of fields in the columns clause of a <code>select</code> statement, ql.io returns the
-results in the form of a table - with each row containing the selected fields. For instance, the
-query below return a table with each row containing three fields.</p>
-
-<pre class="brush: sql">select title, itemId, primaryCategory.categoryName,
-     sellingStatus.currentPrice from ebay.finding.items where keywords='iPhone'
+<pre class="brush: sql; toolbar: false">
+select {*|comma-separated columns with/without aliases} from
+    {table|table1 as alias1, table2 as alias2}
+    where {conditions}*
+    limit {number}
+    offset {number}
 </pre>
 
-<p>A sample result set is below.</p>
+<h2>Examples</h2>
+  
+<h3>Select All</h3>
 
-<pre class="brush: js">
-[
-  [
-    "Apple iPhone 4 (32GB) Black AT&amp;T b",
-    "390352995399",
-    "Cell Phones&amp;Smartphones",
-    {
-      "currencyId": "USD",
-      "$t": "379.99"
-    }
-  ],
-  [
-    "Apple iPhone 4 (Latest Model) - 16GB - Black (AT&amp;T) Smartphone",
-    "270828638551",
-    "Cell Phones&amp;Smartphones",
-    {
-      "currencyId": "USD",
-      "$t": "315.0"
-    }
-  ],
-  ...
-]
+<span class="try"><a href="/console?s=select%20*%20from%20finditems%20where%20keywords%3D'iPhone'">try me</a></span>
+<pre class="brush: sql; toolbar: false">
+select * from finditems where keywords='iPhone'
 </pre>
 
-<p>While this is a compact way getting the data you need, you need to refer to the selected columns to
-know which element in a row refers to which field. You can optionally use column aliases to annotate
-each field with a name.</p>
+<p>This returns the complete response in the JSON format. If the API returns XML, the XML will be
+transformed into JSON, but if not, the same JSON is returned.</p>
 
-<pre class="brush: sql">
-select title as title, itemId as id, primaryCategory.categoryName as cat,
-       sellingStatus.currentPrice as price
-from ebay.finding.items
-where keywords='iPhone'
+<h3>Select Fields</h3>
+  
+<span class="try"><a href="/console?s=select%20title%2C%20itemId%2C%20primaryCategory.categoryName%2C%0A%20%20sellingStatus.currentPrice%20from%20finditems%20where%20keywords%3D'iPhone'">try me</a></span>
+<pre class="brush: sql; toolbar: false">
+select title, itemId, primaryCategory.categoryName,
+    sellingStatus.currentPrice from finditems where keywords='iPhone'
 </pre>
 
-<p>This will change the above result set to</p>
-
-<pre class="brush: js">[
-  {
-    "title": "Apple iPhone 4 (32GB) Black AT&amp;T b",
-    "id": "390352995399",
-    "cat": "Cell Phones&amp;Smartphones",
-    "price": {
-      "currencyId": "USD",
-      "$t": "379.99"
-    }
-  },
-  {
-    "title": "Apple iPhone 4 (Latest Model) - 16GB - Black (AT&amp;T) Smartphone",
-    "id": "270828638551",
-    "cat": "Cell Phones&amp;Smartphones",
-    "price": {
-      "currencyId": "USD",
-      "$t": "315.0"
-    }
-  },
-  ...
-}
+<p>This returns results in a tabular form with each row containing the selected fields.</p>
+  
+<h3>Select Fields with Aliases</h3>
+  
+<span class="try"><a href="/console?s=select%20title%20as%20title%2C%20itemId%20as%20id%2C%20primaryCategory.categoryName%20as%20category%2C%0A%20%20%20%20sellingStatus.currentPrice%20as%20price%20from%20finditems%20where%20keywords%3D'iPhone'">try me</a></span>
+<pre class="brush: sql; toolbar: false">
+select title as title, itemId as id, primaryCategory.categoryName as category,
+    sellingStatus.currentPrice as price from finditems where keywords='iPhone'
 </pre>
 
-<p>which is usually much more convenient to use.</p>
+<h3>Nested Select</h3>
 
-<p>With respect to stadard SQL, note the following differences:</p>
+<span class="try"><a href="/console?s=select%20ItemID%2C%20ViewItemURLForNaturalSearch%2C%20Location%20from%20details%20where%20itemId%20in%20%0A%20%20%20%20(select%20itemId%20from%20finditems%20where%20keywords%3D'mini%20cooper')%3B">try me</a></span>
+<pre class="brush: sql; toolbar: false;">
+select ItemID, ViewItemURLForNaturalSearch, Location from details where itemId in
+    (select itemId from finditems where keywords='mini cooper');
+</pre>
 
-<ul>
-<li>Each alias must use 'as'. In SQL, 'as' is optional, but in ql.io 'as' is not optional.</li>
-<li>When you decide to use aliases, use alias names for all the selected fields. If not, ql.io will
-return an error.</li>
-</ul>
+<h3>Join</h3>
 
-<p>Apart from annotating fields in result sets, column aliases let you join result sets on the fly.</p>
-
-<h2>Joins</h2>
-
-<p>You can use joins in statements to join data from two HTTP resources at a time by using a join condition. Here is an example.</p>
-
-<pre class="brush: sql">
-select e.Title, e.ItemID, g.geometry.location
-from ebay.shopping.item as e, google.geocode as g
-where e.itemId = 250894819626
+<span class='try'><a href="/console?s=select%20e.ItemID%20as%20id%2C%20e.Title%20as%20title%2C%20e.ViewItemURLForNaturalSearch%20as%20url%2C%20g.geometry.location%20as%20latlng%0A%20%20from%20details%20%20as%20e%2C%20google.geocode%20as%20g%0A%20%20where%20e.itemId%20in%20(select%20itemId%20from%20finditems%20where%20keywords%20%3D%20'mini')%0A%20%20and%20g.address%20%3D%20e.Location">Try me</a></span>
+<pre class="brush: sql; toolbar: false;">
+select e.ItemID as id, e.Title as title, e.ViewItemURLForNaturalSearch as url, g.geometry.location as latlng
+  from details  as e, google.geocode as g
+  where e.itemId in (select itemId from finditems where keywords = 'mini')
   and g.address = e.Location
 </pre>
 
-<p>This statement combines two HTTP resources via the join condition <code>g.address = e.Location</code> resulting in a resultset like the following.</p>
+<h2>Clauses</h2>
+  
+<h3>Columns Clause</h3>
+  
+<p>List of columns with or without alias names, or <code>*</code></p>
 
-<pre class="brush: js">
-[
-  [
-    "Fun Minis - Springtime Sheep - Set of 50",
-    "250894819626",
-    {
-      "lat": 37.7749295,
-      "lng": -122.4194155
-    }
-  ]
-]
-</pre>
+<p>When using aliases, all selected columns must be aliased. Aliases must be prefixed with
+<code>as</code>.</p>
 
-<p>Note the following differences from SQL:</p>
+<h3>From Clause</h3>
 
+<p>Up to two tables, in the natural order of dependencies.</p>
+  
+<p>When using a join, table names must be followed by <code>as</code> and an alias name.</p>
+
+<h3>Where Clause</h3>
+
+<p>List of zero or more conditions. Conditions must be separated by an <code>and</code>. Two types
+of conditions are supported.</p>
+  
 <ul>
-<li>The <code>from</code> clause can not contain more than two tables. If you need to join from more than two, you can write multiple <code>select</code> statements each containing a join, and then do further joins on the results by using column aliases.</li>
-<li>Tables in the <code>from</code> clause must be aliased using <code>as</code>.</li>
-<li>The tables in the <code>from</code> clause must be ordered in the order of dependencies. In the above example, <code>ebay.shopping.item</code> provides data for <code>google.geocode</code> and hence must be listed first in the <code>from</code> clause.</li>
+    <li>Equals, using the <code>=</code> operator</li>
+    <li>Nested select, using <code>in</code> clause</li>
 </ul>
 
-<p>You can shape the response of this query by using column aliasing.</p>
+<h3>Limit</h3>
+  
+<p>The value of the limit is used to limit the number of results.</p>
 
-<pre class="brush: sql">
-select e.Title as title, e.ItemID as id, g.geometry.location as latng
-from ebay.shopping.item as e, google.geocode as g
-where e.itemId = 250894819626
-  and g.address = e.Location
-</pre>
-
-<p>which results in</p>
-
-<pre class="brush: js">
-  {
-    "title": "Fun Minis - Springtime Sheep - Set of 50",
-    "id": "250894819626",
-    "latng": {
-      "lat": 44.8363889,
-      "lng": 15.7580556
-    }
-  }
-]
-</pre>
-
-<p>Here is another example.</p>
-
-<pre class="brush: sql">
-itemId = select itemId from ebay.finding.items where keywords = 'ferrari' limit 1;
-item = select * from ebay.shopping.singleitem where itemId = '{itemId}';
-tradingItem = select * from ebay.trading.getitem where itemId = '{itemId}';
-return select i.BidCount as bids, ti.ListingDetails as details from item as i, tradingItem as ti where i.ItemID = ti.ItemID;
-</pre>
-
-<p>With the <code>return</code> statement joining <code>item</code> and <code>tradingItem</code>, you can expect a result set like the
-following:</p>
-
-<pre class="brush: js">
-[
-  {
-    "bids": 8,
-    "details": {
-      "Adult": "false",
-      "BindingAuction": "false",
-      "CheckoutEnabled": "true",
-      "ConvertedBuyItNowPrice": {
-        "currencyID": "USD",
-        "$t": "45000.0"
-      },
-      "ConvertedStartPrice": {
-        "currencyID": "USD",
-        "$t": "20000.0"
-      },
-      "HasReservePrice": "true",
-      "StartTime": "2011-09-29T18:42:27.000Z",
-      "EndTime": "2011-10-06T18:42:27.000Z",
-      "ViewItemURL": "http://www.ebay.com/itm/2000-Ferrari-456-MGTA-RESERVE-LOWERED-456MGTA-456M-low-miles-Tubi-1-Owner-/300604864667",
-      "HasUnansweredQuestions": "true",
-      "HasPublicMessages": "false",
-      "ViewItemURLForNaturalSearch": "http://www.ebay.com/itm/2000-Ferrari-456-MGTA-RESERVE-LOWERED-456MGTA-456M-low-miles-Tubi-1-Owner-/300604864667"
-    }
-  }
-]
-</pre>
+<h3>Offset</h3>
+  
+<p>The value of this parameter is used to paginate a response.</p>

@@ -32,7 +32,7 @@
     },
     {
         "title" : "Nested Selection and Joins",
-        "note" : "This query first finds items and then gets their details. See <a href='/docs/quickerstart'>Even Quicker Start Guide</a>.",
+        "note" : "This query first finds items and then gets their details. See <a href='/docs/quickstart'>Quick Start Guide</a>.",
         "statement" : "select e.ItemID as id, e.Title as title, e.ViewItemURLForNaturalSearch as url, g.geometry.location as latlng\n  from details  as e, google.geocode as g\n  where e.itemId in (select itemId from finditems where keywords = &quot;mini&quot;) and g.address = e.Location"
     },
     {
