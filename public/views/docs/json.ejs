@@ -1,8 +1,8 @@
 <h1>JSON</h1>
   
 <p>ql.io's native data format is JSON. When an API returns XML, ql.io coerces into JSON before any
-processing. During this processing, namespaces are preserved, and namespace prefixes are
-retained.</p>
+processing by using <a href="https://github.com/buglabs/node-xml2json">node-xml2json</a>. During
+this processing, namespaces attributes and prefixes are preserved.</p>
   
 <p>In addition, the language supports declaration of the following types of variables.</p>
   

@@ -1,21 +1,15 @@
 <div class="breadcrumb"><a href="/docs">/docs</a></div>
 
 <h1>Runtime Monitoring</h1>
+
+<h2>Logs</h2>
   
-<p>When you lauch ql.io from the start script, ql.io server starts listening on two ports:
-<code>3000</code> and <code>3001</code>. The first port is meant for executing client requests while
-the second port is meant for monitoring. This allows you route requests on port 80 on your
-load-balancer or reverse proxy to port <code>3000</code> without exposing the monitoring
-interface.</p>
-  
-<p>Go to <a href="http://localhost:3001">http://localhost:3001</a> to see the monitoring interface.
-Check <a href="http://localhost:3001/logs">http://localhost:3001/logs</a> to see all log
-files.</p>
+<p>See the <code>logs</code> subdirectory. Log files are also served at
+<code>http://localhost:3001/logs</code>.</p>
 
 <h2>Health Checks</h2>
   
 <p>Send a GET request to <code>http://{host}:{port}:3000/ecv</code>.</p>
-
 
 <blockquote>
     This part of ql.io is still under development.

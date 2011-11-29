@@ -5,7 +5,7 @@ single) strings. Tokens can be variables, or JSONPath style expressions.</p>
   
 <p>Here is an example that uses simple variable references.</p>
 
-<pre class="brush: sql">
+<pre class="brush: sql; toolbar: false;">
 a = true;
 b = "{a}";
 return b;
@@ -16,7 +16,7 @@ return b;
 <p>Here is another example that uses several variable references.</p>
 
 <span class="try"><a href="/console?s=a%20%3D%20true%3B%0Ab%20%3D%20%22b%22%3B%0Ac%20%3D%20%5B1%2C2%2C3%2C4%5D%3B%0Ad%20%3D%20%5B1%2C%20true%2C%203%2C%20false%5D%3B%0Ae%20%3D%20%7B%0A%20%20%22a%22%3A%20%22%7Ba%7D%22%2C%0A%20%20%22b%22%3A%20%22%7Bb%7D%22%2C%0A%20%20%22c%22%3A%20%5B%22%7Ba%7D%22%2C%20%22%7Bb%7D%22%2C%20%22%7Bc%7D%22%5D%2C%0A%20%20%22d%22%3A%20%22%7Bd%7D%22%0A%7D%3B%0Areturn%20e%3B">try me</a></span>
-<pre class="brush: sql">
+<pre class="brush: sql; toolbar: false;">
 a = true;
 b = "b";
 c = [1,2,3,4];
@@ -36,7 +36,7 @@ return e;
 
 <p>Use dot notation to refer to fields in objects.</p>
 
-<pre class="brush: sql">
+<pre class="brush: sql; toolbar: false;">
 a = {
  "b": {
    "c": "C"
@@ -51,7 +51,7 @@ return "{a.b.c}";
 href="http://goessner.net/articles/JsonPath/">JSONPath</a>.</p>
 
 <span class="try"><a href="/console?s=store%20%3D%20%7B%0A%20%20%20%20%22book%22%3A%20%5B%20%0A%20%20%20%20%20%20%7B%20%22category%22%3A%20%22reference%22%2C%0A%20%20%20%20%20%20%20%20%22author%22%3A%20%22Nigel%20Rees%22%2C%0A%20%20%20%20%20%20%20%20%22title%22%3A%20%22Sayings%20of%20the%20Century%22%2C%0A%20%20%20%20%20%20%20%20%22price%22%3A%208.95%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%7B%20%22category%22%3A%20%22fiction%22%2C%0A%20%20%20%20%20%20%20%20%22author%22%3A%20%22Evelyn%20Waugh%22%2C%0A%20%20%20%20%20%20%20%20%22title%22%3A%20%22Sword%20of%20Honour%22%2C%0A%20%20%20%20%20%20%20%20%22price%22%3A%2012.99%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%7B%20%22category%22%3A%20%22fiction%22%2C%0A%20%20%20%20%20%20%20%20%22author%22%3A%20%22Herman%20Melville%22%2C%0A%20%20%20%20%20%20%20%20%22title%22%3A%20%22Moby%20Dick%22%2C%0A%20%20%20%20%20%20%20%20%22isbn%22%3A%20%220-553-21311-3%22%2C%0A%20%20%20%20%20%20%20%20%22price%22%3A%208.99%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%7B%20%22category%22%3A%20%22fiction%22%2C%0A%20%20%20%20%20%20%20%20%22author%22%3A%20%22J.%20R.%20R.%20Tolkien%22%2C%0A%20%20%20%20%20%20%20%20%22title%22%3A%20%22The%20Lord%20of%20the%20Rings%22%2C%0A%20%20%20%20%20%20%20%20%22isbn%22%3A%20%220-395-19395-8%22%2C%0A%20%20%20%20%20%20%20%20%22price%22%3A%2022.99%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%5D%2C%0A%20%20%20%20%22bicycle%22%3A%20%7B%0A%20%20%20%20%20%20%22color%22%3A%20%22red%22%2C%0A%20%20%20%20%20%20%22price%22%3A%2019.95%0A%20%20%20%20%7D%0A%20%20%7D%3B%0A%0Areturn%20%22%7Bstore.book%5B*%5D.author%7D%22%3B">try me</a></span>
-<pre class="brush: sql">
+<pre class="brush: sql; toolbar: false;">
 store = {
     "book": [
       { "category": "reference",
@@ -90,14 +90,14 @@ return "{store.book[*].author}";
 <p>You can change the last line from the above example to the one below to get the same result</p>
   
 <span class="try"><a href="/console?s=store%20%3D%20%7B%0A%20%20%20%20%22book%22%3A%20%5B%20%0A%20%20%20%20%20%20%7B%20%22category%22%3A%20%22reference%22%2C%0A%20%20%20%20%20%20%20%20%22author%22%3A%20%22Nigel%20Rees%22%2C%0A%20%20%20%20%20%20%20%20%22title%22%3A%20%22Sayings%20of%20the%20Century%22%2C%0A%20%20%20%20%20%20%20%20%22price%22%3A%208.95%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%7B%20%22category%22%3A%20%22fiction%22%2C%0A%20%20%20%20%20%20%20%20%22author%22%3A%20%22Evelyn%20Waugh%22%2C%0A%20%20%20%20%20%20%20%20%22title%22%3A%20%22Sword%20of%20Honour%22%2C%0A%20%20%20%20%20%20%20%20%22price%22%3A%2012.99%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%7B%20%22category%22%3A%20%22fiction%22%2C%0A%20%20%20%20%20%20%20%20%22author%22%3A%20%22Herman%20Melville%22%2C%0A%20%20%20%20%20%20%20%20%22title%22%3A%20%22Moby%20Dick%22%2C%0A%20%20%20%20%20%20%20%20%22isbn%22%3A%20%220-553-21311-3%22%2C%0A%20%20%20%20%20%20%20%20%22price%22%3A%208.99%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%7B%20%22category%22%3A%20%22fiction%22%2C%0A%20%20%20%20%20%20%20%20%22author%22%3A%20%22J.%20R.%20R.%20Tolkien%22%2C%0A%20%20%20%20%20%20%20%20%22title%22%3A%20%22The%20Lord%20of%20the%20Rings%22%2C%0A%20%20%20%20%20%20%20%20%22isbn%22%3A%20%220-395-19395-8%22%2C%0A%20%20%20%20%20%20%20%20%22price%22%3A%2022.99%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%5D%2C%0A%20%20%20%20%22bicycle%22%3A%20%7B%0A%20%20%20%20%20%20%22color%22%3A%20%22red%22%2C%0A%20%20%20%20%20%20%22price%22%3A%2019.95%0A%20%20%20%20%7D%0A%20%20%7D%3B%0A%0Areturn%20%22%7Bstore.%24..author%7D%22%3B">try me</a></span>
-<pre class="brush: sql">
+<pre class="brush: sql; toolbar: false;">
 return "{store.$..author}";
 </pre>
 
 <p>Use <code>$..</code> to find all values. The example below finds prices of all items.</p>
 
 <span class="try"><a href="/console?s=store%20%3D%20%7B%0A%20%20%20%20%22book%22%3A%20%5B%20%0A%20%20%20%20%20%20%7B%20%22category%22%3A%20%22reference%22%2C%0A%20%20%20%20%20%20%20%20%22author%22%3A%20%22Nigel%20Rees%22%2C%0A%20%20%20%20%20%20%20%20%22title%22%3A%20%22Sayings%20of%20the%20Century%22%2C%0A%20%20%20%20%20%20%20%20%22price%22%3A%208.95%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%7B%20%22category%22%3A%20%22fiction%22%2C%0A%20%20%20%20%20%20%20%20%22author%22%3A%20%22Evelyn%20Waugh%22%2C%0A%20%20%20%20%20%20%20%20%22title%22%3A%20%22Sword%20of%20Honour%22%2C%0A%20%20%20%20%20%20%20%20%22price%22%3A%2012.99%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%7B%20%22category%22%3A%20%22fiction%22%2C%0A%20%20%20%20%20%20%20%20%22author%22%3A%20%22Herman%20Melville%22%2C%0A%20%20%20%20%20%20%20%20%22title%22%3A%20%22Moby%20Dick%22%2C%0A%20%20%20%20%20%20%20%20%22isbn%22%3A%20%220-553-21311-3%22%2C%0A%20%20%20%20%20%20%20%20%22price%22%3A%208.99%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%7B%20%22category%22%3A%20%22fiction%22%2C%0A%20%20%20%20%20%20%20%20%22author%22%3A%20%22J.%20R.%20R.%20Tolkien%22%2C%0A%20%20%20%20%20%20%20%20%22title%22%3A%20%22The%20Lord%20of%20the%20Rings%22%2C%0A%20%20%20%20%20%20%20%20%22isbn%22%3A%20%220-395-19395-8%22%2C%0A%20%20%20%20%20%20%20%20%22price%22%3A%2022.99%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%5D%2C%0A%20%20%20%20%22bicycle%22%3A%20%7B%0A%20%20%20%20%20%20%22color%22%3A%20%22red%22%2C%0A%20%20%20%20%20%20%22price%22%3A%2019.95%0A%20%20%20%20%7D%0A%20%20%7D%3B%0A%0Areturn%20%22%7Bstore.%24..price%7D%22%3B">try me</a></span>
-<pre class="brush: sql">
+<pre class="brush: sql; toolbar: false;">
     return "{store.$..price}";
 </pre>
   
@@ -111,15 +111,14 @@ return "{store.$..author}";
 <code>$..book[?(@.isbn)]</code> for the value of the variable <code>store</code>.</p>
 
 <span class="try"><a href="/console?s=store%20%3D%20%7B%0A%20%20%20%20%22book%22%3A%20%5B%20%0A%20%20%20%20%20%20%7B%20%22category%22%3A%20%22reference%22%2C%0A%20%20%20%20%20%20%20%20%22author%22%3A%20%22Nigel%20Rees%22%2C%0A%20%20%20%20%20%20%20%20%22title%22%3A%20%22Sayings%20of%20the%20Century%22%2C%0A%20%20%20%20%20%20%20%20%22price%22%3A%208.95%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%7B%20%22category%22%3A%20%22fiction%22%2C%0A%20%20%20%20%20%20%20%20%22author%22%3A%20%22Evelyn%20Waugh%22%2C%0A%20%20%20%20%20%20%20%20%22title%22%3A%20%22Sword%20of%20Honour%22%2C%0A%20%20%20%20%20%20%20%20%22price%22%3A%2012.99%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%7B%20%22category%22%3A%20%22fiction%22%2C%0A%20%20%20%20%20%20%20%20%22author%22%3A%20%22Herman%20Melville%22%2C%0A%20%20%20%20%20%20%20%20%22title%22%3A%20%22Moby%20Dick%22%2C%0A%20%20%20%20%20%20%20%20%22isbn%22%3A%20%220-553-21311-3%22%2C%0A%20%20%20%20%20%20%20%20%22price%22%3A%208.99%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%7B%20%22category%22%3A%20%22fiction%22%2C%0A%20%20%20%20%20%20%20%20%22author%22%3A%20%22J.%20R.%20R.%20Tolkien%22%2C%0A%20%20%20%20%20%20%20%20%22title%22%3A%20%22The%20Lord%20of%20the%20Rings%22%2C%0A%20%20%20%20%20%20%20%20%22isbn%22%3A%20%220-395-19395-8%22%2C%0A%20%20%20%20%20%20%20%20%22price%22%3A%2022.99%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%5D%2C%0A%20%20%20%20%22bicycle%22%3A%20%7B%0A%20%20%20%20%20%20%22color%22%3A%20%22red%22%2C%0A%20%20%20%20%20%20%22price%22%3A%2019.95%0A%20%20%20%20%7D%0A%20%20%7D%3B%0A%0Areturn%20%22%7Bstore.%24..book%5B%3F(%40.isbn)%5D%7D%22%3B">try me</a></span>
-<pre class="brush: sql">
+<pre class="brush: sql; toolbar: false;">
 return "{store.$..book[?(@.isbn)]}";
 </pre>
   
-<p>JSONPath support in variable references allows you slice and dice deep collections. For instance,
-here is a script that returns a deep collection that has <code>ItemID</code>s at multiple
-levels.</p>
+<p>JSONPath support in variable references allows you slice and dice deep collections. Here is a
+script that returns a deep collection that has <code>ItemID</code>s at multiple levels.</p>
   
-<pre class="brush: sql">
+<pre class="brush: sql; toolbar: false;">
 resp = select * from someDeepCollection;
 ids = "{resp.$..ItemID}";
 details = select * from someDeetails where id in ("{ids}");
@@ -127,14 +126,14 @@ details = select * from someDeetails where id in ("{ids}");
   
 <p>TODO: Need a live example.</p>
   
-<p>This script first gets the complete respose of the collection, and then looks for
+<p>This script first gets the complete response of the collection, and then looks for
 <code>ItemID</code>s. It then uses those IDs to find details. While the first statement involves a
 network round-trip, the second statement happens in memory.</p>
   
 <p>You can use similar tricks for APIs that return multiple collections. Imagine an API that returns
 a person's friends and followers.</p>
   
-<pre class="brush: sql">
+<pre class="brush: sql; toolbar: false;">
 person = select * from persons where id = 'someuser';
 friends = "{person.friends}";
 followers = "{person.followers}";
