@@ -5,7 +5,7 @@ directory. In other words, a route is an extra level of indirection for stored s
 client, a route looks like any other HTTP resource. Here is an example from the <a
 href="/docs/build-an-app">Build an App</a> guide.</p>
 
-<pre class="brush: sql">
+<pre class="brush: sql; toolbar: false">
 prodid = select ProductID[0].Value from eBay.FindProducts where
     QueryKeywords = 'macbook pro';
 details = select * from eBay.ProductDetails where
@@ -25,21 +25,40 @@ return select d.ProductID[0].Value as id, d.Title as title,
 <p>Some common use cases for routes include the following:</p>
   
 <ol>
-    <li>You want to keep clients independent of the orchestration logic. For instance, the client
-    may be an iOS app, and you want to avoid the need to upgrade the app by users when the
-    orchestration changes. </li>
+    <li>Your script is too long and sending it with every HTTP request introduces network
+    overhead.</li>
+    
+    <li>You want to keep clients independent of the script. For instance, the client may be an iOS
+    app, and you want to avoid the need to upgrade the app by users when the orchestration changes.
+    </li>
     
     <li>You have an API and want to provide a simpler version of the API that removes some sensitive
     fields from the response.</li>
     
-    <li>You have some legacy SOAP based APIs and want to provide a simpler HTTP based
-    alternative serving JSON.</li>
+    <li>You have some legacy SOAP based APIs and want to provide a simpler HTTP based alternative
+    serving JSON.</li>
 </ol>
-  
-<p>TODO</p>
-  
-<p>TODO: Route parameters</p>
-  
-<p>TODO: Route with POST or PUT</p>
 
+<p>Routing is the preferred method of executing scripts.</p>
 
+<h2>HTTP Methods</h2>
+  
+<p>A route can be declared to use any HTTP method. For instance the following route can only be
+invoked using HTTP method <code>POST</code>.</p>
+
+<pre class="brush: sql; toolbar: false">
+prodid = select ProductID[0].Value from eBay.FindProducts where
+    QueryKeywords = 'macbook pro';
+details = select * from eBay.ProductDetails where
+    ProductID in ('{prodid}') and ProductType = 'Reference';
+reviews = select * from eBay.ProductReviews where
+    ProductID in ('{prodid}') and ProductType = 'Reference';
+
+return select d.ProductID[0].Value as id, d.Title as title,
+    d.ReviewCount as reviewCount, r.ReviewDetails.AverageRating as rating
+    from details as d, reviews as r
+    where d.ProductID[0].Value = r.ProductID.Value
+    via route '/myapi' using method post;
+</pre>
+
+<h2>Route Path</h2>
