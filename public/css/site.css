@@ -137,3 +137,7 @@ li {
     font-size: medium;
     font-weight: bold;
 }
+
+.syntaxhighlighter {
+    padding-bottom: 1em;
+}
