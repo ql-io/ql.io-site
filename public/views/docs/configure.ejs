@@ -64,14 +64,18 @@ approach to determine its value:</p>
 <code>bitly.shorten</code> table.</p>
 
 
-<pre class="brush: plain">
+<pre class="brush: sql; toolbar: false">
 insert into bitly.shorten (longUrl, apikey) values ('http://ql.io/docs', 'mykey')
+</pre>
 
+<pre class="brush: bash; toolbar: false">
 curl -v http://localhost:3000/q?s=insert%20into%20bitly.shorten%20(longUrl)%20
-     values%20('http%3A%2F%2Fwww.subbu.org%2Farchives')&amp;apikey=mykey
+     values%20('http%3A%2F%2Fql.io%2Fdocs')&amp;apikey=mykey
+</pre>
 
+<pre class="brush: bash; toolbar: false">
 curl -v http://localhost:3000/q?s=insert%20into%20bitly.shorten%20(longUrl)%20
-     values%20('http%3A%2F%2Fwww.subbu.org%2Farchives')
+     values%20('http%3A%2F%2Fql.io%2Fdocs')
      --header 'apikey: mykey'
 </pre>
 
