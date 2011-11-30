@@ -87,18 +87,19 @@ geocoding API to find their locations using a join.</p>
 
 <pre class="brush: sql; toolbar: false;">
 
-select e.ItemID, e.Title, e.ViewItemURLForNaturalSearch, g.geometry.location from details  as e, google.geocode as g where 
-  e.itemId in (select itemId from finditems where keywords = 'mini')      
-  and g.address = e.Location    
+select e.ItemID, e.Title, e.ViewItemURLForNaturalSearch, g.geometry.location
+    from details as e, google.geocode as g where
+    e.itemId in (select itemId from finditems where keywords = 'mini cooper')
+    and g.address = e.Location
 </pre>
 
 <p>Finally, add aliases to selected columns to make the response descriptive.</p>
 
-<span class='try'><a href="/console?s=select%20e.ItemID%20as%20id%2C%20e.Title%20as%20title%2C%20e.ViewItemURLForNaturalSearch%20as%20url%2C%20g.geometry.location%20as%20latlng%0A%20%20from%20details%20%20as%20e%2C%20google.geocode%20as%20g%0A%20%20where%20e.itemId%20in%20(select%20itemId%20from%20finditems%20where%20keywords%20%3D%20'mini')%0A%20%20and%20g.address%20%3D%20e.Location">Try me</a></span>
+<span class='try'><a href="/console?s=select%20e.ItemID%20as%20id%2C%20e.Title%20as%20title%2C%20e.ViewItemURLForNaturalSearch%20as%20url%2C%20g.geometry.location%20as%20latlng%0A%20%20from%20details%20%20as%20e%2C%20google.geocode%20as%20g%0A%20%20where%20e.itemId%20in%20(select%20itemId%20from%20finditems%20where%20keywords%20%3D%20'mini%20cooper')%0A%20%20and%20g.address%20%3D%20e.Location">Try me</a></span>
 <pre class="brush: sql; toolbar: false;">
 select e.ItemID as id, e.Title as title, e.ViewItemURLForNaturalSearch as url, g.geometry.location as latlng
   from details  as e, google.geocode as g
-  where e.itemId in (select itemId from finditems where keywords = 'mini')
+  where e.itemId in (select itemId from finditems where keywords = 'mini cooper')
   and g.address = e.Location
 </pre>
   
@@ -137,7 +138,7 @@ select e.ItemID as id, e.Title as title, e.ViewItemURLForNaturalSearch as url, g
         return false;
     }
     $(document).ready(function() {
-        runQuery("/q?s=select%20e.ItemID%20as%20id%2C%20e.Title%20as%20title%2C%20e.ViewItemURLForNaturalSearch%20as%20url%2C%20g.geometry.location%20as%20latlng%0A%20%20from%20details%20%20as%20e%2C%20google.geocode%20as%20g%0A%20%20where%20e.itemId%20in%20(select%20itemId%20from%20finditems%20where%20keywords%20%3D%20'mini')%0A%20%20and%20g.address%20%3D%20e.Location",
+        runQuery("/q?s=select%20e.ItemID%20as%20id%2C%20e.Title%20as%20title%2C%20e.ViewItemURLForNaturalSearch%20as%20url%2C%20g.geometry.location%20as%20latlng%0A%20%20from%20details%20%20as%20e%2C%20google.geocode%20as%20g%0A%20%20where%20e.itemId%20in%20(select%20itemId%20from%20finditems%20where%20keywords%20%3D%20'mini%20cooper')%0A%20%20and%20g.address%20%3D%20e.Location",
           '#ebay-goog-resp');
     });
 </script>
