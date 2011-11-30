@@ -6,8 +6,8 @@ familiar, and extends it to apply to HTTP APIs.</p>
 
 <blockquote>
     We use the term &quot;HTTP API&quot; as a generic reference to any HTTP addressable resource or
-    service. Neither the language nor the runtime of ql.io require the resource of service to be
-    RESTful. All that matters is HTTP and URIs.
+    service. Neither the language nor the runtime of ql.io require the resource or service to be
+    RESTful.
 </blockquote>
 
 <p>This language currently has the following capabilities:</p>
@@ -54,7 +54,7 @@ select * from items
 </pre>
   
 <p>Statements can always be split into multiple lines by using carriage return. Line breaks and
-other white space is insignificant. Multi-statement scripts must always end with a
+other white space are insignificant. Multi-statement scripts must always end with a
 <code>return</code> statement.</p>
   
 <p>Assignment of statements and objects allow later statements in the script to refer to those
@@ -141,7 +141,7 @@ maps an <code>insert into</code> statement to method <code>GET</code> because bi
 use a <code>GET</code> for a write.</p>
 
 <blockquote>
-    Idempotency and statement of a statement depends directly on the HTTP method used by the API.
+    Idempotency and safety of a statement depends directly on the HTTP method used by the API.
 </blockquote>
 
 <p>The language uses <code>select</code> statements to select all (<code>*</code>) or particular
@@ -152,7 +152,7 @@ select name.first, name.last, address.street from users where zip = 98074
 </pre>  
   
 <p>The <code>from</code> clause of a <code>select</code> statement can either refer to a table or an
-object. See <a href="/selects">select</a> for complete syntax and examples.</p>
+object. See <a href="/docs/select">select</a> for complete syntax and examples.</p>
   
 <p><code>insert into</code> statements are used to add data. </p>
 
