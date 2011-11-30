@@ -1,7 +1,7 @@
 <h1>create table Statement</h1>
   
 <p>A table is a mapping of an HTTP resource. Use a <code>create table</code> statement to create a
-table mapping. There are two ways to create tables.</p>
+table mapping. There are two ways to create tables:</p>
   
 <ul>
     <li>Create tables on the fly by including <code>create table</code> statements followed by
@@ -449,7 +449,7 @@ template with the following contents.</p>
 
 <h3>with aliases</h3>
 
-<p>This clause can be used map the following to implementation specific tokens.</p>
+<p>This clause can be used to map the following to implementation specific tokens.</p>
 
 <ul>
     <li><code>limit</code></li>
@@ -491,13 +491,13 @@ href="/docs/monkey-patch">Monkey Patching</a> for details.</p>
 
 <p>Use the <code>using bodyTemplate</code> clause to make HTTP requests that take a body. The body
 template is a file referenced from the table. The body template must be in the same directory as the
-file containing the <code>create table</code> is. </p>
+file containing the <code>create table</code>. </p>
 
 <p>The following types of templates are currently supported.</p>
 
 <ul>
-    <li>URI formatted templates: When the body type is
-    <code>application/x-www-form-urlencoded</code>, the template uses the HTML form encoding.</li>
+    <li>URI formatted templates: HTML form decoding is used when the body type is
+    <code>application/x-www-form-urlencoded</code>.</li>
 
     <li>Non-URI formatted templates: These are processed using <a
     href="http://mustache.github.com/">Mustache</a>.</li>
@@ -510,7 +510,7 @@ for a table. Here is an example.</p>
 
 <pre class="brush: sql; toolbar: false">
 exports.auth = function(params, cb) {
-    var token - params['mysecuritytoken'];
+    var token = params['mysecuritytoken'];
     if(token && myTokenValidator(token)) {
         cb(undefined, 'ok');
     }
@@ -522,7 +522,7 @@ exports.auth = function(params, cb) {
 
 <h3>resultset</h3>
   
-<p>A <code>resultset</code> clause can be used to narrow down the response to a collection with in
+<p>A <code>resultset</code> clause can be used to narrow down the response to a collection within
 the response. </p>
 
 <pre class="brush: sql; toolbar: false;">
