@@ -152,7 +152,7 @@ select name.first, name.last, address.street from users where zip = 98074
 </pre>  
   
 <p>The <code>from</code> clause of a <code>select</code> statement can either refer to a table or an
-object. See <a href="/docs/select">select</a> for complete syntax and examples.</p>
+object. See <a href="/docs/select">select statement</a> for complete syntax and examples.</p>
   
 <p><code>insert into</code> statements are used to add data. </p>
 
@@ -161,10 +161,10 @@ insert into bitly.shorten (longUrl) values ('http://ql.io/docs')
 </pre>
 
 <blockquote>
-    <code>update</code> and <code>delete</code> statements are supported yet.
+    <code>update</code> and <code>delete</code> statements are not supported yet.
 </blockquote>
 
-<p>See <a href="/inserts">insert</a> for complete syntax and examples.</p>
+<p>See <a href="/docs/insert">insert statement</a> for complete syntax and examples.</p>
 
 <p>Statements can depend on other statements by way of using <a href="/docs/variable-ref">variable
 references</a>. A variable reference is a JSONPath-style token in curly braces
