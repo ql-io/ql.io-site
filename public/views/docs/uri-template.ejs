@@ -15,7 +15,7 @@ headers, or from <a href="/docs/configure">configuration</a>. With this example 
 the value of <code>address</code> specified in the <code>where</code> clause while formatting the
 URI template into a URI.</p>
 
-<span class='try'><a class="button" href='http://localhost:3000/console?s=create%20table%20geocoder%20%0A%20%20on%20select%20get%20from%20%22http%3A%2F%2Fmaps.googleapis.com%2Fmaps%2Fapi%2Fgeocode%2Fjson%3Faddress%3D%7Baddress%7D%26sensor%3Dtrue%22%0A%20%20resultset%20%22results%22%3B%0Aselect%20address_components%5B0%5D.long_name%20from%20geocoder%20where%20address%20%3D%20%22Sammamish%2C%20WA%22'>Try me</a></span>
+<span class='try'><a class="button" href='/console?s=create%20table%20geocoder%20%0A%20%20on%20select%20get%20from%20%22http%3A%2F%2Fmaps.googleapis.com%2Fmaps%2Fapi%2Fgeocode%2Fjson%3Faddress%3D%7Baddress%7D%26sensor%3Dtrue%22%0A%20%20resultset%20%22results%22%3B%0Aselect%20address_components%5B0%5D.long_name%20from%20geocoder%20where%20address%20%3D%20%22Sammamish%2C%20WA%22'>Try me</a></span>
 <pre class="brush: sql; toolbar: false">
 select address_components[0].long_name from geocoder where address = 'Sammamish, WA'
 </pre>
