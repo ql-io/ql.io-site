@@ -94,7 +94,7 @@ select * from items
 
 <p>Selections and projections are not limited to tables - they can applied to objects as well.</p>
 
-<span class="try"><a href="/console?s=persons%20%3D%20%5B%0A%20%20%7B%22fname%22%3A%20%22John%22%2C%22lname%22%3A%20%22Doe%22%2C%20%22address%22%3A%20%7B%22city%22%3A%20%22San%20Francisco%22%7D%7D%2C%0A%20%20%7B%22fname%22%3A%20%22Jane%22%2C%22lname%22%3A%20%22Doe%22%2C%20%22address%22%3A%20%7B%22city%22%3A%20%22Bend%22%7D%7D%0A%5D%3B%0Areturn%20select%20woeid%20as%20woeid%2C%20centroid%20as%20centroid%20from%20yahoo.woe%20%0A%20%20where%20loc%20in%20(%22%7Bpersons.%24..city%7D%22)%3B">try me</a></span>
+<span class="try"><a class="button" href="/console?s=persons%20%3D%20%5B%0A%20%20%7B%22fname%22%3A%20%22John%22%2C%22lname%22%3A%20%22Doe%22%2C%20%22address%22%3A%20%7B%22city%22%3A%20%22San%20Francisco%22%7D%7D%2C%0A%20%20%7B%22fname%22%3A%20%22Jane%22%2C%22lname%22%3A%20%22Doe%22%2C%20%22address%22%3A%20%7B%22city%22%3A%20%22Bend%22%7D%7D%0A%5D%3B%0Areturn%20select%20woeid%20as%20woeid%2C%20centroid%20as%20centroid%20from%20yahoo.woe%20%0A%20%20where%20loc%20in%20(%22%7Bpersons.%24..city%7D%22)%3B">try me</a></span>
 <pre class="brush: sql; toolbar: false;">
 persons = [
   {"fname": "John","lname": "Doe", "address": {"city": "San Francisco"}},
@@ -170,11 +170,11 @@ insert into bitly.shorten (longUrl) values ('http://ql.io/docs')
 references</a>. A variable reference is a JSONPath-style token in curly braces
 (<code>{token}</code>) in quoted (double or single) strings. </p>
   
-<span class="try"><a href="/console?s=keyword%20%3D%20%22ql.io%22%3B%0Aweb%20%3D%20select%20*%20from%20bing.search%20where%20q%20%3D%20%22%7Bkeyword%7D%22%3B%0Atweets%20%3D%20select%20id%20as%20id%2C%20from_user_name%20as%20user%2C%20text%20as%20text%0A%20%20from%20twitter.search%20where%20q%20%3D%20%22ql.io%22%3B%0A%20%0Areturn%20%7B%0A%20%20%22keyword%22%3A%20%22%7Bkeyword%7D%22%2C%0A%20%20%22web%22%3A%20%22%7Bweb%7D%22%2C%0A%20%20%22tweets%22%3A%20%22%7Btweets%7D%22%0A%7D">try me</a></span>
+<span class="try"><a class="button" href="/console?s=keyword%20%3D%20%22ql.io%22%3B%0Aweb%20%3D%20select%20*%20from%20bing.search%20where%20q%20%3D%20%22%7Bkeyword%7D%22%3B%0Atweets%20%3D%20select%20id%20as%20id%2C%20from_user_name%20as%20user_name%2C%20text%20as%20text%0A%20%20from%20twitter.search%20where%20q%20%3D%20%22ql.io%22%3B%0A%20%0Areturn%20%7B%0A%20%20%22keyword%22%3A%20%22%7Bkeyword%7D%22%2C%0A%20%20%22web%22%3A%20%22%7Bweb%7D%22%2C%0A%20%20%22tweets%22%3A%20%22%7Btweets%7D%22%0A%7D">try me</a></span>
 <pre class="brush: sql; toolbar: false;">
 keyword = "ql.io";
 web = select * from bing.search where q = "{keyword}";
-tweets = select id as id, from_user_name as user, text as text
+tweets = select id as id, from_user_name as user_name, text as text
   from twitter.search where q = "ql.io";
 
 return {
@@ -184,9 +184,9 @@ return {
 }
 </pre>
 
-<p>This script has four statements - the first one assigns a string value to a variable, and the
+<p>This script has four statements - the first one assigns a string value to a variable, and
 second and third statements refer to that variable, and assign the results to two variables. The
-fourth statement refers to all the three. </p>
+fourth statement refers to all three. </p>
 
 <p>Variable references determine the order of execution of statements in a script.</p>
 

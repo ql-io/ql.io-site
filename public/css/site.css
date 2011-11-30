@@ -59,15 +59,7 @@ em {
     text-align: right;
     font-weight: bold;
     font-size: small;
-    text-transform: lowercase;
-    background-color: #a9a9a9;
-    border-radius: 3px;
     margin-top: -2em;
-}
-
-.try a {
-    color: white;
-    text-decoration: none;
 }
 
 #footer {

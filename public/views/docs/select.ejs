@@ -160,7 +160,7 @@ select {*|comma-separated columns with/without aliases} from
   
 <h3>Select All</h3>
 
-<span class="try"><a href="/console?s=select%20*%20from%20finditems%20where%20keywords%3D'iPhone'">try me</a></span>
+<span class="try"><a class="button" href="/console?s=select%20*%20from%20finditems%20where%20keywords%3D'iPhone'">try me</a></span>
 <pre class="brush: sql; toolbar: false">
 select * from finditems where keywords='iPhone'
 </pre>
@@ -170,7 +170,7 @@ transformed into JSON, but if not, the same JSON is returned.</p>
 
 <h3>Select Fields</h3>
   
-<span class="try"><a href="/console?s=select%20title%2C%20itemId%2C%20primaryCategory.categoryName%2C%0A%20%20sellingStatus.currentPrice%20from%20finditems%20where%20keywords%3D'iPhone'">try me</a></span>
+<span class="try"><a class="button" href="/console?s=select%20title%2C%20itemId%2C%20primaryCategory.categoryName%2C%0A%20%20sellingStatus.currentPrice%20from%20finditems%20where%20keywords%3D'iPhone'">try me</a></span>
 <pre class="brush: sql; toolbar: false">
 select title, itemId, primaryCategory.categoryName,
     sellingStatus.currentPrice from finditems where keywords='iPhone'
@@ -180,7 +180,7 @@ select title, itemId, primaryCategory.categoryName,
   
 <h3>Select Fields with Aliases</h3>
   
-<span class="try"><a href="/console?s=select%20title%20as%20title%2C%20itemId%20as%20id%2C%20primaryCategory.categoryName%20as%20category%2C%0A%20%20%20%20sellingStatus.currentPrice%20as%20price%20from%20finditems%20where%20keywords%3D'iPhone'">try me</a></span>
+<span class="try"><a class="button" href="/console?s=select%20title%20as%20title%2C%20itemId%20as%20id%2C%20primaryCategory.categoryName%20as%20category%2C%0A%20%20%20%20sellingStatus.currentPrice%20as%20price%20from%20finditems%20where%20keywords%3D'iPhone'">try me</a></span>
 <pre class="brush: sql; toolbar: false">
 select title as title, itemId as id, primaryCategory.categoryName as category,
     sellingStatus.currentPrice as price from finditems where keywords='iPhone'
@@ -188,7 +188,7 @@ select title as title, itemId as id, primaryCategory.categoryName as category,
 
 <h3>Nested Select</h3>
 
-<span class="try"><a href="/console?s=select%20ItemID%2C%20ViewItemURLForNaturalSearch%2C%20Location%20from%20details%20where%20itemId%20in%20%0A%20%20%20%20(select%20itemId%20from%20finditems%20where%20keywords%3D'mini%20cooper')%3B">try me</a></span>
+<span class="try"><a class="button" href="/console?s=select%20ItemID%2C%20ViewItemURLForNaturalSearch%2C%20Location%20from%20details%20where%20itemId%20in%20%0A%20%20%20%20(select%20itemId%20from%20finditems%20where%20keywords%3D'mini%20cooper')%3B">try me</a></span>
 <pre class="brush: sql; toolbar: false;">
 select ItemID, ViewItemURLForNaturalSearch, Location from details where itemId in
     (select itemId from finditems where keywords='mini cooper');
@@ -196,7 +196,7 @@ select ItemID, ViewItemURLForNaturalSearch, Location from details where itemId i
 
 <h3>Join</h3>
 
-<span class='try'><a href="/console?s=select%20e.ItemID%20as%20id%2C%20e.Title%20as%20title%2C%20e.ViewItemURLForNaturalSearch%20as%20url%2C%20g.geometry.location%20as%20latlng%0A%20%20from%20details%20%20as%20e%2C%20google.geocode%20as%20g%0A%20%20where%20e.itemId%20in%20(select%20itemId%20from%20finditems%20where%20keywords%20%3D%20'mini')%0A%20%20and%20g.address%20%3D%20e.Location">Try me</a></span>
+<span class='try'><a class="button" href="/console?s=select%20e.ItemID%20as%20id%2C%20e.Title%20as%20title%2C%20e.ViewItemURLForNaturalSearch%20as%20url%2C%20g.geometry.location%20as%20latlng%0A%20%20from%20details%20%20as%20e%2C%20google.geocode%20as%20g%0A%20%20where%20e.itemId%20in%20(select%20itemId%20from%20finditems%20where%20keywords%20%3D%20'mini')%0A%20%20and%20g.address%20%3D%20e.Location">Try me</a></span>
 <pre class="brush: sql; toolbar: false;">
 select e.ItemID as id, e.Title as title, e.ViewItemURLForNaturalSearch as url, g.geometry.location as latlng
   from details  as e, google.geocode as g

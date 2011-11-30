@@ -7,7 +7,8 @@ exports['patch status'] = function(options) {
     console.log(sys.inspect(options.body, false, 10));
     var json = options.body;
     if(json && ((json.SearchResponse && json.SearchResponse.Errors) ||
-                (json['soapenv:Envelope']['soapenv:Body']['soapenv:Fault']))) {
+                (json['soapenv:Envelope'] && json['soapenv:Envelope']['soapenv:Body'] &&
+                 json['soapenv:Envelope']['soapenv:Body']['soapenv:Fault']))) {
         return 400;
     }
     else {

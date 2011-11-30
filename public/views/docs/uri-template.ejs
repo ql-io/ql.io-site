@@ -15,7 +15,7 @@ headers, or from <a href="/docs/configure">configuration</a>. With this example 
 the value of <code>address</code> specified in the <code>where</code> clause while formatting the
 URI template into a URI.</p>
 
-<span class='try'><a href='http://localhost:3000/console?s=create%20table%20geocoder%20%0A%20%20on%20select%20get%20from%20%22http%3A%2F%2Fmaps.googleapis.com%2Fmaps%2Fapi%2Fgeocode%2Fjson%3Faddress%3D%7Baddress%7D%26sensor%3Dtrue%22%0A%20%20resultset%20%22results%22%3B%0Aselect%20address_components%5B0%5D.long_name%20from%20geocoder%20where%20address%20%3D%20%22Sammamish%2C%20WA%22'>Try me</a></span>
+<span class='try'><a class="button" href='http://localhost:3000/console?s=create%20table%20geocoder%20%0A%20%20on%20select%20get%20from%20%22http%3A%2F%2Fmaps.googleapis.com%2Fmaps%2Fapi%2Fgeocode%2Fjson%3Faddress%3D%7Baddress%7D%26sensor%3Dtrue%22%0A%20%20resultset%20%22results%22%3B%0Aselect%20address_components%5B0%5D.long_name%20from%20geocoder%20where%20address%20%3D%20%22Sammamish%2C%20WA%22'>Try me</a></span>
 <pre class="brush: sql; toolbar: false">
 select address_components[0].long_name from geocoder where address = 'Sammamish, WA'
 </pre>
@@ -38,7 +38,7 @@ create table geocoder
 <p>When a token is marked as required, statements must include a value in the where clause, or as a
 query parameter, or as a header, or specified in the config. If not, ql.io returns an error.</p>
 
-<span class='try'><a href='/console?s=create%20table%20geocoder%20%0A%20%20on%20select%20get%20from%20%22http%3A%2F%2Fmaps.googleapis.com%2Fmaps%2Fapi%2Fgeocode%2Fjson%3Faddress%3D%7B%5Eaddress%7D%26sensor%3Dtrue%22%0A%20%20resultset%20%22results%22%3B%0Aselect%20address_components%5B0%5D.long_name%20from%20geocoder%3B'>Try me</a></span>
+<span class='try'><a class="button" href='/console?s=create%20table%20geocoder%20%0A%20%20on%20select%20get%20from%20%22http%3A%2F%2Fmaps.googleapis.com%2Fmaps%2Fapi%2Fgeocode%2Fjson%3Faddress%3D%7B%5Eaddress%7D%26sensor%3Dtrue%22%0A%20%20resultset%20%22results%22%3B%0Aselect%20address_components%5B0%5D.long_name%20from%20geocoder%3B'>Try me</a></span>
 <pre class="brush: sql; toolbar: false">
 create table geocoder
   on select get from "http://maps.googleapis.com/maps/api/geocode/json?address={^address}&sensor=true"
@@ -51,7 +51,7 @@ select address_components[0].long_name from geocoder;
 <p>By default every token can only have one value. When you supply multiple values for a token,
 ql.io forks multiple requests to the API and join on the responses. Here is an example.</p>
   
-<span class="try"><a href="/console?s=create%20table%20geocoder%20%0A%20%20on%20select%20get%20from%20%22http%3A%2F%2Fmaps.googleapis.com%2Fmaps%2Fapi%2Fgeocode%2Fjson%3Faddress%3D%7B%5Eaddress%7D%26sensor%3Dtrue%22%0A%20%20resultset%20%22%22%3B%0Aselect%20*%20from%20geocoder%20where%20address%20in%20('San%20Jose%2C%20CA'%2C%20'Palo%20Alto%2C%20CA'%2C%20'San%20Francisco%2C%20CA')%3B">try me</a></span>
+<span class="try"><a class="button" href="/console?s=create%20table%20geocoder%20%0A%20%20on%20select%20get%20from%20%22http%3A%2F%2Fmaps.googleapis.com%2Fmaps%2Fapi%2Fgeocode%2Fjson%3Faddress%3D%7B%5Eaddress%7D%26sensor%3Dtrue%22%0A%20%20resultset%20%22%22%3B%0Aselect%20*%20from%20geocoder%20where%20address%20in%20('San%20Jose%2C%20CA'%2C%20'Palo%20Alto%2C%20CA'%2C%20'San%20Francisco%2C%20CA')%3B">try me</a></span>
 <pre class="brush: sql; toolbar: false">
 create table geocoder
   on select get from "http://maps.googleapis.com/maps/api/geocode/json?address={^address}&sensor=true"
@@ -81,7 +81,7 @@ by default, and so, you will get a response like this:</p>
 <p>You can prepend the token with a <code>#</code> in your <code>create table</code> statement to
 let ql.io merge the results into a single array in stead.</p>
 
-<span class="try"><a href="/console?s=create%20table%20geocoder%20%0A%20%20on%20select%20get%20from%20%22http%3A%2F%2Fmaps.googleapis.com%2Fmaps%2Fapi%2Fgeocode%2Fjson%3Faddress%3D%7B%23%5Eaddress%7D%26sensor%3Dtrue%22%0A%20%20resultset%20%22%22%3B%0Aselect%20*%20from%20geocoder%20where%20address%20in%20('San%20Jose%2C%20CA'%2C%20'Palo%20Alto%2C%20CA'%2C%20'San%20Francisco%2C%20CA')%3B">try me</a></span>
+<span class="try"><a class="button" href="/console?s=create%20table%20geocoder%20%0A%20%20on%20select%20get%20from%20%22http%3A%2F%2Fmaps.googleapis.com%2Fmaps%2Fapi%2Fgeocode%2Fjson%3Faddress%3D%7B%23%5Eaddress%7D%26sensor%3Dtrue%22%0A%20%20resultset%20%22%22%3B%0Aselect%20*%20from%20geocoder%20where%20address%20in%20('San%20Jose%2C%20CA'%2C%20'Palo%20Alto%2C%20CA'%2C%20'San%20Francisco%2C%20CA')%3B">try me</a></span>
 <pre class="brush: sql; toolbar: false">
 create table geocoder 
   on select get from "http://maps.googleapis.com/maps/api/geocode/json?address={#^address}&sensor=true"
@@ -115,7 +115,7 @@ select * from geocoder where address in ('San Jose, CA', 'Palo Alto, CA', 'San F
 <p>In the example below, the second table uses a URI template that can tak upto <code>20</code> item
 IDs.</p>
 
-<span class="try"><a href='/console?s=create%20table%20eBay.findItems%0A%20%20on%20select%20get%20from%20%0A%20%20%20%20%22http%3A%2F%2Fsvcs.ebay.com%2Fservices%2Fsearch%2FFindingService%2Fv1%3FOPERATION-NAME%3DfindItemsByKeywords%26SERVICE-VERSION%3D1.8.0%26GLOBAL-ID%3D%7Bglobalid%7D%26SECURITY-APPNAME%3D%7Bapikey%7D%26RESPONSE-DATA-FORMAT%3D%7Bformat%7D%26REST-PAYLOAD%26keywords%3D%7B%5Ekeywords%7D%26paginationInput.entriesPerPage%3D%7Blimit%7D%26paginationInput.pageNumber%3D%7BpageNumber%7D%26outputSelector%25280%2529%3DSellerInfo%26sortOrder%3D%7BsortOrder%7D%22%0A%20%20%20%20using%20defaults%20format%20%3D%20%22XML%22%2C%20globalid%20%3D%20%22EBAY-US%22%2C%20sortorder%20%3D%20%22BestMatch%22%2C%0A%20%20%20%20%20%20apikey%20%3D%20%22%7Bconfig.ebay.apikey%7D%22%2C%20limit%20%3D%2010%2C%20pageNumber%20%3D%201%0A%20%20resultset%20%22findItemsByKeywordsResponse.searchResult.item%22%0A%0Acreate%20table%20eBay.itemDetails%20%0A%20%20on%20select%20get%20from%20%0A%20%20%22http%3A%2F%2Fopen.api.ebay.com%2Fshopping%3Fcallname%3DGetMultipleItems%26responseencoding%3D%7Bformat%7D%26appid%3D%7B%5Eapikey%7D%26version%3D715%26IncludeSelector%3D%7BincludeSelector%7D%26ItemID%3D%7B20%7CitemId%7D%22%0A%20%20using%20defaults%20format%3D%22JSON%22%2C%20apikey%3D%22%7Bconfig.ebay.apikey%7D%22%0A%20%20resultset%20%22Item%22%0A%0Aids%20%3D%20select%20itemId%20from%20eBay.findItems%20where%20keywords%20%3D%20%22mini%20cooper%22%20limit%202%3B%0Areturn%20select%20*%20from%20eBay.itemDetails%20where%20itemId%20in%20(%22%7Bids%7D%22)%3B'>try me</a></span>
+<span class="try"><a class="button" href='/console?s=create%20table%20eBay.findItems%0A%20%20on%20select%20get%20from%20%0A%20%20%20%20%22http%3A%2F%2Fsvcs.ebay.com%2Fservices%2Fsearch%2FFindingService%2Fv1%3FOPERATION-NAME%3DfindItemsByKeywords%26SERVICE-VERSION%3D1.8.0%26GLOBAL-ID%3D%7Bglobalid%7D%26SECURITY-APPNAME%3D%7Bapikey%7D%26RESPONSE-DATA-FORMAT%3D%7Bformat%7D%26REST-PAYLOAD%26keywords%3D%7B%5Ekeywords%7D%26paginationInput.entriesPerPage%3D%7Blimit%7D%26paginationInput.pageNumber%3D%7BpageNumber%7D%26outputSelector%25280%2529%3DSellerInfo%26sortOrder%3D%7BsortOrder%7D%22%0A%20%20%20%20using%20defaults%20format%20%3D%20%22XML%22%2C%20globalid%20%3D%20%22EBAY-US%22%2C%20sortorder%20%3D%20%22BestMatch%22%2C%0A%20%20%20%20%20%20apikey%20%3D%20%22%7Bconfig.ebay.apikey%7D%22%2C%20limit%20%3D%2010%2C%20pageNumber%20%3D%201%0A%20%20resultset%20%22findItemsByKeywordsResponse.searchResult.item%22%0A%0Acreate%20table%20eBay.itemDetails%20%0A%20%20on%20select%20get%20from%20%0A%20%20%22http%3A%2F%2Fopen.api.ebay.com%2Fshopping%3Fcallname%3DGetMultipleItems%26responseencoding%3D%7Bformat%7D%26appid%3D%7B%5Eapikey%7D%26version%3D715%26IncludeSelector%3D%7BincludeSelector%7D%26ItemID%3D%7B20%7CitemId%7D%22%0A%20%20using%20defaults%20format%3D%22JSON%22%2C%20apikey%3D%22%7Bconfig.ebay.apikey%7D%22%0A%20%20resultset%20%22Item%22%0A%0Aids%20%3D%20select%20itemId%20from%20eBay.findItems%20where%20keywords%20%3D%20%22mini%20cooper%22%20limit%202%3B%0Areturn%20select%20*%20from%20eBay.itemDetails%20where%20itemId%20in%20(%22%7Bids%7D%22)%3B'>try me</a></span>
 <pre class="brush: sql; toolbar: false">
 create table eBay.findItems
   on select get from
