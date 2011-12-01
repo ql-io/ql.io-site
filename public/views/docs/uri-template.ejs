@@ -115,23 +115,24 @@ select * from geocoder where address in ('San Jose, CA', 'Palo Alto, CA', 'San F
 <p>In the example below, the second table uses a URI template that can tak upto <code>20</code> item
 IDs.</p>
 
-<span class="try"><a class="button" href='/console?s=create%20table%20eBay.findItems%0A%20%20on%20select%20get%20from%20%0A%20%20%20%20%22http%3A%2F%2Fsvcs.ebay.com%2Fservices%2Fsearch%2FFindingService%2Fv1%3FOPERATION-NAME%3DfindItemsByKeywords%26SERVICE-VERSION%3D1.8.0%26GLOBAL-ID%3D%7Bglobalid%7D%26SECURITY-APPNAME%3D%7Bapikey%7D%26RESPONSE-DATA-FORMAT%3D%7Bformat%7D%26REST-PAYLOAD%26keywords%3D%7B%5Ekeywords%7D%26paginationInput.entriesPerPage%3D%7Blimit%7D%26paginationInput.pageNumber%3D%7BpageNumber%7D%26outputSelector%25280%2529%3DSellerInfo%26sortOrder%3D%7BsortOrder%7D%22%0A%20%20%20%20using%20defaults%20format%20%3D%20%22XML%22%2C%20globalid%20%3D%20%22EBAY-US%22%2C%20sortorder%20%3D%20%22BestMatch%22%2C%0A%20%20%20%20%20%20apikey%20%3D%20%22%7Bconfig.ebay.apikey%7D%22%2C%20limit%20%3D%2010%2C%20pageNumber%20%3D%201%0A%20%20resultset%20%22findItemsByKeywordsResponse.searchResult.item%22%0A%0Acreate%20table%20eBay.itemDetails%20%0A%20%20on%20select%20get%20from%20%0A%20%20%22http%3A%2F%2Fopen.api.ebay.com%2Fshopping%3Fcallname%3DGetMultipleItems%26responseencoding%3D%7Bformat%7D%26appid%3D%7B%5Eapikey%7D%26version%3D715%26IncludeSelector%3D%7BincludeSelector%7D%26ItemID%3D%7B20%7CitemId%7D%22%0A%20%20using%20defaults%20format%3D%22JSON%22%2C%20apikey%3D%22%7Bconfig.ebay.apikey%7D%22%0A%20%20resultset%20%22Item%22%0A%0Aids%20%3D%20select%20itemId%20from%20eBay.findItems%20where%20keywords%20%3D%20%22mini%20cooper%22%20limit%202%3B%0Areturn%20select%20*%20from%20eBay.itemDetails%20where%20itemId%20in%20(%22%7Bids%7D%22)%3B'>Try me</a></span>
+<!-- TODO -- The link below is timing out with Express/Connect -->
 <pre class="brush: sql; toolbar: false">
-create table eBay.findItems
-  on select get from
-    "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.8.0&GLOBAL-ID={globalid}&SECURITY-APPNAME={apikey}&RESPONSE-DATA-FORMAT={format}&REST-PAYLOAD&keywords={^keywords}&paginationInput.entriesPerPage={limit}&paginationInput.pageNumber={pageNumber}&outputSelector%280%29=SellerInfo&sortOrder={sortOrder}"
-    using defaults format = "XML", globalid = "EBAY-US", sortorder = "BestMatch",
-      apikey = "{config.ebay.apikey}", limit = 10, pageNumber = 1
-  resultset "findItemsByKeywordsResponse.searchResult.item"
+    create table eBay.findItems
+      on select get from
+        "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.8.0&GLOBAL-ID={globalid}&SECURITY-APPNAME={apikey}&RESPONSE-DATA-FORMAT={format}&REST-PAYLOAD&keywords={^keywords}&paginationInput.entriesPerPage={limit}&paginationInput.pageNumber={pageNumber}&outputSelector%280%29=SellerInfo&sortOrder={sortOrder}"
+        using defaults format = "XML", globalid = "EBAY-US", sortorder = "BestMatch",
+          apikey = "{config.eBay.apikey}", limit = 10, pageNumber = 1
+      resultset "findItemsByKeywordsResponse.searchResult.item"
 
-create table eBay.itemDetails
-  on select get from
-  "http://open.api.ebay.com/shopping?callname=GetMultipleItems&responseencoding={format}&appid={^apikey}&version=715&IncludeSelector={includeSelector}&ItemID={20|itemId}"
-  using defaults format='JSON', apikey="{config.ebay.apikey}"
-  resultset "Item"
+    create table eBay.itemDetails
+      on select get from
+      "http://open.api.ebay.com/shopping?callname=GetMultipleItems&responseencoding={format}&appid={^apikey}&version=715&IncludeSelector={includeSelector}&ItemID={20|itemId}"
+      using defaults format='JSON', apikey="{config.eBay.apikey}"
+      resultset "Item"
 
-ids = select itemId from eBay.findItems where keywords = "mini cooper" limit 2;
-return select * from eBay.itemDetails where itemId in ("{ids}");</pre>
+    ids = select itemId from eBay.findItems where keywords = "mini cooper" limit 2;
+    return select * from eBay.itemDetails where itemId in ("{ids}");
+</pre>
 
 <p>As the URI template for the second table included <code>{20|itemId}</code>, if you supply more
 than <code>20</code> IDs in the <code>in</code> clause, ql.io will automatically fork additional
