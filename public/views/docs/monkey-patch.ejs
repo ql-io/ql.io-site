@@ -1,0 +1,107 @@
+<h1>Monkey Patching</h1>
+
+<p>A monkey patch is a regular node module with the following functions exported. Each operation on
+a table in a <code>create table</code> statement can have a patching module specified.</p>
+
+<h2>validate param</h2>
+
+<p>This function can valiate a param supplied from one of the inputs (statement, params, headers or
+defaults).</p>
+
+<pre class="brush: js; toolbar: false;">
+exports['validate param'] = function(statement, param, value) {
+    switch(param) {
+        case 'duration' :
+            return !isNaN (value - 0)
+        default:
+            return true;
+    }
+}
+</pre>
+  
+<h2>patch uri</h2>
+
+<p>This function can introspect the URI of the outgoing request, and return a modified version if
+necessary.</p>
+
+<pre class="brush: js; toolbar: false;">
+exports['patch uri'] = function(args) {
+    var statement = args.statement, uri = args.uri, params = args.params, count = 0;
+    uri.setParam('paginationInput.pageNumber', statement.offset / statement.limit);
+    uri.removeEmptyParams();
+
+    count = 0
+    if(params.FreeShippingOnly) {
+        uri.addParam("itemFilter({count}).name", 'FreeShippingOnly');
+        uri.addParam("itemFilter({count}).value", c.rhs.value);
+        count++;
+    }
+    if(params.MinPrice) {
+        uri.addParam("itemFilter({count}).name", 'MinPrice');
+        uri.addParam("itemFilter({count}).value", c.rhs.value);
+        count++;
+    }
+}
+</pre>
+
+<h2>patch headers</h2>
+
+<p>This function can introspect and return updated request headers.</p>
+
+<pre class="brush: js; toolbar: false;">
+exports['patch headers'] = function(args) {
+    var statement = args.statement, uri = args.uri, params = args.params,
+        headers = args.headers;
+
+    ..
+
+    return headers;
+}
+</pre>
+
+<h2>patch status</h2>
+
+<p>This function can introspect the response body and indicate if it is an error.</p>
+
+<pre class="brush: js; toolbar: false;">
+// args contains status, headers, body
+exports['patch status'] = function(args) {
+    var json = args.body;
+    if(json && ((json.ack === 'Failure') ||
+        json.errors)) {
+        return 400;
+    }
+    else {
+        return 200;
+    }
+}
+</pre>
+  
+<h2>patch mediaType</h2>
+
+<p>This function can override response media type.</p>
+
+<pre class="brush: js; toolbar: false;">  
+// args contains status, headers, body
+exports['patch mediaType'] = function(args) {
+    return 'application/json';
+}
+</pre>
+
+<h2>udf</h2>
+
+<p>This function must return an object of user-defined functions. These functions can be used  to
+extend <code>where</code> clauses of <code>select</code> statements.</p>
+
+<pre class="brush: js; toolbar: false;">
+exports['udf'] = {
+    'contains' : function(arg) {
+        return {
+            operator: 'CONTAINS',
+            exprType: 'KeywordLogicalExpression',
+            operandType: 'TokenOperand',
+            operand: arg[0].value
+        };
+    }
+}
+</pre>

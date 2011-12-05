@@ -2,13 +2,14 @@
 <html>
 <head>
     <link rel="shortcut icon" href="/images/favicon.ico" />
-    <title>ql.io - APIs call as easy as SQL and JSON &amp; automatic orchestration</title>
+    <title>ql.io</title>
     <link rel="stylesheet" type="text/css" href="/css/all.css"/>
     <link rel="stylesheet" href="/css/shCore.css"/>
     <link rel="stylesheet" href="/css/shThemeEclipse.css"/>
     <link rel="stylesheet" type="text/css" href="/css/jsonview.css"/>
     <link rel="stylesheet" type="text/css" href="/css/treeview.css"/>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+    <script type="text/javascript" src="/scripts/jquery-min.js"></script>
+    <script type="text/javascript" src="/scripts/jquery-ui.min.js"></script>
     <script src="/scripts/jquery.treeview.js"></script>
     <script src="/scripts/shCore.js"></script>
     <script src="/scripts/shBrushSql.js"></script>
@@ -16,20 +17,24 @@
     <script src="/scripts/shBrushBash.js"></script>
     <script src="/scripts/shBrushJson.js"></script>
     <script src="/scripts/shBrushPlain.js"></script>
+    <script src="/scripts/shBrushXml.js"></script>
     <script type="text/javascript" src="/scripts/jsonview.js"></script>
-    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="/scripts/coolclock.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/site.css"/>
 
 </head>
 <body>
-<div id="main">
+<div id="container">
 
     <%- partial("header") %>
 
-    <%- body %>
-
+    
+    <div id="leftnav">
+        <%- partial("leftnav") %>
+    </div>
+    <div id="content">
+        <%- body %>       
+    </div>
+    
     <div id="footer">
 
     <%- partial("footer") %>

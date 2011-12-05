@@ -1,30 +1,328 @@
-<h1>How to create a table for simple GET</h1>
+<h1>create table Statement</h1>
+  
+<p>A table is a mapping of an HTTP resource. Use a <code>create table</code> statement to create a
+table mapping. There are two ways to create tables:</p>
+  
+<ul>
+    <li>Create tables on the fly by including <code>create table</code> statements followed by
+    statements that use those tables.</li>
 
-<p>ql.io provides an easy syntax to create a table for GET usage.
-Here is an example of a simple <code>create table</code> statement with GET.
-</p>
+    <li>Statically declare tables by adding them to <code>.ql</code> files in the
+    <code>tables</code> sub-directory of an app.</li>
+</ul>
+  
+<p>Tables created on the fly are discarded after the script execution completes. In addition, tables
+created on the fly can not be used to make <code>POST</code> or <code>PUT</code> or use monkey
+patches to tweak requests and responses.</p>
 
-<pre class="brush: sql">
-create table geocoder
-  on select get from "http://maps.googleapis.com/maps/api/geocode/json?address={address}&sensor=true"
-  resultset "results";
-</pre>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1688" height="250"><defs><style type="text/css">
+    @namespace "http://www.w3.org/2000/svg";
+    .line {
+        fill: none;
+        stroke: #332900;
+    }
 
-<p>In the above statement "{address}" is a placeholder to provide the input while querying this table. More about the uri inputs <a href="/docs/uri-inputs">here</a>. 
-<br>
-For the select query below, ql.io supplies the value of <code>address</code> specified in the <code>where</code> clause. </p>
+    filled {
+        fill: #332900;
+        stroke: none;
+    }
 
-<pre class="brush: sql">
-select address_components[0].long_name from geocoder where address = 'Sammamish, WA'
-</pre>
+    text {
+        font-family: Verdana, Sans-serif;
+        font-size: 12px;
+        fill: #4D3D00;
+    }
 
+    text.terminal {
+        font-family: Verdana, Sans-serif;
+        font-size: 12px;
+        fill: #4D3D00;
+        font-weight: bold;
+    }
 
-<h2> Syntax for creating a table with GET </h2>
+    rect, circle, polygon {
+        fill: #332900;
+        stroke: #332900;
+    }
 
+    rect.terminal {
+        fill: #FFCC00;
+        stroke: #332900;
+    }
 
-<pre class="brush: sql">
-create table {table-name} on
-    select  get from {uri} 
+    rect.nonterminal {
+        fill: #FFEB99;
+        stroke: #332900;
+    }
+
+    polygon.regexp {
+        fill: #FFF5CC;
+        stroke: #332900;
+    }
+</style>
+</defs>
+    <polygon points="11 17 3 13 3 21" class="filled"></polygon>
+    <polygon points="19 17 11 13 11 21" class="filled"></polygon>
+    <line x1="19" y1="17" x2="21" y2="17" class="line"></line>
+    <rect x="33" y="3" width="62" height="32" rx="10"></rect>
+    <rect x="31" y="1" width="62" height="32" class="terminal" rx="10"></rect>
+    <text class="terminal" x="41" y="21">create</text>
+    <line x1="21" y1="17" x2="31" y2="17" class="line"></line>
+    <line x1="93" y1="17" x2="103" y2="17" class="line"></line>
+    <rect x="115" y="3" width="52" height="32" rx="10"></rect>
+    <rect x="113" y="1" width="52" height="32" class="terminal" rx="10"></rect>
+    <text class="terminal" x="123" y="21">table</text>
+    <line x1="103" y1="17" x2="113" y2="17" class="line"></line>
+    <line x1="165" y1="17" x2="175" y2="17" class="line"></line>
+    <a xlink:href="#table" xlink:title="table">
+        <rect x="187" y="3" width="52" height="32"></rect>
+        <rect x="185" y="1" width="52" height="32" class="nonterminal"></rect>
+        <text class="nonterminal" x="195" y="21">table</text>
+    </a>
+    <line x1="175" y1="17" x2="185" y2="17" class="line"></line>
+    <line x1="237" y1="17" x2="247" y2="17" class="line"></line>
+    <path class="line"
+          d="M249 17 L251 17 M253 17 L255 17 M257 17 L259 17 M1 99 L3 99 M5 99 L7 99 M9 99 L11 99"></path>
+    <rect x="45" y="85" width="36" height="32" rx="10"></rect>
+    <rect x="43" y="83" width="36" height="32" class="terminal" rx="10"></rect>
+    <text class="terminal" x="53" y="103">on</text>
+    <line x1="33" y1="99" x2="43" y2="99" class="line"></line>
+    <line x1="79" y1="99" x2="89" y2="99" class="line"></line>
+    <rect x="121" y="85" width="58" height="32" rx="10"></rect>
+    <rect x="119" y="83" width="58" height="32" class="terminal" rx="10"></rect>
+    <text class="terminal" x="129" y="103">select</text>
+    <line x1="109" y1="99" x2="119" y2="99" class="line"></line>
+    <line x1="177" y1="99" x2="187" y2="99" class="line"></line>
+    <line x1="187" y1="99" x2="193" y2="99" class="line"></line>
+    <line x1="89" y1="99" x2="109" y2="99" class="line"></line>
+    <line x1="193" y1="99" x2="213" y2="99" class="line"></line>
+    <path d="M89 99 Q99 99 99 109" class="line"></path>
+    <path d="M203 109 Q203 99 213 99" class="line"></path>
+    <line x1="99" y1="109" x2="99" y2="133" class="line"></line>
+    <line x1="203" y1="133" x2="203" y2="109" class="line"></line>
+    <path d="M99 133 Q99 143 109 143" class="line"></path>
+    <path d="M193 143 Q203 143 203 133" class="line"></path>
+    <rect x="121" y="129" width="58" height="32" rx="10"></rect>
+    <rect x="119" y="127" width="58" height="32" class="terminal" rx="10"></rect>
+    <text class="terminal" x="129" y="147">insert</text>
+    <line x1="109" y1="143" x2="119" y2="143" class="line"></line>
+    <line x1="177" y1="143" x2="187" y2="143" class="line"></line>
+    <line x1="187" y1="143" x2="193" y2="143" class="line"></line>
+    <line x1="99" y1="133" x2="99" y2="153" class="line"></line>
+    <line x1="203" y1="153" x2="203" y2="133" class="line"></line>
+    <line x1="99" y1="153" x2="99" y2="177" class="line"></line>
+    <line x1="203" y1="177" x2="203" y2="153" class="line"></line>
+    <path d="M99 177 Q99 187 109 187" class="line"></path>
+    <path d="M193 187 Q203 187 203 177" class="line"></path>
+    <rect x="121" y="173" width="60" height="32" rx="10"></rect>
+    <rect x="119" y="171" width="60" height="32" class="terminal" rx="10"></rect>
+    <text class="terminal" x="129" y="191">delete</text>
+    <line x1="109" y1="187" x2="119" y2="187" class="line"></line>
+    <line x1="179" y1="187" x2="189" y2="187" class="line"></line>
+    <line x1="189" y1="187" x2="193" y2="187" class="line"></line>
+    <line x1="99" y1="177" x2="99" y2="197" class="line"></line>
+    <line x1="203" y1="197" x2="203" y2="177" class="line"></line>
+    <line x1="99" y1="197" x2="99" y2="221" class="line"></line>
+    <line x1="203" y1="221" x2="203" y2="197" class="line"></line>
+    <path d="M99 221 Q99 231 109 231" class="line"></path>
+    <path d="M193 231 Q203 231 203 221" class="line"></path>
+    <rect x="121" y="217" width="64" height="32" rx="10"></rect>
+    <rect x="119" y="215" width="64" height="32" class="terminal" rx="10"></rect>
+    <text class="terminal" x="129" y="235">update</text>
+    <line x1="109" y1="231" x2="119" y2="231" class="line"></line>
+    <line x1="183" y1="231" x2="193" y2="231" class="line"></line>
+    <rect x="245" y="85" width="40" height="32" rx="10"></rect>
+    <rect x="243" y="83" width="40" height="32" class="terminal" rx="10"></rect>
+    <text class="terminal" x="253" y="103">get</text>
+    <line x1="233" y1="99" x2="243" y2="99" class="line"></line>
+    <line x1="283" y1="99" x2="293" y2="99" class="line"></line>
+    <rect x="305" y="85" width="50" height="32" rx="10"></rect>
+    <rect x="303" y="83" width="50" height="32" class="terminal" rx="10"></rect>
+    <text class="terminal" x="313" y="103">from</text>
+    <line x1="293" y1="99" x2="303" y2="99" class="line"></line>
+    <line x1="353" y1="99" x2="363" y2="99" class="line"></line>
+    <line x1="213" y1="99" x2="233" y2="99" class="line"></line>
+    <line x1="363" y1="99" x2="383" y2="99" class="line"></line>
+    <path d="M213 99 Q223 99 223 109" class="line"></path>
+    <path d="M373 109 Q373 99 383 99" class="line"></path>
+    <line x1="223" y1="109" x2="223" y2="133" class="line"></line>
+    <line x1="373" y1="133" x2="373" y2="109" class="line"></line>
+    <path d="M223 133 Q223 143 233 143" class="line"></path>
+    <path d="M363 143 Q373 143 373 133" class="line"></path>
+    <rect x="245" y="129" width="48" height="32" rx="10"></rect>
+    <rect x="243" y="127" width="48" height="32" class="terminal" rx="10"></rect>
+    <text class="terminal" x="253" y="147">post</text>
+    <line x1="233" y1="143" x2="243" y2="143" class="line"></line>
+    <line x1="291" y1="143" x2="301" y2="143" class="line"></line>
+    <rect x="313" y="129" width="32" height="32" rx="10"></rect>
+    <rect x="311" y="127" width="32" height="32" class="terminal" rx="10"></rect>
+    <text class="terminal" x="321" y="147">to</text>
+    <line x1="301" y1="143" x2="311" y2="143" class="line"></line>
+    <line x1="343" y1="143" x2="353" y2="143" class="line"></line>
+    <line x1="353" y1="143" x2="363" y2="143" class="line"></line>
+    <line x1="223" y1="133" x2="223" y2="153" class="line"></line>
+    <line x1="373" y1="153" x2="373" y2="133" class="line"></line>
+    <line x1="223" y1="153" x2="223" y2="177" class="line"></line>
+    <line x1="373" y1="177" x2="373" y2="153" class="line"></line>
+    <path d="M223 177 Q223 187 233 187" class="line"></path>
+    <path d="M363 187 Q373 187 373 177" class="line"></path>
+    <rect x="245" y="173" width="58" height="32" rx="10"></rect>
+    <rect x="243" y="171" width="58" height="32" class="terminal" rx="10"></rect>
+    <text class="terminal" x="253" y="191">put to</text>
+    <line x1="233" y1="187" x2="243" y2="187" class="line"></line>
+    <line x1="301" y1="187" x2="311" y2="187" class="line"></line>
+    <line x1="311" y1="187" x2="363" y2="187" class="line"></line>
+    <line x1="223" y1="177" x2="223" y2="197" class="line"></line>
+    <line x1="373" y1="197" x2="373" y2="177" class="line"></line>
+    <line x1="223" y1="197" x2="223" y2="221" class="line"></line>
+    <line x1="373" y1="221" x2="373" y2="197" class="line"></line>
+    <path d="M223 221 Q223 231 233 231" class="line"></path>
+    <path d="M363 231 Q373 231 373 221" class="line"></path>
+    <rect x="245" y="217" width="60" height="32" rx="10"></rect>
+    <rect x="243" y="215" width="60" height="32" class="terminal" rx="10"></rect>
+    <text class="terminal" x="253" y="235">delete</text>
+    <line x1="233" y1="231" x2="243" y2="231" class="line"></line>
+    <line x1="303" y1="231" x2="313" y2="231" class="line"></line>
+    <line x1="313" y1="231" x2="363" y2="231" class="line"></line>
+    <a xlink:href="#uri" xlink:title="uri">
+        <rect x="395" y="85" width="36" height="32"></rect>
+        <rect x="393" y="83" width="36" height="32" class="nonterminal"></rect>
+        <text class="nonterminal" x="403" y="103">uri</text>
+    </a>
+    <line x1="383" y1="99" x2="393" y2="99" class="line"></line>
+    <line x1="429" y1="99" x2="439" y2="99" class="line"></line>
+    <a xlink:href="#withAliases" xlink:title="withAliases">
+        <rect x="471" y="85" width="90" height="32"></rect>
+        <rect x="469" y="83" width="90" height="32" class="nonterminal"></rect>
+        <text class="nonterminal" x="479" y="103">withAliases</text>
+    </a>
+    <line x1="459" y1="99" x2="469" y2="99" class="line"></line>
+    <line x1="559" y1="99" x2="569" y2="99" class="line"></line>
+    <line x1="439" y1="99" x2="459" y2="99" class="line"></line>
+    <line x1="569" y1="99" x2="589" y2="99" class="line"></line>
+    <path d="M439 99 Q449 99 449 109" class="line"></path>
+    <path d="M579 109 Q579 99 589 99" class="line"></path>
+    <line x1="449" y1="109" x2="449" y2="123" class="line"></line>
+    <line x1="579" y1="123" x2="579" y2="109" class="line"></line>
+    <path d="M449 123 Q449 133 459 133" class="line"></path>
+    <path d="M569 133 Q579 133 579 123" class="line"></path>
+    <line x1="459" y1="133" x2="469" y2="133" class="line"></line>
+    <line x1="469" y1="133" x2="569" y2="133" class="line"></line>
+    <a xlink:href="#usingHeaders" xlink:title="usingHeaders">
+        <rect x="621" y="85" width="106" height="32"></rect>
+        <rect x="619" y="83" width="106" height="32" class="nonterminal"></rect>
+        <text class="nonterminal" x="629" y="103">usingHeaders</text>
+    </a>
+    <line x1="609" y1="99" x2="619" y2="99" class="line"></line>
+    <line x1="725" y1="99" x2="735" y2="99" class="line"></line>
+    <line x1="589" y1="99" x2="609" y2="99" class="line"></line>
+    <line x1="735" y1="99" x2="755" y2="99" class="line"></line>
+    <path d="M589 99 Q599 99 599 109" class="line"></path>
+    <path d="M745 109 Q745 99 755 99" class="line"></path>
+    <line x1="599" y1="109" x2="599" y2="123" class="line"></line>
+    <line x1="745" y1="123" x2="745" y2="109" class="line"></line>
+    <path d="M599 123 Q599 133 609 133" class="line"></path>
+    <path d="M735 133 Q745 133 745 123" class="line"></path>
+    <line x1="609" y1="133" x2="619" y2="133" class="line"></line>
+    <line x1="619" y1="133" x2="735" y2="133" class="line"></line>
+    <a xlink:href="#usingDefaults" xlink:title="usingDefaults">
+        <rect x="787" y="85" width="106" height="32"></rect>
+        <rect x="785" y="83" width="106" height="32" class="nonterminal"></rect>
+        <text class="nonterminal" x="795" y="103">usingDefaults</text>
+    </a>
+    <line x1="775" y1="99" x2="785" y2="99" class="line"></line>
+    <line x1="891" y1="99" x2="901" y2="99" class="line"></line>
+    <line x1="755" y1="99" x2="775" y2="99" class="line"></line>
+    <line x1="901" y1="99" x2="921" y2="99" class="line"></line>
+    <path d="M755 99 Q765 99 765 109" class="line"></path>
+    <path d="M911 109 Q911 99 921 99" class="line"></path>
+    <line x1="765" y1="109" x2="765" y2="123" class="line"></line>
+    <line x1="911" y1="123" x2="911" y2="109" class="line"></line>
+    <path d="M765 123 Q765 133 775 133" class="line"></path>
+    <path d="M901 133 Q911 133 911 123" class="line"></path>
+    <line x1="775" y1="133" x2="785" y2="133" class="line"></line>
+    <line x1="785" y1="133" x2="901" y2="133" class="line"></line>
+    <a xlink:href="#usingMonkeyPatch" xlink:title="usingMonkeyPatch">
+        <rect x="953" y="85" width="136" height="32"></rect>
+        <rect x="951" y="83" width="136" height="32" class="nonterminal"></rect>
+        <text class="nonterminal" x="961" y="103">usingMonkeyPatch</text>
+    </a>
+    <line x1="941" y1="99" x2="951" y2="99" class="line"></line>
+    <line x1="1087" y1="99" x2="1097" y2="99" class="line"></line>
+    <line x1="921" y1="99" x2="941" y2="99" class="line"></line>
+    <line x1="1097" y1="99" x2="1117" y2="99" class="line"></line>
+    <path d="M921 99 Q931 99 931 109" class="line"></path>
+    <path d="M1107 109 Q1107 99 1117 99" class="line"></path>
+    <line x1="931" y1="109" x2="931" y2="123" class="line"></line>
+    <line x1="1107" y1="123" x2="1107" y2="109" class="line"></line>
+    <path d="M931 123 Q931 133 941 133" class="line"></path>
+    <path d="M1097 133 Q1107 133 1107 123" class="line"></path>
+    <line x1="941" y1="133" x2="951" y2="133" class="line"></line>
+    <line x1="951" y1="133" x2="1097" y2="133" class="line"></line>
+    <a xlink:href="#usingBodyTemplate" xlink:title="usingBodyTemplate">
+        <rect x="1149" y="85" width="142" height="32"></rect>
+        <rect x="1147" y="83" width="142" height="32" class="nonterminal"></rect>
+        <text class="nonterminal" x="1157" y="103">usingBodyTemplate</text>
+    </a>
+    <line x1="1137" y1="99" x2="1147" y2="99" class="line"></line>
+    <line x1="1289" y1="99" x2="1299" y2="99" class="line"></line>
+    <line x1="1117" y1="99" x2="1137" y2="99" class="line"></line>
+    <line x1="1299" y1="99" x2="1319" y2="99" class="line"></line>
+    <path d="M1117 99 Q1127 99 1127 109" class="line"></path>
+    <path d="M1309 109 Q1309 99 1319 99" class="line"></path>
+    <line x1="1127" y1="109" x2="1127" y2="123" class="line"></line>
+    <line x1="1309" y1="123" x2="1309" y2="109" class="line"></line>
+    <path d="M1127 123 Q1127 133 1137 133" class="line"></path>
+    <path d="M1299 133 Q1309 133 1309 123" class="line"></path>
+    <line x1="1137" y1="133" x2="1147" y2="133" class="line"></line>
+    <line x1="1147" y1="133" x2="1299" y2="133" class="line"></line>
+    <a xlink:href="#authenticateUsing" xlink:title="authenticateUsing">
+        <rect x="1351" y="85" width="134" height="32"></rect>
+        <rect x="1349" y="83" width="134" height="32" class="nonterminal"></rect>
+        <text class="nonterminal" x="1359" y="103">authenticateUsing</text>
+    </a>
+    <line x1="1339" y1="99" x2="1349" y2="99" class="line"></line>
+    <line x1="1483" y1="99" x2="1493" y2="99" class="line"></line>
+    <line x1="1319" y1="99" x2="1339" y2="99" class="line"></line>
+    <line x1="1493" y1="99" x2="1513" y2="99" class="line"></line>
+    <path d="M1319 99 Q1329 99 1329 109" class="line"></path>
+    <path d="M1503 109 Q1503 99 1513 99" class="line"></path>
+    <line x1="1329" y1="109" x2="1329" y2="123" class="line"></line>
+    <line x1="1503" y1="123" x2="1503" y2="109" class="line"></line>
+    <path d="M1329 123 Q1329 133 1339 133" class="line"></path>
+    <path d="M1493 133 Q1503 133 1503 123" class="line"></path>
+    <line x1="1339" y1="133" x2="1349" y2="133" class="line"></line>
+    <line x1="1349" y1="133" x2="1493" y2="133" class="line"></line>
+    <a xlink:href="#resultSet" xlink:title="resultSet">
+        <rect x="1545" y="85" width="76" height="32"></rect>
+        <rect x="1543" y="83" width="76" height="32" class="nonterminal"></rect>
+        <text class="nonterminal" x="1553" y="103">resultSet</text>
+    </a>
+    <line x1="1533" y1="99" x2="1543" y2="99" class="line"></line>
+    <line x1="1619" y1="99" x2="1629" y2="99" class="line"></line>
+    <line x1="1513" y1="99" x2="1533" y2="99" class="line"></line>
+    <line x1="1629" y1="99" x2="1649" y2="99" class="line"></line>
+    <path d="M1513 99 Q1523 99 1523 109" class="line"></path>
+    <path d="M1639 109 Q1639 99 1649 99" class="line"></path>
+    <line x1="1523" y1="109" x2="1523" y2="123" class="line"></line>
+    <line x1="1639" y1="123" x2="1639" y2="109" class="line"></line>
+    <path d="M1523 123 Q1523 133 1533 133" class="line"></path>
+    <path d="M1629 133 Q1639 133 1639 123" class="line"></path>
+    <line x1="1533" y1="133" x2="1543" y2="133" class="line"></line>
+    <line x1="1543" y1="133" x2="1629" y2="133" class="line"></line>
+    <path d="M13 99 L33 99 M32 99 Q23 99 23 89 L23 77 Q23 67 33 67" class="line"></path>
+    <path d="M1649 99 L1669 99 M1649 99 Q1659 99 1659 89 L1659 77 Q1659 67 1649 67"
+          class="line"></path>
+    <line x1="33" y1="67" x2="43" y2="67" class="line"></line>
+    <line x1="43" y1="67" x2="1649" y2="67" class="line"></line>
+    <line x1="1672" y1="99" x2="1669" y2="99" class="line"></line>
+    <polygon points="1679 99 1687 95 1687 103" class="filled"></polygon>
+    <polygon points="1679 99 1671 95 1671 103" class="filled"></polygon>
+</svg>
+
+<pre class="brush: sql;  toolbar: false;">
+create table {table-name} 
+  on select|insert|delete|update  get from|post to| put to | delete {uri}
     with aliases {nvp}
     using headers {nvp}
     using defaults {nvp}
@@ -32,6 +330,207 @@ create table {table-name} on
     using bodyTemplate {template-file-name} type {media-type}
     auth using {node-module-name}
     resultset {quoted-string}
+  on insert ... 
+    
 </pre>
 
-where {nvp} stands for name-value pairs. For further details on the syntax, please refer to the <a href="/docs/reference/ql">railroad diagrams</a>.
+<p>where {nvp} stands for name-value pairs.</p>
+
+<h2>Examples</h2>
+
+<h3>Simple Tables for GET</h3>
+
+<pre class="brush: sql; toolbar: false;">
+create table geocoder
+  on select get from "http://maps.googleapis.com/maps/api/geocode/json?address={address}&sensor=true"
+</pre>
+
+<h3>Table with Multiple Operations</h3>
+
+<pre class="brush: sql; toolbar: false;">
+create table bitly.shorten
+  on insert get from "http://api.bitly.com/v3/shorten?login={^login}&apiKey={^apikey}&longUrl={^longUrl}&format={format}"
+            using defaults apikey = "{config.bitly.apikey}",
+                  login = "{config.bitly.login}",
+                  format = "json"
+            using patch 'shorten.js'
+            resultset 'data.url'
+  on select get from "http://api.bitly.com/v3/expand?login={^login}&apiKey={^apikey}&shortUrl={^shortUrl}&format={format}"
+            using defaults apikey = "{config.bitly.apikey}",
+                  login = "{config.bitly.login}",
+                  format = "json"
+            using patch 'shorten.js'
+            resultset 'data.expand'
+</pre>
+
+<h3>Table with a Result Set</h3>
+
+<pre class="brush: sql; toolbar: false;">
+create table geocoder
+  on select get from "http://maps.googleapis.com/maps/api/geocode/json?address={address}&sensor=true"
+            resultset 'results.address_components';
+</pre>
+
+<h3>Table with a Monkey Patch</h3>
+
+<pre class="brush: sql; toolbar: false;">
+create table bing.search
+  on select get from 'http://api.bing.net/xml.aspx?Appid={appid}&query={q}&sources=web'
+            using defaults appid = '{config.bing.appid}'
+            using patch 'bing.js'
+            resultset 'SearchResponse.web:Web.web:Results.web:WebResult';
+</pre>
+
+<p>where <code>bing.js</code> is a node.js module with the following contents.</p>
+
+<pre class="brush: js; toolbar: false;">
+exports['patch status'] = function(options) {
+    var json = options.body;
+    if(json && json.SearchResponse && json.SearchResponse.Errors) {
+        return 400;
+    }
+    else {
+        return 200;
+    }
+}
+</pre>
+
+<h3>Table for POST/PUT/PATCH Requests</h3>
+  
+<pre class="brush: sql; toolbar: false;">
+create table bing.soap.search
+  on select post to 'http://api.bing.net/soap.asmx'
+            using defaults appid = '{config.bing.appid}'
+            using patch 'bing.js'
+            using bodyTemplate 'bing.soap.xml.mu' type 'application/xml'
+            resultset 'soapenv:Envelope.soapenv:Body.SearchResponse.parameters.Web.Results.WebResult';
+</pre>
+  
+<p>where <code>bing.js</code> has the following contents:</p>
+
+<pre class="brush: js; toolbar: false;">
+exports['patch status'] = function(options) {
+    var sys = require('sys');
+    console.log(sys.inspect(options.body, false, 10));
+    var json = options.body;
+    if(json && ((json.SearchResponse && json.SearchResponse.Errors) ||
+                (json['soapenv:Envelope']['soapenv:Body']['soapenv:Fault']))) {
+        return 400;
+    }
+    else {
+        return 200;
+    }
+}
+</pre>
+  
+<p>and <code>bing.soap.xml.mu</code> is a <a href="http://mustache.github.com/">Mustache</a>
+template with the following contents.</p>
+
+<pre class="brush: xml; toolbar: false;">
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <SearchRequest xmlns="http://schemas.microsoft.com/LiveSearch/2008/03/Search">
+      <parameters>
+      {{#params}}
+      <Query>{{q}}</Query>
+      <AppId>{{appid}}</AppId>
+      {{/params}}
+      <Sources>
+        <SourceType>Web</SourceType>
+      </Sources>
+      </parameters>
+    </SearchRequest>
+  </soapenv:Body>
+</soapenv:Envelope>
+</pre>
+
+<h2>Clauses</h2>
+
+<h3>with aliases</h3>
+
+<p>This clause can be used to map the following to implementation specific tokens.</p>
+
+<ul>
+    <li><code>limit</code></li>
+    <li><code>offset</code></li>
+</ul>                                                                                 1
+
+<p>Here is an example.</p>
+
+<pre class="brush: sql; toolbar: false;">
+create table food
+  on select get from 'http://myserver/food?q={taste}&s={size};
+select * from food where taste = 'yummy' limit 10;
+</pre>
+
+<h3>using headers</h3>
+
+<p>This clause can be used to specify the list the HTTP headers to be included in requests. </p>
+
+<pre class="brush: sql; toolbar: false;">
+  create table food
+    on select get from 'http://myserver/food?q={taste}&s={size}
+              using headers 'x-app-id' = {config.food.id};
+  select * from food where taste = 'yummy' limit 10;
+  </pre>
+
+<p>In this example, the value of the header is derived from <a
+href="/docs/configure">configuration</a>.</p>
+
+<h3>using defaults</h3>
+
+<p>This clause supplies default values for tokens in the body, headers or the body of requests.</p>
+  
+<h3>using patch</h3>
+
+<p>A monkey patch is a node module to modify request and response processing. <p>See <a
+href="/docs/monkey-patch">Monkey Patching</a> for details.</p>
+
+<h3>using bodyTemplate</h3>
+
+<p>Use the <code>using bodyTemplate</code> clause to make HTTP requests that take a body. The body
+template is a file referenced from the table. The body template must be in the same directory as the
+file containing the <code>create table</code>. </p>
+
+<p>The following types of templates are currently supported.</p>
+
+<ul>
+    <li>URI formatted templates: HTML form decoding is used when the body type is
+    <code>application/x-www-form-urlencoded</code>.</li>
+
+    <li>Non-URI formatted templates: These are processed using <a
+    href="http://mustache.github.com/">Mustache</a>.</li>
+</ul>
+
+<h3>using auth</h3>
+
+<p>This clause can be used to specify the name of a node.js module to authenticate requests made
+for a table. Here is an example.</p>
+
+<pre class="brush: sql; toolbar: false">
+exports.auth = function(params, cb) {
+    var token = params['mysecuritytoken'];
+    if(token && myTokenValidator(token)) {
+        cb(undefined, 'ok');
+    }
+    else {
+        cb('Your token is not valid');
+    }
+}
+</pre>
+
+<h3>resultset</h3>
+  
+<p>A <code>resultset</code> clause can be used to narrow down the response to a collection within
+the response. </p>
+
+<pre class="brush: sql; toolbar: false;">
+create table geocoder
+  on select get from "http://maps.googleapis.com/maps/api/geocode/json?address={address}&sensor=true"
+            resultset 'results.address_components';
+</pre>
+
+
+
+

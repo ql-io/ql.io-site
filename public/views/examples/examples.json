@@ -1,0 +1,89 @@
+[
+    {
+        "title": "List Resources",
+        "note" : "This statement lists all tables statically declared.",
+        "statement" : "show tables"
+    },
+    {
+        "title" : "Describe a Table",
+        "note" : "Describe a table. Comments can use Markdown.",
+        "statement" : "describe eBay.ProductReviews"
+    },
+    {
+        "title": "Where Clause",
+        "note": "Use where clause to supply inputs to HTTP requests",
+        "statement" : "select * from google.geocode where address = &quot;bora bora&quot;"
+    },
+    {
+        "title" :  "Columns Clause",
+        "note" : "Select only some fields from response. The response will be an array of of array of fields selected.",
+        "statement" : "select ProductID[0].Value, DetailsURL, StockPhotoURL \n  from eBay.FindProducts where QueryKeywords=&quot;mini cooper&quot;"
+    },
+    {
+        "title" :  "Columns Clause with Aliases",
+        "note" : "You can change the shape of the row in the response to an object using column aliases.",
+        "statement" : "select ProductID[0].Value as id, DetailsURL as details, StockPhotoURL as photo \n  from eBay.FindProducts where QueryKeywords=&quot;mini cooper&quot;"
+    },
+
+    {
+        "title" : "Limit and Offset",
+        "note" : "You can paginate results by using limit and offset clauses.",
+        "statement" : "select id as id, from_user_name as user, text as text \n  from twitter.search where q = &quot;ql.io&quot; limit 5"
+    },
+    {
+        "title" : "Nested Selection and Joins",
+        "note" : "This query first finds items and then gets their details. See <a href='/docs/quickstart'>Quick Start Guide</a>.",
+        "statement" : "select e.ItemID as id, e.Title as title, e.ViewItemURLForNaturalSearch as url, g.geometry.location as latlng\n  from details  as e, google.geocode as g\n  where e.itemId in (select itemId from finditems where keywords = &quot;mini&quot;) and g.address = e.Location"
+    },
+    {
+        "title" : "JSON",
+        "note" : "You can mix and match selects from HTTP APIs and JSON objects.",
+        "statement" : "foo = {\n  \"fname\" : \"Hello\",\n  \"lname\" : \"World\",\n  \"place\" : \"Sammamish, WA\"};\ndata = select fname, lname, place from foo;\nreturn {\n\"data\" :  \"{data}\"\n};"
+    },
+    {
+        "title" : "JSONPath",
+        "note" : "Here is another way",
+        "statement" : "people = [\n  {&quot;fname&quot; : &quot;John&quot;, &quot;lname&quot; : &quot;Doe&quot;},\n  {&quot;fname&quot; : &quot;Jane&quot;, &quot;lname&quot; : &quot;Doe&quot;},\n  {&quot;fname&quot; : &quot;Joe&quot;, &quot;lname&quot; : &quot;Developer&quot;}];\nreturn &quot;{people.$..fname}&quot;"
+    },
+    {
+        "title": "Scripting as an alternative to join",
+        "note": "First search for items and then their details. In stead of using a nested select, this example uses a script.",
+        "statement": "minis = select * from ebay.finding.items where keywords = 'mini cooper' limit 10;\ndetails = select PictureURL from ebay.shopping.item where itemId in (select itemId from minis);\nreturn {\n\"mydata\" : \"{details}\"\n};"
+    },
+    {
+        "title": "Async Fork-Join - A Better Alternative to Batching",
+        "note": "This example mimics some calls from Android app",
+        "statement": "itemId = select itemId from ebay.finding.items where keywords = 'ferrari' limit 1;\nitem = select * from ebay.shopping.singleitem where includeSelector = 'Details,ShippingCosts,ItemSpecifics,Variations,Description'\n and itemId = '{itemId}';\nuser = select * from ebay.shopping.userprofile where includeSelector = 'Details' and userId = 'sallamar';\ntradingItem = select * from ebay.trading.getitem where itemId = '{itemId}';\nbestOffers = select * from ebay.trading.bestoffers where itemId = '{itemId}';\nbidders = select * from ebay.trading.getallbidders where itemId = '{itemId}';\nreturn { \n\"user\" : \"{user}\",\n\"item\" : \"{item}\",\n\"tradingItem\" : \"{tradingItem}\",\n\"bidders\" : \"{bidders}\",\n\"bestOffers\" : \"{bestOffers}\"\n};"
+    },
+    {
+        "title": "A Complex to Show Async Fork-Join",
+        "note": "This example mimics some calls from browser toolbar",
+        "statement": "itemId = select itemId from ebay.finding.items where keywords = 'ferrari' limit 1;\nitem = select * from ebay.shopping.singleitem where includeSelector = 'Details,ShippingCosts,ItemSpecifics,Variations,Description'\n and itemId = '{itemId}';\nuser = select * from ebay.shopping.userprofile where includeSelector = 'Details' and userId = 'sallamar';\ntradingItem = select * from ebay.trading.getitem where itemId = '{itemId}';\nbestOffers = select * from ebay.trading.bestoffers where itemId = '{itemId}';\nbidders = select * from ebay.trading.getallbidders where itemId = '{itemId}';\nreturn { \n\"user\" : \"{user}\",\n\"item\" : \"{item}\",\n\"tradingItem\" : \"{tradingItem}\",\n\"bidders\" : \"{bidders}\",\n\"bestOffers\" : \"{bestOffers}\"\n};"
+    },
+    {
+        "title" : "Insert",
+        "note": "This shows how to insert data into a table - the exact mapping to HTTP methods depends on the resource.",
+        "statement": "insert into ebay.internal.shorturi (longUri, duration) \n   values ('http://desc.shop.ebay.in/helloworld', '1')"
+    },
+    {
+        "title" : "Bitly - Generate Shortcut",
+        "note" : "This examples uses `insert into` to shorten a URL via bitly APIs.",
+        "statement" : "insert into bitly.shorten (longUrl) values ('http://www.subbu.org/archives')"
+    },
+    {
+        "title" : "Bitly - Get Long URL",
+        "note" : "This examples uses `select from` to expand a bitly shortcut.",
+        "statement" : "select long_url from bitly.shorten where shortUrl = 'http://bit.ly/r3aXdM'"
+    },
+    {
+        "title": "Create Table on the Fly",
+        "note" : "You can create tables and run queries on the fly, as long as queries don't need to send request bodies or monkey-patching of requests and responses.",
+        "statement": "create table geocoder\non select get from \"http://maps.googleapis.com/maps/api/geocode/json?sensor=true&address={^address}\"\nresultset 'results'\nselect address_components[0].long_name from geocoder where address = 'Sammamish, WA';"
+    },
+    {
+        "title": "Looping via the in clause",
+        "note" : "This example shows you how to use multiple IDs from one table and use them in a loop with another table.",
+        "statement": "prodid = select ProductID[0].Value from ebay.shopping.products where QueryKeywords = 'iphone' and siteid='0';\nphoto = select * from ebay.shopping.productdetails where ProductID in ('{prodid}') and siteid='0' and ProductType = 'Reference';\nprodstats = select * from ebay.shopping.productstats where productID in ('{prodid}');\nreturn {\n  \"productIDs\" : \"{prodid}\",\n  \"ProdDetail\": \"{photo}\",\n  \"ProdStats\": \"{prodstats}\"\n}"
+    }
+
+]

@@ -1,0 +1,46 @@
+<h1>How to Use</h1>
+
+<p>ql.io's primary function is to help consumers of HTTP APIs create optimized interfaces by
+creating tables, and scripts and routes to use those tables.</p>
+
+<p>ql.io is not intended to replace frameworks (such as JAX-RS in the Java-land) that are currently
+used to build HTTP APIs. API producers can continue to use existing frameworks to offer interfaces
+that are generic and broadly reusable. ql.io comes into play when a consumer of APIs wants to
+implement consumer-specific aggregation, orchestration, and optimizations. In other words, while
+existing frameworks continue to support "producer-controlled" interfaces, you can use ql.io to
+create "consumer-controlled" interfaces.</p>
+
+<p>Depending on where the network costs are felt, ql.io can be deployed on the proxy tier, on the
+edge, or even on the front-end machines.</p>
+
+<h2>As a Gateway in the Reverse-Proxy Tier</h2>
+
+<p>One of the primary uses of ql.io is to run it as a gateway at the reverse proxy tier,
+potentially between load balancers and API servers.</p>
+
+<img  alt="ql.io as a gateway on the reverse-proxy tier" src="/images/docs/ql.io-as-gateway.png"/>
+
+<p>Some scenarios where this deployment style applies include:</p>
+
+<ul>
+    <li>Clients of APIs are distributed across the Web, for example an iOS native app using your
+    APIs.</li>
+
+    <li>You want to offer modified versions of internal APIs to external developers. For instance,
+    you may have invested in SOAP frameworks to build your APIs, and want to offer more
+    HTTP-friendly versions serving JSON to external developers.</li>
+</ul>
+  
+<p>A secondary usage is to deploy ql.io closer to client apps on the edge.</p>
+
+<img alt="[ql.io on the edge" src="/images/docs/ql.io-on-the-edge.png"/>
+
+<p>If your apps rely on third party APIs, you may use the same style and use ql.io as a gateway to
+all third-party servers.</p>
+
+<p>In addition, you can use the <a
+href="https://github.com/ql-io/ql.io/tree/master/modules/engine">ql.io-engine</a> module to use
+ql.io in node.js-based front-end apps.</p>
+
+<img alt="ql.io on the node front end apps" src="/images/docs/ql.io-on-node.png"/>
+  

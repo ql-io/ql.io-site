@@ -1,0 +1,284 @@
+<h1>Build an App Locally</h1>
+
+<p>The goal of the exercise below is to build an app on your machine for the following use
+case.</p>
+
+<blockquote>
+
+<em>Given a keyword &quot;macbook pro&quot;, find up to <code>5</code> products. For each product
+found, get the title, a URL that can give details, total number of reviews and ratings.</em>
+
+</blockquote>
+
+<p>There are three HTTP APIs that provide the data:</p>
+
+<ol>
+
+<li><a
+href="http://developer.eBay.com/devzone/shopping/docs/callref/FindProducts.html">FindProducts</a>
+API that takes a keyword and returns up to a specified maximum number of products.</li>
+
+<li>The same <a
+href="http://developer.eBay.com/devzone/shopping/docs/callref/FindProducts.html">FindProducts</a>
+API that takes a <code>ProductID</code> to return product details that include title, URL for
+details and total number of reviews among with several details.</li>
+
+<li><a
+href="http://developer.eBay.com/devzone/shopping/docs/callref/FindReviewsAndGuides.html">FindReviewsAndGuides</a>
+API that takes a <code>ProductID</code> to return ratings and guides.</li> </ol>
+
+<p>Retrieving title, details URL, total number of reviews and ratings takes the following:</p>
+
+<ol>
+    <li>Send a request to the FindProducts API with <code>QueryKeywords=macbook pro</code> and
+    <code>MaxEntries=5</code>.</li>
+
+    <li>For each product ID found, send a request to the FindProducts API with
+    <code>ProductID.Value={id}</code>.</li>
+
+    <li>For each product ID found, send a request to the FindReviewsAndGuides API with
+    <code>ProductID.Value={id}</code>.</li>
+</ol>
+
+<p>In order maximize performance and throughput, the second and third steps above must be in done in
+parallel - this means an orchestration of <code>11</code> HTTP requests. Why <code>11</code>? The
+second and third APIs take only one product ID, and hence must be requested once per product
+ID.</p>
+
+<blockquote> <em>Having bulk APIs for the second and third APIs would help, but the point of ql.io
+is to make consumers accomplish their tasks without waiting for API developers to
+customize/optimize their interfaces for each and every consumer.</em> </blockquote>
+
+<h2>Step 0: Prerequisites</h2>
+
+<p>Install <a href="http://nodejs.org">Node</a> version 0.4.10-0.4.12 and <a
+href='http://npmjs.org'>npm</a> on a Mac or Ubuntu. On Ubuntu, install <code>expat</code> and
+<code>libexpat1-dev</code>.</p>
+
+<pre class="brush: bash; toolbar: false;">
+sudo apt-get install expat libexpat1-dev
+</pre>
+  
+<p>See <a href="/docs/prerequisites">prerequisites</a> for detailed steps.</p>
+
+<h2>Step 1: Setup a New App</h2>
+
+<em>This step does not work until we (a) publish npm modules, and (b) open up github.</em>
+
+<p>Setup a new ql.io app and start the server. This step uses a template to create an app, and
+install ql.io modules using npm.</p>
+
+<pre class="brush: bash toolbar: false;">
+mkdir myapp
+cd myapp
+curl https://raw.github.com/ql-io/ql.io/master/modules/template/init.sh | bash
+bin/start.sh
+</pre>
+
+<p>Using latest versions of Firefox or Chrome, go to <a
+href="http://localhost:3000">http://localhost:3000</a> to see ql.io's Web Console. In the text
+area, type the following.</p>
+
+<pre class="brush: sql toolbar: false;">
+show tables
+</pre>
+
+<p>This statement shows an empty array in the response in the results area below the script area.</p>
+
+<pre class="brush: plain toolbar: false;">
+[ ]
+</pre>
+
+<p>This step confirms that you have a working version of ql.io ready.</p>
+
+<h2>Step 2: Create Tables</h2>
+
+<p>ql.io uses a SQL and JSON inspired <a href="/docs/reference/ql">language</a> for sending HTTP
+requests to APIs. In this DSL, a &quot;table&quot; is a &quot;consumer-centric&quot; interface to an
+API. For this use case, use the following <code>create table</code> statements to setup tables.</p>
+
+<p>Simply copy and paste the following statements in to the script area of the <a
+href="/console">Web Console</a>.</p>
+
+<div class='ql-example'>
+    <pre class='brush: sql toolbar: false;'>
+-- A table to find products
+create table eBay.FindProducts
+  on select get from "http://open.api.ebay.com/shopping?callname=FindProducts&appid={^apikey}&responseencoding=JSON&version=725&QueryKeywords={^QueryKeywords}&MaxEntries={max}&ProductSort=Popularity&AvailableItemsOnly=true&siteid={siteid}"
+    using defaults max = "5", apikey = "{config.eBay.apikey}", sideid = 0
+    resultset 'Product';
+
+-- A table to get product details
+create table eBay.ProductDetails
+  on select get from "http://open.api.ebay.com/shopping?callname=FindProducts&appid={^apikey}&responseencoding=JSON&version=725&siteid={siteid}&ProductID.type={^ProductType}&ProductID.Value={^ProductID}"
+    using defaults apikey = "{config.eBay.apikey}", sideid = 0
+    resultset 'Product';
+
+-- A table to get product reviews
+create table eBay.ProductReviews
+  on select get from "http://open.api.ebay.com/shopping?callname=FindReviewsAndGuides&ProductID.Value={#^ProductID}&ProductID.type={^ProductType}&appid={^apikey}&responseencoding=JSON&version=745&siteid={siteid}"
+     using defaults apikey = "{config.eBay.apikey}", sideid = 0;
+</pre>
+</div>
+
+<blockquote>The app created above includes a default demo API key for these APIs - see
+<code>config/dev.json</code> file.</blockquote>
+
+<p>This will show the following in the results area.</p>
+
+<pre class="brush: js toolbar: false;">
+{
+  "message": "ok"
+}
+</pre>
+
+<p>This shows that the statements are syntactically valid. Note that a table is simply a mapping -
+creating a table does not involve storing anything permanently on the disk.</p>
+
+<p>Now store these statements in a file under the &quot;tables&quot; directory so that they can be
+used across many scripts.</p>
+
+<ol>
+<li>Use <code>Control-C</code> to stop the server</li>
+<li><code>cd tables</code></li>
+<li><code>vi products.ql</code></li>
+<li>Paste the above statements and exit vi.</li>
+<li><code>cd ..</code></li>
+<li><code>bin/start.sh</code></li>
+</ol>
+
+<p>Go back to the Web Console at <a href="http://localhost:3000">http://localhost:3000</a> and type
+<code>show tables</code> in the script area. This will show the following.
+
+<pre class="brush: js toolbar: false;">
+[
+  "eBay.FindProducts",
+  "eBay.ProductDetails",
+  "eBay.ProductReviews"
+]
+</pre>
+
+<h2>Step 3: Write Selects and Joins</h2>
+
+<p>The final step is to write a script that gets the data we are interested in using
+<code>select</code> statements. For these steps, go back to the Web Console in the browser and
+clear the script area.</p>
+
+<p>Copy and paste the following in the script area of the Web Console.</p>
+  
+<pre class="brush: sql toolbar: false;">
+prodid = select ProductID[0].Value from eBay.FindProducts where
+    QueryKeywords = 'macbook pro';
+details = select * from eBay.ProductDetails where
+    ProductID in ('{prodid}') and ProductType = 'Reference';
+reviews = select * from eBay.ProductReviews where
+    ProductID in ('{prodid}') and ProductType = 'Reference';
+
+return select d.ProductID[0].Value as id, d.Title as title,
+    d.ReviewCount as reviewCount, r.ReviewDetails.AverageRating as rating
+    from details as d, reviews as r
+    where d.ProductID[0].Value = r.ProductID.Value;
+</pre>
+  
+<p>The first statement in this script the FindProducts API, retrieves all <code>Product</code>
+fields, selects <code>ProductID[0].Value</code> for each product, and assigns the result to
+<code>prodid</code>.</p>
+
+<p>The second <code>select</code> retrieves the product details for each product ID returned from
+the first <code>select</code> statement. Behind the scenes, ql.io's engine forks <code>5</code>
+requests in parallel to the FindProducts API and joins when all of them complete.</p>
+
+<p>The third statement is similar to the second except that it calls the FindReviewsAndGuides API.
+The final statement joins results from second and third statements and returns the selected
+fields.</p>
+
+<p>The results of these four lines will be as follows.</p>
+
+<pre id="find-join-resp" class="live-demo-result">
+</pre>
+
+<p>This is a result of the following execution flow.</p>
+
+<img src="/images/docs/quickstart-fork-join.png" alt="fork join"/>
+
+<blockquote> This style of automatic forking of requests and joining of responses is intrinsic to
+ql.io. It requires no custom coding. </blockquote>
+  
+<p>Finally, to make it convenient for a client to invoke this script, add a <a
+href="/docs/routes">route</a> to the return statement (see line 12 below)</p>
+
+<pre class="brush: sql; highlight: 12; toolbar: false;">
+prodid = select ProductID[0].Value from eBay.FindProducts where
+    QueryKeywords = 'macbook pro';
+details = select * from eBay.ProductDetails where
+    ProductID in ('{prodid}') and ProductType = 'Reference';
+reviews = select * from eBay.ProductReviews where
+    ProductID in ('{prodid}') and ProductType = 'Reference';
+
+return select d.ProductID[0].Value as id, d.Title as title,
+    d.ReviewCount as reviewCount, r.ReviewDetails.AverageRating as rating
+    from details as d, reviews as r
+    where d.ProductID[0].Value = r.ProductID.Value
+    via route '/myapi' using method get;
+</pre>
+  
+<p>Adding a route allows a client to make an HTTP <code>GET</code> request to the URI path
+<code>/myapi</code> to execute this script. Simply copy and paste the above script in a route
+script.</p>
+
+<ol>
+<li>Use <code>Control-C</code> to stop the server</li>
+<li><code>cd routes</code></li>
+<li><code>vi myapi.ql</code></li>
+<li>Paste the above statements and exit vi.</li>
+<li><code>cd ..</code></li>
+<li><code>bin/start.sh</code></li>
+</ol>
+
+<h2>Step 3: Call the APIs Using the Route</h2>
+
+<p>The last step is make a request to see your route in action. Click on <a
+href="/myapi">http://localhost:3000/myapi</a> or try <code>curl</code> from a shell.
+
+<pre class="brush: bash toolbar: false;">
+curl http://localhost:3000/myapi
+</pre>
+
+<script>
+
+    function runQuery(s, t) {
+        var url = "/q?s=" + encodeURIComponent(s);
+        $(t).html('Running ...');
+        $.ajax({
+            type: 'GET',
+            cache: false,
+            dataType: 'jsonp',
+            url: url,
+            success: function (data) {
+                try {
+                    var formatter = new JSONFormatter();
+                    $(t)[0].innerHTML = formatter.jsonToHTML(data);
+                    $(t).treeview();
+                }
+                catch(e) {
+                    alert(e);
+                }
+            },
+            error: function (req, status, e) {
+                $(t).html(e);
+                $(t).animate({
+                    opacity: 1.0
+                });
+            }
+
+        });
+        return false;
+    }
+    $(document).ready(function() {
+        runQuery("prodid = select ProductID[0].Value from eBay.FindProducts where QueryKeywords = 'macbook pro';\n" +
+          "details = select * from eBay.ProductDetails where ProductID in ('{prodid}') and ProductType = 'Reference'\n" +
+          "reviews = select * from eBay.ProductReviews where ProductID in ('{prodid}') and ProductType = 'Reference';\n" +
+          "return select d.ProductID[0].Value as id, d.Title as title, d.ReviewCount as reviewCount, r.ReviewDetails.AverageRating as rating from details as d, reviews as r where d.ProductID[0].Value = r.ProductID.Value;",
+          '#find-join-resp');
+    });
+</script>

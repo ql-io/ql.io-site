@@ -1,0 +1,13 @@
+<h1>HTTP Interface</h1>
+  
+<p>URL encode the script, and send a GET to the following URI.</p>
+
+<pre>
+http://<host>:<port>/q?s={url encoded script}
+</pre>
+  
+<p>To use JSONP, add a <code>callback</code> parameter.</p>
+
+<pre>
+http://<host>:<port>/q?s={url encoded script}&callback={func}
+</pre>

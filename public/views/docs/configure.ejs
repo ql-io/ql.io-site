@@ -1,0 +1,81 @@
+<h1>Configuration</h1>
+
+<p>Config files are located under <code>config</code> dir by default. By default,
+<code>bin/start.sh</code> in your app uses <code>dev.json</code> to read config. See the option
+<code>--config</code> to specify a different file.</p>
+
+<h2>Structure of Config Files</h2>
+  
+<p>The structure of config is free-form JSON except for the ones listed in the next section. Refer
+to values declared in a config by using the following convention:</p>
+  
+<pre>
+{config.name}
+</pre>
+  
+<p>in double or single quotes, where <code>name</code> can be dot-separated to refer to values nested
+inside the config file.</p>
+ 
+<h2>Preset Config Variables</h2>
+  
+<h3>proxy</h3>
+  
+<p>This variable is used to specify a forward proxy server globally or for one or more APIs. Below
+is an example.</p>
+
+<pre class="brush: js; toolbar: false;">
+{
+    "proxy":{
+        "table1":{
+            "host":"vip.mycorp.com",
+            "port":"80"
+        },
+        "*" : {
+            "host":"someotherview.mycorp.com",
+            "port":"80"
+        },
+        "table2" : {
+        }
+    },
+}
+</pre>
+  
+  
+<p>This setup lets ql.io route requests for <code>table1</code> through one proxy, requests for
+<code>table2</code> directly, and requests all the other tables through another proxy.</p>
+
+<h2>Runtime Overriding</h2>
+
+<p>For any parameter that is included into the request to an API, the runtime uses the following
+approach to determine its value:</p>
+  
+<ol>
+    <li>Look for the parameter value from query parameters</li>
+    
+    <li>Then look the value from HTTP headers </li>
+
+    <li>Then look for values specified in the statement (<code>where</code> clause for
+    <code>select</code>, and <code>values</code> clause in <code>insert into</code> etc.)</li>
+
+    <li>Then look for values specified as defaults.</li>
+</ol>
+  
+<p>Here is an example that shows three ways to override the default <code>apikey</code> for the
+<code>bitly.shorten</code> table.</p>
+
+
+<pre class="brush: sql; toolbar: false">
+insert into bitly.shorten (longUrl, apikey) values ('http://ql.io/docs', 'mykey')
+</pre>
+
+<pre class="brush: bash; toolbar: false">
+curl -v http://localhost:3000/q?s=insert%20into%20bitly.shorten%20(longUrl)%20
+     values%20('http%3A%2F%2Fql.io%2Fdocs')&amp;apikey=mykey
+</pre>
+
+<pre class="brush: bash; toolbar: false">
+curl -v http://localhost:3000/q?s=insert%20into%20bitly.shorten%20(longUrl)%20
+     values%20('http%3A%2F%2Fql.io%2Fdocs')
+     --header 'apikey: mykey'
+</pre>
+

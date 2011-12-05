@@ -1,0 +1,238 @@
+<h1>select Statement</h1>
+
+<p>Select statement is used to retrieve data. For well-designed HTTP APIs, a <code>select</code>
+maps to an HTTP <code>GET</code>. But if your APIs are using POST over XML or SOAP, a
+<code>select</code> may map to a <code>POST</code> request. </p>
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="932"
+     height="68">
+    <defs>
+        <style type="text/css">
+            @namespace "http://www.w3.org/2000/svg";
+            .line {
+                fill: none;
+                stroke: #332900;
+            }
+
+            filled {
+                fill: #332900;
+                stroke: none;
+            }
+
+            text {
+                font-family: Verdana, Sans-serif;
+                font-size: 12px;
+                fill: #4D3D00;
+            }
+
+            text.terminal {
+                font-family: Verdana, Sans-serif;
+                font-size: 12px;
+                fill: #4D3D00;
+                font-weight: bold;
+            }
+
+            rect, circle, polygon {
+                fill: #332900;
+                stroke: #332900;
+            }
+
+            rect.terminal {
+                fill: #FFCC00;
+                stroke: #332900;
+            }
+
+            rect.nonterminal {
+                fill: #FFEB99;
+                stroke: #332900;
+            }
+
+            polygon.regexp {
+                fill: #FFF5CC;
+                stroke: #332900;
+            }
+        </style>
+    </defs>
+    <polygon points="9 33 1 29 1 37" class="filled"/>
+    <polygon points="17 33 9 29 9 37" class="filled"/>
+    <line x1="17" y1="33" x2="19" y2="33" class="line"/>
+    <rect x="31" y="19" width="58" height="32" rx="10"/>
+    <rect x="29" y="17" width="58" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="39" y="37">select</text>
+    <line x1="19" y1="33" x2="29" y2="33" class="line"/>
+    <line x1="87" y1="33" x2="97" y2="33" class="line"/>
+    <a href="#columnsClause" xlink:title="columnsClause">
+        <rect x="109" y="19" width="114" height="32"/>
+        <rect x="107" y="17" width="114" height="32" class="nonterminal"/>
+        <text class="nonterminal" x="117" y="37">columnsClause</text>
+    </a>
+    <line x1="97" y1="33" x2="107" y2="33" class="line"/>
+    <line x1="221" y1="33" x2="231" y2="33" class="line"/>
+    <rect x="243" y="19" width="50" height="32" rx="10"/>
+    <rect x="241" y="17" width="50" height="32" class="terminal" rx="10"/>
+    <text class="terminal" x="251" y="37">from</text>
+    <line x1="231" y1="33" x2="241" y2="33" class="line"/>
+    <line x1="291" y1="33" x2="301" y2="33" class="line"/>
+    <a href="#fromClause" xlink:title="fromClause">
+        <rect x="313" y="19" width="90" height="32"/>
+        <rect x="311" y="17" width="90" height="32" class="nonterminal"/>
+        <text class="nonterminal" x="321" y="37">fromClause</text>
+    </a>
+    <line x1="301" y1="33" x2="311" y2="33" class="line"/>
+    <line x1="401" y1="33" x2="411" y2="33" class="line"/>
+    <a href="#whereClause" xlink:title="whereClause">
+        <rect x="463" y="19" width="102" height="32"/>
+        <rect x="461" y="17" width="102" height="32" class="nonterminal"/>
+        <text class="nonterminal" x="471" y="37">whereClause</text>
+    </a>
+    <line x1="451" y1="33" x2="461" y2="33" class="line"/>
+    <line x1="563" y1="33" x2="573" y2="33" class="line"/>
+    <path d="M431 33 L451 33 M450 33 Q441 33 441 23 L441 11 Q441 1 451 1" class="line"/>
+    <path d="M573 33 L593 33 M573 33 Q583 33 583 23 L583 11 Q583 1 573 1" class="line"/>
+    <line x1="451" y1="1" x2="461" y2="1" class="line"/>
+    <line x1="461" y1="1" x2="573" y2="1" class="line"/>
+    <line x1="411" y1="33" x2="431" y2="33" class="line"/>
+    <line x1="593" y1="33" x2="613" y2="33" class="line"/>
+    <path d="M411 33 Q421 33 421 43" class="line"/>
+    <path d="M603 43 Q603 33 613 33" class="line"/>
+    <line x1="421" y1="43" x2="421" y2="57" class="line"/>
+    <line x1="603" y1="57" x2="603" y2="43" class="line"/>
+    <path d="M421 57 Q421 67 431 67" class="line"/>
+    <path d="M593 67 Q603 67 603 57" class="line"/>
+    <line x1="431" y1="67" x2="441" y2="67" class="line"/>
+    <line x1="441" y1="67" x2="593" y2="67" class="line"/>
+    <a href="#limit" xlink:title="limit">
+        <rect x="665" y="19" width="44" height="32"/>
+        <rect x="663" y="17" width="44" height="32" class="nonterminal"/>
+        <text class="nonterminal" x="673" y="37">limit</text>
+    </a>
+    <line x1="653" y1="33" x2="663" y2="33" class="line"/>
+    <line x1="707" y1="33" x2="717" y2="33" class="line"/>
+    <path d="M633 33 L653 33 M652 33 Q643 33 643 23 L643 11 Q643 1 653 1" class="line"/>
+    <path d="M717 33 L737 33 M717 33 Q727 33 727 23 L727 11 Q727 1 717 1" class="line"/>
+    <line x1="653" y1="1" x2="663" y2="1" class="line"/>
+    <line x1="663" y1="1" x2="717" y2="1" class="line"/>
+    <line x1="613" y1="33" x2="633" y2="33" class="line"/>
+    <line x1="737" y1="33" x2="757" y2="33" class="line"/>
+    <path d="M613 33 Q623 33 623 43" class="line"/>
+    <path d="M747 43 Q747 33 757 33" class="line"/>
+    <line x1="623" y1="43" x2="623" y2="57" class="line"/>
+    <line x1="747" y1="57" x2="747" y2="43" class="line"/>
+    <path d="M623 57 Q623 67 633 67" class="line"/>
+    <path d="M737 67 Q747 67 747 57" class="line"/>
+    <line x1="633" y1="67" x2="643" y2="67" class="line"/>
+    <line x1="643" y1="67" x2="737" y2="67" class="line"/>
+    <a href="#offset" xlink:title="offset">
+        <rect x="809" y="19" width="56" height="32"/>
+        <rect x="807" y="17" width="56" height="32" class="nonterminal"/>
+        <text class="nonterminal" x="817" y="37">offset</text>
+    </a>
+    <line x1="797" y1="33" x2="807" y2="33" class="line"/>
+    <line x1="863" y1="33" x2="873" y2="33" class="line"/>
+    <path d="M777 33 L797 33 M796 33 Q787 33 787 23 L787 11 Q787 1 797 1" class="line"/>
+    <path d="M873 33 L893 33 M873 33 Q883 33 883 23 L883 11 Q883 1 873 1" class="line"/>
+    <line x1="797" y1="1" x2="807" y2="1" class="line"/>
+    <line x1="807" y1="1" x2="873" y2="1" class="line"/>
+    <line x1="757" y1="33" x2="777" y2="33" class="line"/>
+    <line x1="893" y1="33" x2="913" y2="33" class="line"/>
+    <path d="M757 33 Q767 33 767 43" class="line"/>
+    <path d="M903 43 Q903 33 913 33" class="line"/>
+    <line x1="767" y1="43" x2="767" y2="57" class="line"/>
+    <line x1="903" y1="57" x2="903" y2="43" class="line"/>
+    <path d="M767 57 Q767 67 777 67" class="line"/>
+    <path d="M893 67 Q903 67 903 57" class="line"/>
+    <line x1="777" y1="67" x2="787" y2="67" class="line"/>
+    <line x1="787" y1="67" x2="893" y2="67" class="line"/>
+    <line x1="916" y1="33" x2="913" y2="33" class="line"/>
+    <polygon points="923 33 931 29 931 37" class="filled"/>
+    <polygon points="923 33 915 29 915 37" class="filled"/>
+</svg>
+
+<pre class="brush: sql; toolbar: false">
+select {*|comma-separated columns with/without aliases} from
+    {table|table1 as alias1, table2 as alias2}
+    where {conditions}*
+    limit {number}
+    offset {number}
+</pre>
+
+<h2>Examples</h2>
+  
+<h3>Select All</h3>
+
+<span class="try"><a class="button" href="/console?s=select%20*%20from%20finditems%20where%20keywords%3D'iPhone'">Try me</a></span>
+<pre class="brush: sql; toolbar: false">
+select * from finditems where keywords='iPhone'
+</pre>
+
+<p>This returns the complete response in the JSON format. If the API returns XML, the XML will be
+transformed into JSON, but if not, the same JSON is returned.</p>
+
+<h3>Select Fields</h3>
+  
+<span class="try"><a class="button" href="/console?s=select%20title%2C%20itemId%2C%20primaryCategory.categoryName%2C%0A%20%20sellingStatus.currentPrice%20from%20finditems%20where%20keywords%3D'iPhone'">Try me</a></span>
+<pre class="brush: sql; toolbar: false">
+select title, itemId, primaryCategory.categoryName,
+    sellingStatus.currentPrice from finditems where keywords='iPhone'
+</pre>
+
+<p>This returns results in a tabular form with each row containing the selected fields.</p>
+  
+<h3>Select Fields with Aliases</h3>
+  
+<span class="try"><a class="button" href="/console?s=select%20title%20as%20title%2C%20itemId%20as%20id%2C%20primaryCategory.categoryName%20as%20category%2C%0A%20%20%20%20sellingStatus.currentPrice%20as%20price%20from%20finditems%20where%20keywords%3D'iPhone'">Try me</a></span>
+<pre class="brush: sql; toolbar: false">
+select title as title, itemId as id, primaryCategory.categoryName as category,
+    sellingStatus.currentPrice as price from finditems where keywords='iPhone'
+</pre>
+
+<h3>Nested Select</h3>
+
+<span class="try"><a class="button" href="/console?s=select%20ItemID%2C%20ViewItemURLForNaturalSearch%2C%20Location%20from%20details%20where%20itemId%20in%20%0A%20%20%20%20(select%20itemId%20from%20finditems%20where%20keywords%3D'mini%20cooper')%3B">Try me</a></span>
+<pre class="brush: sql; toolbar: false;">
+select ItemID, ViewItemURLForNaturalSearch, Location from details where itemId in
+    (select itemId from finditems where keywords='mini cooper');
+</pre>
+
+<h3>Join</h3>
+
+<span class='try'><a class="button" href="/console?s=select%20e.ItemID%20as%20id%2C%20e.Title%20as%20title%2C%20e.ViewItemURLForNaturalSearch%20as%20url%2C%20g.geometry.location%20as%20latlng%0A%20%20from%20details%20%20as%20e%2C%20google.geocode%20as%20g%0A%20%20where%20e.itemId%20in%20(select%20itemId%20from%20finditems%20where%20keywords%20%3D%20'mini')%0A%20%20and%20g.address%20%3D%20e.Location">Try me</a></span>
+<pre class="brush: sql; toolbar: false;">
+select e.ItemID as id, e.Title as title, e.ViewItemURLForNaturalSearch as url, g.geometry.location as latlng
+  from details  as e, google.geocode as g
+  where e.itemId in (select itemId from finditems where keywords = 'mini')
+  and g.address = e.Location
+</pre>
+
+<h2>Clauses</h2>
+  
+<h3>Columns Clause</h3>
+  
+<p>List of columns with or without alias names, or <code>*</code></p>
+
+<p>When using aliases, all selected columns must be aliased. Aliases must be prefixed with
+<code>as</code>.</p>
+
+<h3>From Clause</h3>
+
+<p>Up to two tables, in the natural order of dependencies.</p>
+  
+<p>When using a join, table names must be followed by <code>as</code> and an alias name.</p>
+
+<h3>Where Clause</h3>
+
+<p>List of zero or more conditions. Conditions must be separated by an <code>and</code>. Two types
+of conditions are supported.</p>
+  
+<ul>
+    <li>Equals, using the <code>=</code> operator</li>
+    <li>Nested select, using <code>in</code> clause</li>
+</ul>
+
+<h3>Limit</h3>
+  
+<p>The value of the limit is used to limit the number of results.</p>
+
+<h3>Offset</h3>
+  
+<p>The value of this parameter is used to paginate a response.</p>
