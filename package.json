@@ -9,9 +9,7 @@
         "express": "",
         "ejs": "",
         "node-markdown": "0.1.0",
-        "underscore": ""
-    },
-    "devDependencies": {
-        "nodeunit": "0.5.1"
+        "underscore": "",
+        "combohandler": ""
     }
 }
