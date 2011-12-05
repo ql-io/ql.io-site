@@ -61,7 +61,7 @@ select ProductID[0].Value as id, DetailsURL as details, StockPhotoURL as photo
 
 <p>You can paginate results by using limit and offset clauses.</p>
 
-<span class="try"><a class="button" href="/console?s=select%20id%20as%20id%2C%20from_user_name%20as%20user%2C%20text%20as%20text%0A%20%20from%20twitter.search%20where%20q%20%3D%20%22ql.io%22%20limit%205">Try me</a></span>
+<span class="try"><a class="button" href="/console?s=select%20id%20as%20id%2C%20from_user_name%20as%20user%2C%20text%20as%20text%0A%20%20from%20twitter.search%20where%20q%20%3D%20%22ql.io%22%20limit%205%20offset%202">Try me</a></span>
 <pre class="brush: sql toolbar: false;">
 select id as id, from_user_name as user, text as text
   from twitter.search where q = "ql.io" limit 5 offset 2
