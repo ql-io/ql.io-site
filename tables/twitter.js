@@ -3,5 +3,6 @@ exports['patch uri'] = function(options) {
     if(statement.offset && statement.limit) {
         uri.setParam('page', statement.offset / statement.limit);
     }
+    uri.removeEmptyParams();
     return uri;
 }
