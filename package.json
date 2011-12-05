@@ -10,6 +10,9 @@
         "ejs": "",
         "node-markdown": "0.1.0",
         "underscore": "",
-        "combohandler": ""
+	"oauth": ""
+    },
+    "devDependencies": {
+        "nodeunit": "0.5.1"
     }
 }
