@@ -1,27 +1,28 @@
 <h1>OAuth</h1>
   
-<p>Passing OAuth info through Authorization header can be achieved through 'patch headers' monkey patching function.
-This capability is demonstrated below through the following example that uses Twitter API which needs OAuth Header</p>
+<p>Passing OAuth token through the <code>Authorization</code> header can be achieved through
+<code>patch headers</code> monkey patching function. This capability is demonstrated below through
+the following example that uses Twitter API.</p>
 
-<h2>Table definition for twitter.home</h2>
+<h2>Table for Twitter Timeline</h2>
 
 <pre class="brush: sql; toolbar: false">
 create table twitter.home
- on select get from 'https://api.twitter.com/1/statuses/home_timeline.{format}'
- using defaults format = 'json'
- using patch 'twitter.signin.js'
+  on select get from 'https://api.twitter.com/1/statuses/home_timeline.{format}'
+  using defaults format = 'json'
+  using patch 'twitter.signin.js'
 </pre>
 
-<h2>Monkey patch i.e. twitter.signin.js</h2>
+<h2>Monkey Patch</h2>
 
 <pre class="brush: sql; toolbar: false">
 // Need Auth module
 var OAuth = require('oauth').OAuth;
 
 exports['patch headers'] = function(options) {
-    var uri = options.uri,h = options.headers, params = options.params
-        , statement = options.statement,
-        consumerKey = '',consumerSecret = '',accessToken = '';
+    var uri = options.uri,h = options.headers, params = options.params,
+              statement = options.statement, consumerKey = '',
+              consumerSecret = '', accessToken = '';
 
     consumerKey =  params.consumerkey;
     consumerSecret = params.consumersecret;
@@ -48,11 +49,14 @@ exports['patch headers'] = function(options) {
 };
 </pre>
 
-<p><b>Note:</b>In the above script consumekey, consumersecret, accesstoken and accesstokesecret are user specific and
-can be obtained from <a href="https://dev.twitter.com">https://dev.twitter.com</a> when you register an app</p>
+<p>In the above script <code>consumeKey</code>, <code>consumerSecret</code>,
+<code>accessToken</code> and <code>accessTokenSecret</code> are user specific and can be obtained
+from <a href="https://dev.twitter.com">https://dev.twitter.com</a> when you register an app.</p>
 
-<h2>Sample invocation</h2>
-<h3>Passing params to 'Where' clause</h3>
+<h2>Sample Invocation</h2>
+
+<h3>Passing Params via the Where Clause</h3>
+
 <span class="try"><a class="button" href="/console?s=--%20Please%20make%20sure%20you%20provide%20following%204%20custom%20values%0Aconsumerkey%20%3D%20%22your%20consumer%20key%22%3B%0Aconsumersecret%20%3D%20%22your%20consumer%20secret%22%3B%0Aaccesstoken%20%3D%20%22your%20access%20token%22%3B%0Aaccesstokensecret%3D%20%22your%20access%20secret%22%3B%0Areturn%20select%20*%20from%20twitter.home%20where%20consumerkey%3D%22%7Bconsumerkey%7D%22%20and%0A%20%20%20%20%20%20%20consumersecret%20%3D%20%22%7Bconsumersecret%7D%22%20and%0A%20%20%20%20%20%20%20accesstoken%20%3D%20%22%7Baccesstoken%7D%22%20and%0A%20%20%20%20%20%20%20accesstokensecret%3D%22%7Baccesstokensecret%7D%22%3B">Try me</a></span>
 <pre class="brush: sql; toolbar: false">
 -- Please make sure you provide following 4 custom values
@@ -66,9 +70,10 @@ return select * from twitter.home where consumerkey="{consumerkey}" and
        accesstokensecret="{accesstokensecret}"
 </pre>
 
-<h3>Passing params as header</h3>
-<p> To protect the OAuth parameters (i.e. consumerkey/secret and accesstoken/secret) they can be passed as headers to
-an https endpoint running ql.io. Following is a curl command to demonstrate the same.</p>
+<h3>Passing Params via Headers</h3>
+
+<p>Here is an alternative that sends the parameters as HTTP headers.</p>
+
 <pre class="brush: sql; toolbar: false">
 curl --header "consumerkey: your consumer key"
      --header "consumersecret: your consumer secret"
