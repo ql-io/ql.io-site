@@ -28,7 +28,7 @@
     {
         "title" : "Limit and Offset",
         "note" : "You can paginate results by using limit and offset clauses.",
-        "statement" : "select id as id, from_user_name as user, text as text \n  from twitter.search where q = &quot;ql.io&quot; limit 5"
+        "statement" : "select id as id, from_user_name as user, text as text \n  from twitter.search where q = &quot;ql.io&quot; limit 5 offset 2"
     },
     {
         "title" : "Nested Selection and Joins",
