@@ -76,7 +76,39 @@ exports['patch status'] = function(args) {
     }
 }
 </pre>
-  
+
+<h2>patch response</h2>
+
+<p>This function can introspect and modify the response body.</p>
+
+<pre class="brush: js; toolbar: false;">
+
+exports['patch response'] = function(args) {
+    var body = args.body;
+    var items = [];
+
+    if (body && body.searchResult && body.searchResult.items) {
+
+        for (var i = 0; i < body.searchResult.items.length; i++){
+            var result = body.searchResult.items[i];
+            if (result) {
+                var item = {};
+                _.each(result, function(v, k) {
+                     // as an illustration of what can be done, we are modifying the keys here,
+                     // but the whole structure of the response can be changed as well
+                    item["NewKey" + k] = v;
+                });
+                items.push(item);
+            }
+        }
+
+        body.searchResult.items = items;
+    }
+
+    return body;
+}
+</pre>
+
 <h2>patch mediaType</h2>
 
 <p>This function can override response media type.</p>
