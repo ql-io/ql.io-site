@@ -14,5 +14,9 @@
     },
     "bing": {
         "appid": "E72293BCAF85E87C0082DCA777252E3D18367C97"
+    },
+    "delicious": {
+        "user": "qliotester",
+        "pwd": "ql10tester"
     }
 }

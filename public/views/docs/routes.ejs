@@ -42,13 +42,15 @@ return select d.ProductID[0].Value as id, d.Title as title,
 <p>Routing is the preferred method of executing scripts.</p>
 
 <h2>HTTP Methods</h2>
+
+<h3>POST (and PUT)</h3>
   
 <p>A route can be declared to use any HTTP method. For instance the following route can only be
 invoked using HTTP method <code>POST</code>.</p>
 
 <pre class="brush: sql; toolbar: false">
 prodid = select ProductID[0].Value from eBay.FindProducts where
-    QueryKeywords = 'macbook pro';
+    QueryKeywords = '{keywords}';
 details = select * from eBay.ProductDetails where
     ProductID in ('{prodid}') and ProductType = 'Reference';
 reviews = select * from eBay.ProductReviews where
@@ -61,7 +63,82 @@ return select d.ProductID[0].Value as id, d.Title as title,
     via route '/myapi' using method post;
 </pre>
 
-<em>Work in progress</em>
+Assuming the server is running on the localhost, following curl commands demonstrate how this route can invoked with
+different <code>POST</code> payloads
+
+</p><code>content-type: application/x-www-form-urlencoded</code></p>
+<pre class="brush: sql; toolbar: false">
+curl --header "content-type: application/x-www-form-urlencoded"
+     -d "keywords=android" http://localhost:3000/myapi
+</pre>
+
+<p><code>content-type: application/json</code></p>
+<pre class="brush: sql; toolbar: false">
+curl --header "content-type: application/json"
+     -d '{"keywords":"android"}' http://localhost:3000/myapi
+</pre>
+
+<p><code>content-type: application/xml</code></p>
+<pre class="brush: sql; toolbar: false">
+curl --header "content-type: application/xml"
+     -d '<keywords>android</keywords>' http://localhost:3000/myapi
+</pre>
+
+<p>User can similarly define routes for HTTP method <code>PUT</code> by <code>'using method PUT'</code> in a route
+definition similar to one given above.</p>
+
+<h3>GET (and DELETE)</h3>
+
+<p>Working off of the above examples following are a couple of ways routes for <code>GET</code> could be defined.</p>
+
+<h4>Parameters in the path</h4>
+<pre class="brush: sql; toolbar: false">
+prodid = select ProductID[0].Value from eBay.FindProducts where
+    QueryKeywords = '{keyword}';
+details = select * from eBay.ProductDetails where
+    ProductID in ('{prodid}') and ProductType = 'Reference';
+reviews = select * from eBay.ProductReviews where
+    ProductID in ('{prodid}') and ProductType = 'Reference';
+
+return select d.ProductID[0].Value as id, d.Title as title,
+    d.ReviewCount as reviewCount, r.ReviewDetails.AverageRating as rating
+    from details as d, reviews as r
+    where d.ProductID[0].Value = r.ProductID.Value
+    via route '/myapi/{keyword}' using method get;
+</pre>
+
+<pre class="brush: sql; toolbar: false">
+curl http://localhost:3000/myapi/ipad
+</pre>
+
+
+<h4>Leveraging HTTP query params</h4>
+<pre class="brush: sql; toolbar: false">
+prodid = select ProductID[0].Value from eBay.FindProducts where
+    QueryKeywords = '{keyword}';
+details = select * from eBay.ProductDetails where
+    ProductID in ('{prodid}') and ProductType = 'Reference';
+reviews = select * from eBay.ProductReviews where
+    ProductID in ('{prodid}') and ProductType = 'Reference';
+
+return select d.ProductID[0].Value as id, d.Title as title,
+    d.ReviewCount as reviewCount, r.ReviewDetails.AverageRating as rating
+    from details as d, reviews as r
+    where d.ProductID[0].Value = r.ProductID.Value
+    via route '/myapi?keywords={keyword}' using method get;
+</pre>
+
+<pre class="brush: sql; toolbar: false">
+curl http://localhost:3000/myapi?keyword=ipod
+</pre>
+
+<p>Path and query parameters as demonstrated can also be combined i.e. a sample route could be
+<code>/myapi/{keyword}?type={type}</code> .
+
+One can also define a similar route for HTTP requests with payloads (e.g. <code>POST</code> and <code>PUT</code>).</p>
+
+<p>User can similarly define routes for HTTP method <code>DELETE</code> by <code>'using method DELETE'</code> in a
+route definition similar to one given above.</p>
 
 
 
