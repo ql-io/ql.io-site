@@ -39,10 +39,29 @@ is an example.</p>
     },
 }
 </pre>
-  
-  
+
 <p>This setup lets ql.io route requests for <code>table1</code> through one proxy, requests for
 <code>table2</code> directly, and requests all the other tables through another proxy.</p>
+
+<h3>maxNestedRequests</h3>
+
+<p>This variable is used to limit the number of nested requests (in the in-clause). Default is 50.</p>
+
+<pre class="brush: js; toolbar: false;">
+{
+    "maxNestedRequests": 50
+}
+</pre>
+
+<h3>maxResponseSize</h3>
+
+<p>This variable is used to limit the size of response from the upstream service. Default is 10,000,000 (utf8 characters).</p>
+
+<pre class="brush: js; toolbar: false;">
+{
+    "maxResponseSize": 10000000
+}
+</pre>
 
 <h2>Runtime Overriding</h2>
 
