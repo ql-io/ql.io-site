@@ -1,15 +1,65 @@
 <h1>Monkey Patching</h1>
 
-<p>A monkey patch is a regular node module with the following functions exported. Each operation on
-a table in a <code>create table</code> statement can have a patching module specified.</p>
+<p>A monkey patch is a node module with the following functions exported. Each operation on a table
+in a <code>create table</code> statement can have a patching module specified. Here is an
+example.</p>
+
+<pre class="brush: sql; toolbar: false;">
+create table bing.search
+  on select get from 'http://api.bing.net/xml.aspx?Appid={appid}&query={q}&sources=web'
+            using defaults appid = '{config.bing.appid}'
+            using patch 'bing.js'
+            resultset 'SearchResponse.web:Web.web:Results.web:WebResult';
+</pre>
+
+<p>The patch module can be in the same directory as the table or any where in the node
+<code>NODE_PATH</code>.</p>
+
+<p>In the args below, <code>params</code> contains the following so that the patch could refer to
+them.</p>
+  
+<ul>
+    <li>output of previously executed statements</li>
+    <li>request body, parsed into name value pairs</li>
+    <li>params supplied to the route, if invoked via a route</li>
+    <li>params from the connection (such as the remote address)</li>
+    <li>defaults</li>
+    <li>config</li>
+</ul>
+
+<h2>udf</h2>
+
+<p>This function must return an object of user-defined functions. These functions can be used  to
+extend <code>where</code> clauses of <code>select</code> statements.</p>
+
+<p>Here is a script that uses user-defined functions.</p>
+create table patch.udf on select get from 'http://my.host/path?p1={p1}&p2={p2}'
+    using patch 'udf.js';
+return select * from patch.udf where p1("v1") and p2("2", "3")
+</p>
+
+<pre class="brush: js; toolbar: false;">
+exports['udf'] = function() {
+    return {
+        'p1' : function() {
+            return 'v1'
+        },
+        'p2' : function(a, b) {
+            return Number(a) + Number(b);
+        }
+    };
+};
+</pre>
 
 <h2>validate param</h2>
 
-<p>This function can valiate a param supplied from one of the inputs (statement, params, headers or
-defaults).</p>
+<p>Use this function can validate a param supplied from one of the inputs (<code>where</code>
+clause, URI params, headers or defaults).</p>
 
 <pre class="brush: js; toolbar: false;">
-exports['validate param'] = function(statement, param, value) {
+// Args: an object with statement and params, a param, and its value
+exports['validate param'] = function(args, param, value) {
+    // example
     switch(param) {
         case 'duration' :
             return !isNaN (value - 0)
@@ -21,35 +71,26 @@ exports['validate param'] = function(statement, param, value) {
   
 <h2>patch uri</h2>
 
-<p>This function can introspect the URI of the outgoing request, and return a modified version if
-necessary.</p>
+<p>Use this function to introspect the URI of the outgoing request, and return a modified version
+if necessary. You can also return an array of URIs to fork multiple requests.</p>
 
 <pre class="brush: js; toolbar: false;">
+// Args: an object with statement, uri, and params
+var MutableURI = require('ql.io-mutable-uri');
 exports['patch uri'] = function(args) {
-    var statement = args.statement, uri = args.uri, params = args.params, count = 0;
-    uri.setParam('paginationInput.pageNumber', statement.offset / statement.limit);
-    uri.removeEmptyParams();
-
-    count = 0
-    if(params.FreeShippingOnly) {
-        uri.addParam("itemFilter({count}).name", 'FreeShippingOnly');
-        uri.addParam("itemFilter({count}).value", c.rhs.value);
-        count++;
-    }
-    if(params.MinPrice) {
-        uri.addParam("itemFilter({count}).name", 'MinPrice');
-        uri.addParam("itemFilter({count}).value", c.rhs.value);
-        count++;
-    }
+    // example
+    return new MutableURI('some uri here');
 }
 </pre>
 
 <h2>patch headers</h2>
 
-<p>This function can introspect and return updated request headers.</p>
+<p>Use this function introspect and return updated request headers to be sent.</p>
 
 <pre class="brush: js; toolbar: false;">
+// Args: an object with statement, uri and params
 exports['patch headers'] = function(args) {
+    // example
     var statement = args.statement, uri = args.uri, params = args.params,
         headers = args.headers;
 
@@ -59,12 +100,42 @@ exports['patch headers'] = function(args) {
 }
 </pre>
 
-<h2>patch status</h2>
-
-<p>This function can introspect the response body and indicate if it is an error.</p>
+<h2>body template</h2>
+  
+<p>Use this function to provide a template for the request body.</p>
 
 <pre class="brush: js; toolbar: false;">
-// args contains status, headers, body
+// Args: an object with statement, uri, params and headers
+exports['body template'] = function(args) {
+    // example
+    var content = fs.readFileSync(__dirname + '/somefile.txt', 'utf8');
+    return {
+        type: 'application/xml',
+        content: content
+    };
+}
+</pre>
+
+<h2>patch body</h2>
+
+<p>Use this function to modify the request body.</p>
+
+<pre class="brush: js; toolbar: false;">
+// Args: an object with statement, uri, params, body and headers
+exports['patch body'] = function() {
+    return {
+        type: 'application/json',
+        content: JSON.stringify({message : 'aok'})
+    };
+}
+</pre>
+
+<h2>patch status</h2>
+
+<p>Use this to introspect the response body and indicate if it is an error.</p>
+
+<pre class="brush: js; toolbar: false;">
+// Args: An object with uri, params, statement, response status, response headers, and body
 exports['patch status'] = function(args) {
     var json = args.body;
     if(json && ((json.ack === 'Failure') ||
@@ -77,33 +148,39 @@ exports['patch status'] = function(args) {
 }
 </pre>
 
-<h2>patch response</h2>
+<h2>parse response</h2>
 
-<p>This function can introspect and modify the response body.</p>
+<p>Use this to parse response buffers into text. You can use this, for instance, to parse Avro and
+such binary encoded responses.</p>
 
 <pre class="brush: js; toolbar: false;">
+// Args: An object with uri, params, statement, response status, response headers, and body
+// body is an an array of Buffer objects
 
+// This example just converts the buffers into a string.
+exports['parse response'] = function(args) {
+    var str = '';
+    _.each(args.body, function(buf) {
+        str += buf.toString('UTF-8');
+    })
+    return {
+        type: 'application/json',
+        content: str
+    };
+}
+
+</pre>
+
+<h2>patch response</h2>
+
+<p>Use this to introspect and modify the response body.</p>
+
+<pre class="brush: js; toolbar: false;">
+// Args: An object with uri, params, statement, response status, response headers, and body
 exports['patch response'] = function(args) {
     var body = args.body;
-    var items = [];
 
-    if (body && body.searchResult && body.searchResult.items) {
-
-        for (var i = 0; i < body.searchResult.items.length; i++){
-            var result = body.searchResult.items[i];
-            if (result) {
-                var item = {};
-                _.each(result, function(v, k) {
-                     // as an illustration of what can be done, we are modifying the keys here,
-                     // but the whole structure of the response can be changed as well
-                    item["NewKey" + k] = v;
-                });
-                items.push(item);
-            }
-        }
-
-        body.searchResult.items = items;
-    }
+    ... modify or create a new one
 
     return body;
 }
@@ -111,29 +188,12 @@ exports['patch response'] = function(args) {
 
 <h2>patch mediaType</h2>
 
-<p>This function can override response media type.</p>
+<p>Use this function to override response media type.</p>
 
 <pre class="brush: js; toolbar: false;">  
-// args contains status, headers, body
+// Args: An object with uri, params, statement, response status, response headers, and body
 exports['patch mediaType'] = function(args) {
     return 'application/json';
 }
 </pre>
 
-<h2>udf</h2>
-
-<p>This function must return an object of user-defined functions. These functions can be used  to
-extend <code>where</code> clauses of <code>select</code> statements.</p>
-
-<pre class="brush: js; toolbar: false;">
-exports['udf'] = {
-    'contains' : function(arg) {
-        return {
-            operator: 'CONTAINS',
-            exprType: 'KeywordLogicalExpression',
-            operandType: 'TokenOperand',
-            operand: arg[0].value
-        };
-    }
-}
-</pre>
