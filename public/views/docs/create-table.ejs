@@ -327,7 +327,7 @@ create table {table-name}
     using headers {nvp}
     using defaults {nvp}
     using patch {node-module-name}
-    using bodyTemplate {template-file-name} type {media-type}
+    using bodyTemplate {template-file-name} type {media-type} foreach {param}
     auth using {node-module-name}
     resultset {quoted-string}
   on insert ... 
@@ -454,7 +454,7 @@ template with the following contents.</p>
 <ul>
     <li><code>limit</code></li>
     <li><code>offset</code></li>
-</ul>                                                                                 1
+</ul>
 
 <p>Here is an example.</p>
 
@@ -499,9 +499,36 @@ file containing the <code>create table</code>. </p>
     <li>URI formatted templates: HTML form decoding is used when the body type is
     <code>application/x-www-form-urlencoded</code>.</li>
 
-    <li>Non-URI formatted templates: These are processed using <a
-    href="http://mustache.github.com/">Mustache</a>.</li>
+    <li>Non-URI formatted templates: If the name of the type ends with <code>.ejs</code>, these are
+    processed using <a href="http://embeddedjs.com/">EJS</a>. If not, <a
+    href="http://mustache.github.com/">Mustache</a> is used.</li>
 </ul>
+
+<p>If a parameter used in the template can only have one value, but scripts can pass multiple
+values, add the <code>foreach</code> to let ql.io split the request into multiple requests. Here is
+a table that uses the <code>foreach</code> clause.</p>
+
+<pre class="brush: sql; toolbar: false">
+create table scatter.post on select post to 'http://my.host.com/path'
+    using bodyTemplate 'body.ejs' type 'application/json' foreach 'id';
+</pre>
+
+<p>This table uses a Mustache template.</p>
+
+<pre class="brush: text; toolbar: false">
+{
+    {{#params}}
+    "message": "{{id}}"
+    {{/params}}
+}
+</pre>
+
+<p>The following <code>select</code> will cause three <code>POST</code> requests to the
+    server.</p>
+
+<pre class="brush: sql; toolbar: false">
+select * from scatter.post where id in ("1", "2", "3")
+</pre>
 
 <h3>using auth</h3>
 
