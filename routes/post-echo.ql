@@ -1,3 +1,5 @@
+-- Echos the path params
+
 return {
   "hw": "{hw}",
   "message": "{message}",

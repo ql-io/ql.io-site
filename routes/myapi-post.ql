@@ -1,3 +1,5 @@
+-- Given a `keyword` in the body of a POST request, finds products, and returns ID, title, review count, and average rating.
+
 prodid = select ProductID[0].Value from eBay.FindProducts where
     QueryKeywords = '{keywords}';
 details = select * from eBay.ProductDetails where
