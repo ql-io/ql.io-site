@@ -1,3 +1,5 @@
+-- Finds mac book pros, and returns ID, title, review count, and average rating.
+
 prodid = select ProductID[0].Value from eBay.FindProducts where
     QueryKeywords = 'macbook pro';
 details = select * from eBay.ProductDetails where

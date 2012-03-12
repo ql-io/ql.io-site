@@ -1,4 +1,5 @@
--- See [Bing's API Basics](http://www.bing.com/developers/s/APIBasics.html) for more info.
+-- Bing search API. See [Bing's API Basics](http://www.bing.com/developers/s/APIBasics.html) for more info.
+
 create table bing.search
   on select get from 'http://api.bing.net/xml.aspx?Appid={appid}&query={q}&sources=web'
             using defaults appid = '{config.bing.appid}'

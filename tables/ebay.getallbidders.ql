@@ -1,3 +1,5 @@
+-- eBay [GetAllBidders](http://developer.ebay.com/devzone/xml/docs/reference/ebay/GetAllBidders.html) API.
+
 create table ebay.getallbidders
   on select post to "https://api.ebay.com/ws/api.dll?appid={^appid}&version=723"
      using headers 'Content-Type'= 'application/xml; charset=UTF-8',

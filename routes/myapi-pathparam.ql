@@ -1,3 +1,5 @@
+-- Given a `keyword` as a path segment, finds products, and returns ID, title, review count, and average rating.
+
 prodid = select ProductID[0].Value from eBay.FindProducts where
     QueryKeywords = '{keyword}';
 details = select * from eBay.ProductDetails where
