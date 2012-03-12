@@ -1,3 +1,5 @@
+-- A demo for the PHP Conf 2012.
+
 ids = select itemId from finditems where keywords = '{q}' limit 5;
 items = select * from ebay.singleitem where itemId = '{ids}';
 bestOffers = select * from ebay.bestoffers where itemId = '{ids}';

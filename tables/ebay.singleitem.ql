@@ -1,6 +1,4 @@
--- Example: select ShippingCostSummary from ebay.shopping.singleitem where includeSelector = 'Details,ShippingCosts,ItemSpecifics,Variations,Description' and itemId in (select itemId from ebay.finding.items where keywords='ipad 2' limit 1);
-
--- Uses shopping api and fetches shipping cost summary for a given valid itemid
+-- eBay [GetSingleItem](http://developer.ebay.com/devzone/shopping/docs/CallRef/GetSingleItem.html) API.
 
 create table ebay.singleitem
   on select get from "http://open.api.ebay.com/shopping?callname=GetSingleItem&responseencoding={format}&appid={^apikey}&version=715&IncludeSelector={includeSelector}&ItemID={#itemId}"

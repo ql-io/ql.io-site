@@ -1,4 +1,4 @@
--- Uses eBay api and fetches the best offer details for a given bestoffer enabled itemid
+-- eBay [GetBestOffers](http://developer.ebay.com/devzone/xml/docs/reference/ebay/GetBestOffers.html) API.
 
 create table ebay.bestoffers
   on select post to "https://api.ebay.com/ws/api.dll?appid={^appid}&version=723"
