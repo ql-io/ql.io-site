@@ -25,6 +25,7 @@ them.</p>
     <li>params from the connection (such as the remote address)</li>
     <li>defaults</li>
     <li>config</li>
+    <li>log function. See below for details</li>
 </ul>
 
 <h2>udf</h2>
@@ -197,3 +198,30 @@ exports['patch mediaType'] = function(args) {
 }
 </pre>
 
+<h1>Logging from Money Patch</h1>
+
+<p> To log a message, use the `<code>log</code>` function in param <code>args</code>. <code>log</code> function
+ takes two arguments - severity and the message to log. Severity can have the values - <code>'error', 'warn' and 'info' </code>.
+ All other values for severity will be treated as <code>'info' </code>. </p>
+
+<p>Here is an example.</p>
+
+<pre class="brush: js; toolbar: false;">
+// Args: An object with uri, params, statement, response status, response headers, and body
+exports['patch status'] = function(args) {
+    var log = args.log; // Get the logger fn.
+    var json = args.body;
+    if(!json) {
+        log('warn', 'empty body'); // Warning message
+    }
+    if(json && ((json.ack === 'Failure') ||
+        json.errors)) {
+        log('error', 'error from upstream. fixing the status.'); // Error messsage
+        return 400;
+    }
+    else {
+        log('info', 'All is Well');
+        return 200;
+    }
+}
+</pre>
