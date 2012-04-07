@@ -1,7 +1,7 @@
 <h1>Configuration</h1>
 
-<p>Config files are located under <code>config</code> dir by default. By default,
-<code>bin/start.sh</code> in your app uses <code>dev.json</code> to read config. See the option
+<p>Config files are located int the <code>config</code> dir by default. By default,
+<code>bin/start.sh</code> in your app reads its config from <code>dev.json</code>. Use the option
 <code>--config</code> to specify a different file.</p>
 
 <h2>Structure of Config Files</h2>
@@ -71,7 +71,7 @@ approach to determine its value:</p>
 <ol>
     <li>Look for the parameter value from query parameters</li>
     
-    <li>Then look the value from HTTP headers </li>
+    <li>Then look for the value in HTTP request headers </li>
 
     <li>Then look for values specified in the statement (<code>where</code> clause for
     <code>select</code>, and <code>values</code> clause in <code>insert into</code> etc.)</li>
