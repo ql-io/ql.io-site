@@ -1,6 +1,6 @@
 <h1>select Statement</h1>
 
-<p>Select statement is used to retrieve data. For well-designed HTTP APIs, a <code>select</code>
+<p>The select statement is used to retrieve data. For well-designed HTTP APIs, a <code>select</code>
 maps to an HTTP <code>GET</code>. But if your APIs are using POST over XML or SOAP, a
 <code>select</code> may map to a <code>POST</code> request. </p>
 
@@ -165,8 +165,8 @@ select {*|comma-separated columns with/without aliases} from
 select * from finditems where keywords='iPhone'
 </pre>
 
-<p>This returns the complete response in the JSON format. If the API returns XML, the XML will be
-transformed into JSON, but if not, the same JSON is returned.</p>
+<p>This returns the complete response in JSON format. If the API returns XML, the XML will be
+transformed into JSON.</p>
 
 <h3>Select Fields</h3>
   
@@ -176,7 +176,7 @@ select title, itemId, primaryCategory.categoryName,
     sellingStatus.currentPrice from finditems where keywords='iPhone'
 </pre>
 
-<p>This returns results in a tabular form with each row containing the selected fields.</p>
+<p>This returns results in a tabular form, with each row containing the selected fields.</p>
   
 <h3>Select Fields with Aliases</h3>
   

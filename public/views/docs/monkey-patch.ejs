@@ -1,8 +1,8 @@
 <h1>Monkey Patching</h1>
 
-<p>A monkey patch is a node module with the following functions exported. Each operation on a table
-in a <code>create table</code> statement can have a patching module specified. Here is an
-example.</p>
+<p>Each operation on a table in a <code>create table</code> statement can have a "monkey patch" module specified. A
+  monkey patch is a node module that exports functions that can be used to extend or modify various aspect of requests
+  and responses. Here is an example.</p>
 
 <pre class="brush: sql; toolbar: false;">
 create table bing.search
@@ -30,7 +30,7 @@ them.</p>
 
 <h2>udf</h2>
 
-<p>This function must return an object of user-defined functions. These functions can be used  to
+<p>This function must return an object that contains user-defined functions. These functions can then be used to
 extend <code>where</code> clauses of <code>select</code> statements.</p>
 
 <p>Here is a script that uses user-defined functions.</p>
@@ -38,6 +38,9 @@ create table patch.udf on select get from 'http://my.host/path?p1={p1}&p2={p2}'
     using patch 'udf.js';
 return select * from patch.udf where p1("v1") and p2("2", "3")
 </p>
+
+<p>For these functions (<code>p1</code> and <code>p2</code> to be available, they must be contained in the object
+  returned by the <code>udf</code> function:</p>
 
 <pre class="brush: js; toolbar: false;">
 exports['udf'] = function() {
@@ -54,7 +57,7 @@ exports['udf'] = function() {
 
 <h2>validate param</h2>
 
-<p>Use this function can validate a param supplied from one of the inputs (<code>where</code>
+<p>Use this function to validate a param supplied from one of the inputs (<code>where</code>
 clause, URI params, headers or defaults).</p>
 
 <pre class="brush: js; toolbar: false;">
@@ -86,7 +89,7 @@ exports['patch uri'] = function(args) {
 
 <h2>patch headers</h2>
 
-<p>Use this function introspect and return updated request headers to be sent.</p>
+<p>Use this function to introspect and return updated request headers to be sent.</p>
 
 <pre class="brush: js; toolbar: false;">
 // Args: an object with statement, uri and params
@@ -151,8 +154,8 @@ exports['patch status'] = function(args) {
 
 <h2>parse response</h2>
 
-<p>Use this to parse response buffers into text. You can use this, for instance, to parse Avro and
-such binary encoded responses.</p>
+<p>Use this to parse response buffers into text. You can use this, for instance, to
+  parse <a href="http://avro.apache.org/">Avro</a> and other binary encoded responses.</p>
 
 <pre class="brush: js; toolbar: false;">
 // Args: An object with uri, params, statement, response status, response headers, and body
@@ -189,7 +192,7 @@ exports['patch response'] = function(args) {
 
 <h2>patch mediaType</h2>
 
-<p>Use this function to override response media type.</p>
+<p>Use this function to override the response media type.</p>
 
 <pre class="brush: js; toolbar: false;">  
 // Args: An object with uri, params, statement, response status, response headers, and body

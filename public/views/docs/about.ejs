@@ -1,17 +1,18 @@
 <h1>About ql.io</h1>
 
-<h2>A SQL and JSON inspired DSL</h2>
+<h2>A SQL and JSON inspired Language for Working with HTTP APIs</h2>
 
-<p>SQL is quite a powerful DSL to retrieve, filter, project, and join data &#8212; see efforts like
+<p>SQL is a powerful language used to retrieve, filter, project, and join relational data &#8212; see efforts like
 <a href="http://queue.acm.org/detail.cfm?id=1961297">A co-Relational Model of Data for Large Shared
 Data Banks</a>, <a href="http://en.wikipedia.org/wiki/Language_Integrated_Query">LINQ</a>, <a
 href="http://developer.yahoo.com/yql/">YQL</a>, or <a href="http://www.unqlspec.org/">unQL</a> for
-examples.</p>
+examples. <a href="http://json.org/">JSON</a> is a widely-used, simple and standardized data format to
+interchange structured data.</p> 
 
-<p>ql.io combines SQL, and JSON into an imperative style <a
+<p>ql.io re-uses concepts and syntax from SQL and JSON to create an imperative style <a
 href="/docs/lang-overview">language</a>. Scripts written in this language can make HTTP requests to
 retrieve data, perform joins between API responses, project responses, or even make requests in
-a loop. But note that <em>ql.io's scripting language is not SQL - it is SQL inspired</em>.</p>
+a loop. But note that <em>ql.io's scripting language is not SQL &mdash; it is SQL-inspired</em>.</p>
 
 <h2>Orchestration</h2>
 
@@ -19,7 +20,7 @@ a loop. But note that <em>ql.io's scripting language is not SQL - it is SQL insp
 often complicated as client apps need to worry about order of requests, inter-dependencies, error
 handling, and parallelization to reduce overall latency.</p>
 
-<p>ql.io's scripts are procedural in appearance but are executed out of order based on dependencies.
+<p>ql.io's scripts seem procedural in appearance, but are executed out of order based on dependencies.
 Some statements may be scheduled in parallel and some in series based on a dependency analysis done
 at script compile time. The compilation is an on-the-fly process.</p>
 
@@ -27,11 +28,15 @@ at script compile time. The compilation is an on-the-fly process.</p>
 
 <p>APIs are designed for reuse, and hence they cater to the common denominator. Getting new fields
 added, optimizing responses, or combining multiple requests into one involve drawn out negotiations
-between API producing teams and API consuming teams.</p>
+between API producing teams and API consuming teams within an
+  organization, and may be outright impossible for public APIs outside
+  of the client's influence.</p>
 
 <p>ql.io lets API consuming teams move fast by creating consumer-centric interfaces that are
-optimized for the client - such optimized interfaces can reduce bandwidth usage and number of HTTP
-requests.</p>
+optimized for the client. Such optimized interfaces can reduce both
+  bandwidth usage and the number of HTTP requests.</p>
+
+<p>APIs created using ql.io can be consumed via HTTP or embedded in a Node.js process.</p>
 
 <h2>Who is Behind ql.io</h2>
 

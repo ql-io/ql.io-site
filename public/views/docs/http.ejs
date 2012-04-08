@@ -1,12 +1,13 @@
 <h1>HTTP Interface</h1>
   
-<p>URL encode the script, and send a GET to the following URI.</p>
+<p>ql.io's HTTP interface can be used by sending an HTTP GET to the following URI, with the
+  URL-encoded script as the value of the <code>s</code> query parameter.</p>
 
 <pre>
 http://<host>:<port>/q?s={url encoded script}
 </pre>
   
-<p>To use JSONP, add a <code>callback</code> parameter.</p>
+<p>To use <a href="http://www.json-p.org/">JSON-P</a>, add a <code>callback</code> parameter.</p>
 
 <pre>
 http://<host>:<port>/q?s={url encoded script}&callback={func}
