@@ -11,4 +11,5 @@ return select d.ProductID[0].Value as id, d.Title as title,
     d.ReviewCount as reviewCount, r.ReviewDetails.AverageRating as rating
     from details as d, reviews as r
     where d.ProductID[0].Value = r.ProductID.Value
-    via route '/myapi' using method get;
+    via route '/myapi' using method get
+        using headers 'Cache-Control' = 'max-age=60';
