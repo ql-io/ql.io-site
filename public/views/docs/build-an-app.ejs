@@ -62,8 +62,6 @@ sudo apt-get install expat libexpat1-dev
 
 <h2>Step 1: Setup a New App</h2>
 
-<em>This step does not work until we (a) publish npm modules, and (b) open up github.</em>
-
 <p>Setup a new ql.io app and start the server. This step uses a template to create an app, and
 install ql.io modules using npm.</p>
 
@@ -184,7 +182,7 @@ fields, selects <code>ProductID[0].Value</code> for each product, and assigns th
 <code>prodid</code>.</p>
 
 <p>The second <code>select</code> retrieves the product details for each product ID returned from
-the first <code>select</code> statement. Behind the scenes, ql.io's engine forks <code>5</code>
+the first <code>select</code> statement. Behind the scenes, ql.io's engine forks 5
 requests in parallel to the FindProducts API and joins when all of them complete.</p>
 
 <p>The third statement is similar to the second except that it calls the FindReviewsAndGuides API.

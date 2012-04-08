@@ -29,15 +29,6 @@ select address_components[0].long_name from geocoder where address = 'Sammamish,
 <p>These are preceded by <code>^</code>. You can modifiy the URI template in the
 above example to say that <code>address</code> is required to use this API.</p>
 
-<pre class="brush: sql; toolbar: false">
-create table geocoder
-  on select get from "http://maps.googleapis.com/maps/api/geocode/json?address={address}&sensor=true"
-  resultset "results";
-</pre>
-
-<p>When a token is marked as required, statements must include a value in the where clause, or as a
-query parameter, or as a header, or specified in the config. If not, ql.io returns an error.</p>
-
 <span class='try'><a class="button" href='/console?s=create%20table%20geocoder%20%0A%20%20on%20select%20get%20from%20%22http%3A%2F%2Fmaps.googleapis.com%2Fmaps%2Fapi%2Fgeocode%2Fjson%3Faddress%3D%7B%5Eaddress%7D%26sensor%3Dtrue%22%0A%20%20resultset%20%22results%22%3B%0Aselect%20address_components%5B0%5D.long_name%20from%20geocoder%3B'>Try me</a></span>
 <pre class="brush: sql; toolbar: false">
 create table geocoder
@@ -45,6 +36,9 @@ create table geocoder
   resultset "results";
 select address_components[0].long_name from geocoder;
 </pre>
+
+<p>When a token is marked as required, statements must include a value in the where clause, or as a
+query parameter, or as a header, or specified in the config. If not, ql.io returns an error.</p>
 
 <h3>Single-Valued Tokens</h3>
 
@@ -109,8 +103,7 @@ select * from geocoder where address in ('San Jose, CA', 'Palo Alto, CA', 'San F
 </pre>
 <h3>Multi-Valued Tokens</h3>
 
-<p>If a token can have multiple values (separated by commas), then prefix the name of the token by
-`|`.</p>
+<p>If a token can have multiple values (separated by commas), prefix the name of the token by `|`.</p>
 
 <p>In the example below, the second table uses a URI template that can tak upto <code>20</code> item
 IDs.</p>

@@ -1,6 +1,6 @@
 <h1>Script Routes</h1>
   
-<p>A "route" is a new HTTP interface that maps to a script stored in the <code>routes</code>
+<p>A "route" is an HTTP interface that maps to a script stored in the <code>routes</code>
 directory. In other words, a route is an extra level of indirection for stored scripts. For the
 client, a route looks like any other HTTP resource. Here is an example from the <a
 href="/docs/build-an-app">Build an App</a> guide.</p>
@@ -45,8 +45,8 @@ return select d.ProductID[0].Value as id, d.Title as title,
 
 <h3>POST (and PUT)</h3>
   
-<p>A route can be declared to use any HTTP method. For instance the following route can only be
-invoked using HTTP method <code>POST</code>.</p>
+<p>A route can be declared to support any HTTP method. For instance the following route can only be
+invoked using HTTP <code>POST</code> method.</p>
 
 <pre class="brush: sql; toolbar: false">
 prodid = select ProductID[0].Value from eBay.FindProducts where
@@ -63,8 +63,8 @@ return select d.ProductID[0].Value as id, d.Title as title,
     via route '/myapi' using method post;
 </pre>
 
-Assuming the server is running on the localhost, following curl commands demonstrate how this route can invoked with
-different <code>POST</code> payloads
+Assuming the server is running on the localhost, the following curl commands demonstrate how this
+route can be invoked with different <code>POST</code> payloads.
 
 </p><code>content-type: application/x-www-form-urlencoded</code></p>
 <pre class="brush: sql; toolbar: false">
@@ -84,12 +84,12 @@ curl --header "content-type: application/xml"
      -d '<keywords>android</keywords>' http://localhost:3000/myapi
 </pre>
 
-<p>User can similarly define routes for HTTP method <code>PUT</code> by <code>'using method put'</code> in a route
+<p>You can similarly define routes for <code>PUT</code> by specifying <code>'using method put'</code> in a route
 definition similar to one given above.</p>
 
 <h3>GET (and DELETE)</h3>
 
-<p>Working off of the above examples following are a couple of ways routes for <code>GET</code> could be defined.</p>
+<p>Working off of the above examples, here are some examples of ways routes for <code>GET</code> could be defined.</p>
 
 <h4>Parameters in the path</h4>
 <pre class="brush: sql; toolbar: false">
@@ -137,7 +137,7 @@ curl http://localhost:3000/myapi?keyword=ipod
 
 One can also define a similar route for HTTP requests with payloads (e.g. <code>POST</code> and <code>PUT</code>).</p>
 
-<p>User can similarly define routes for HTTP method <code>DELETE</code> by <code>'using method delete'</code> in a
+<p>You can also define routes for HTTP method <code>DELETE</code> by <code>'using method delete'</code> in a
 route definition similar to one given above.</p>
 
 

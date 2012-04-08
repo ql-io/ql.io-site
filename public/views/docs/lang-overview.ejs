@@ -2,7 +2,7 @@
   
 <p>ql.io's core consists of a domain-specific procedural-style language based on SQL and JSON. The
 language does not conform to SQL, but it borrows several concepts from it to keep the language
-familiar, and extends it to apply to HTTP APIs.</p>
+familiar, and extends it to be applicable to HTTP APIs.</p>
 
 <blockquote>
     We use the term &quot;HTTP API&quot; as a generic reference to any HTTP addressable resource or
@@ -135,7 +135,7 @@ create table bitly.shorten
     resultset 'data.expand'
 </pre>
 
-<p>The mapping between statement types and HTTP methods is arbitrary. the language does not impose
+<p>The mapping between statement types and HTTP methods is arbitrary. The language does not impose
 any particular mapping between SQL statement types and HTTP methods. For instance, the above script
 maps an <code>insert into</code> statement to method <code>GET</code> because bitly's API chose to
 use a <code>GET</code> for a write.</p>
@@ -145,7 +145,8 @@ use a <code>GET</code> for a write.</p>
 </blockquote>
 
 <p>The language uses <code>select</code> statements to select all (<code>*</code>) or particular
-fields from HTTP resources. The naming of fields follow the JSONPath convention.</p>
+fields from HTTP resources. The naming of fields follow
+the <a href="http://goessner.net/articles/JsonPath/">JSONPath</a> convention.</p>
   
 <pre class="brush: sql; toolbar: false;">
 select name.first, name.last, address.street from users where zip = 98074
@@ -154,17 +155,17 @@ select name.first, name.last, address.street from users where zip = 98074
 <p>The <code>from</code> clause of a <code>select</code> statement can either refer to a table or an
 object. See <a href="/docs/select">select statement</a> for complete syntax and examples.</p>
   
-<p><code>insert into</code> statements are used to add data. </p>
+<p><code>insert into</code> statements are used to add data.</p>
 
 <pre class="brush: sql; toolbar: false;">
 insert into bitly.shorten (longUrl) values ('http://ql.io/docs')
 </pre>
 
+<p>See <a href="/docs/insert">insert statement</a> for complete syntax and examples.</p>
+
 <blockquote>
     <code>update</code> and <code>delete</code> statements are not supported yet.
 </blockquote>
-
-<p>See <a href="/docs/insert">insert statement</a> for complete syntax and examples.</p>
 
 <p>Statements can depend on other statements by way of using <a href="/docs/variable-ref">variable
 references</a>. A variable reference is a JSONPath-style token in curly braces
@@ -185,12 +186,12 @@ return {
 </pre>
 
 <p>This script has four statements - the first one assigns a string value to a variable, and
-second and third statements refer to that variable, and assign the results to two variables. The
+the second and third statements refer to that variable, and assign the results to two variables. The
 fourth statement refers to all three. </p>
 
 <p>Variable references determine the order of execution of statements in a script.</p>
 
-<p>The language also supporting selecting from objects.</p>
+<p>The language also supports selecting from objects.</p>
 
 <pre class="brush: sql; toolbar: false;">
 person = {
