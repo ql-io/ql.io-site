@@ -4,14 +4,25 @@
 install Xcode and <a href="https://github.com/mxcl/homebrew">Homebrew</a>. On Ubuntu, install expat,
 and libexpat-dev.</p>
 
-<h2>Install Nodejs</h2>
-  
-<p>Install nodejs version 0.6.x.</p>
+<pre class="brush: bash; toolbar: false;">
+# Download node.js
+curl http://nodejs.org/dist/v0.6.15/node-v0.6.15.tar.gz node.tar.gz
 
-<p>The usual <code>configure;make;sudo make install</code> would do.</p>
+# Instal node.js
+tar xvfz node.tar.gz
+cd node
+./comfigure; make
+sudo make install
+
+# Create /usr/local/lib/node_modules and make it writable
+sudo md -p /usr/local/lib/node_modules
+chmod go+rwx /usr/local/lib/node_modules
+</pre>
 
 <blockquote>
     Join the project mailing list at <a
     href="http://groups.google.com/group/qlio">http://groups.google.com/group/qlio</a> in case you
     encounter issues setting up.
 </blockquote>
+
+
