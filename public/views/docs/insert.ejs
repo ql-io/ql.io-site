@@ -122,7 +122,7 @@ used by the API.</p>
 </svg>
 
 <pre class="brush: sql; toolbar: false">
-insert into {table}  ({list of columns}) values ({comma-separated name-value pairs})
+insert into {table} ({list of columns}) values ({comma-separated name-value pairs}) with parts {comma-separated list of parts}
 </pre>
   
 <h2>Examples</h2>
@@ -131,7 +131,11 @@ insert into {table}  ({list of columns}) values ({comma-separated name-value pai
 <pre class="brush: sql; toolbar: false">
 insert into bitly.shorten (longUrl) values ('http://ql.io/docs')
 </pre>
-  
+
+<pre class="brush: sql toolbar: false;">
+    insert into flickr.photos.upload with parts "{req.parts[0]}", "{req.parts[1]}"
+</pre>
+
 <h2>Clauses</h2>
   
 <h3>Columns</h3>
