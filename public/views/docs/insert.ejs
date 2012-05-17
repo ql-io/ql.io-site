@@ -145,3 +145,7 @@ insert into bitly.shorten (longUrl) values ('http://ql.io/docs')
 <h3>Values</h3>
   
 <p>Comma-separated name-value pairs. The number of pairs must match the number of columns.</p>
+
+<h3>Parts</h3>
+  
+<p>Comma-separated list of parts. Parts are multipart attachments (<a href="http://www.w3.org/Protocols/rfc1341/7_2_Multipart.html">rfc1341</a>) and can be sent to ql.io using 'multipart/form-data', 'multipart/related' or 'multipart/mixed' content types. The first part is considered the body of the request, while the rest are considered attachments.</p>
