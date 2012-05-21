@@ -139,6 +139,14 @@ insert into bitly.shorten (longUrl) values ('http://ql.io/docs')
 select long_url from bitly.shorten where shortUrl = 'http://bit.ly/uZIvmY'
 </pre>
 
+<h2>Insert with parts</h2>
+
+<p>This examples uses <code>insert into ... with parts</code> to upload images to flickr</p>
+
+<pre class="brush: sql toolbar: false;">
+    insert into flickr.photos.upload with parts "{req.parts[0]}", "{req.parts[1]}"
+</pre>
+
 <h2>SOAP</h2>
   
 <p>This example uses Bing's search API.</p>
