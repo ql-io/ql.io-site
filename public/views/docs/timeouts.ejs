@@ -1,0 +1,28 @@
+<h1>Timeouts and Back-off</h1>
+
+<p><code>select</code>, <code>update</code>, <code>insert</code> and <code>delete</code>
+statements may include the following clauses to specify idle timeouts and exponential back-off.</p>
+
+<ul>
+    <li><code>timeout msec</code>: This clause sets a idle timeout (in msec) on the request. The
+    default value is <code>10,000</code> msec.</li>
+
+    <li><code>minDelay</code>: Sets the minimum back-off interval (in msec). After three successive
+    timeouts or other network failures, requests will not be made during the back-off interval. The
+    back-off interval starts with minDelay and with each successive failure, it will be increased
+    exponentially. The default value is <code>500</code> msec.</li>
+
+    <li><code>maxDelay</code>: Sets the maximum back-off interval (in msec). After reaching this
+    limit, the back-off will be reset to the minDelay. The default value is <code>30,000</code>
+    msec.</li>
+</ul>
+
+<p>Here is an example.</p>
+
+
+<pre class="brush: sql; toolbar: false">
+select * from google.geocode where address = "bora bora"
+    timeout 100 minDelay 100 maxDelay 10000
+</pre>
+
+<p>The back-off is implemented using <a href="https://github.com/ql-io/charlie">charlie</a>.</p>
