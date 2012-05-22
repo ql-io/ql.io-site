@@ -140,6 +140,55 @@ One can also define a similar route for HTTP requests with payloads (e.g. <code>
 <p>You can also define routes for HTTP method <code>DELETE</code> by <code>'using method delete'</code> in a
 route definition similar to one given above.</p>
 
+<h4>Optional Parameters</h4>
+<code>with optional param</code>
+<pre class="brush: sql; toolbar: false">
+prodid = select ProductID[0].Value from eBay.FindProducts where
+    QueryKeywords = '{^keyword}' and max = '{max}';
+details = select * from eBay.ProductDetails where
+    ProductID in ('{prodid}') and ProductType = 'Reference';
+reviews = select * from eBay.ProductReviews where
+    ProductID in ('{prodid}') and ProductType = 'Reference';
 
+return select d.ProductID[0].Value as id, d.Title as title,
+    d.ReviewCount as reviewCount, r.ReviewDetails.AverageRating as rating
+    from details as d, reviews as r
+    where d.ProductID[0].Value = r.ProductID.Value
+    via route '/optional?keywords={^keyword}&max={max}'
+    with optional params
+    using method get;
+</pre>
 
+<pre class="brush: sql; toolbar: false">
+curl http://localhost:3000/myapi?keyword=ipod
+</pre>
+
+<pre class="brush: sql; toolbar: false">
+curl http://localhost:3000/myapi?keyword=ipod&max=10
+</pre>
+
+<p>If optional params are applied, the params that do not start with ^ would be optional. i.e. a valid route could be any of the above two. However, <code>/myapi?max=10</code> would not work because keywords is required parameter.</p>
+
+<h4>Default Values</h4>
+
+<code>using defaults</code>
+
+<pre class="brush: sql; toolbar: false">
+prodid = select ProductID[0].Value from eBay.FindProducts where
+    QueryKeywords = '{keyword}' and max = {max};
+details = select * from eBay.ProductDetails where
+    ProductID in ('{prodid}') and ProductType = 'Reference';
+reviews = select * from eBay.ProductReviews where
+    ProductID in ('{prodid}') and ProductType = 'Reference';
+
+return select d.ProductID[0].Value as id, d.Title as title,
+    d.ReviewCount as reviewCount, r.ReviewDetails.AverageRating as rating
+    from details as d, reviews as r
+    where d.ProductID[0].Value = r.ProductID.Value
+    with optional params
+    using defaults max = 10
+    via route '/myapi?keywords={^keyword}&max={max}' using method get;
+</pre>
+
+</>Default values can be overwritten if user specify in route.</p>
 

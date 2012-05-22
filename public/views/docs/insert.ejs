@@ -124,14 +124,24 @@ used by the API.</p>
 <pre class="brush: sql; toolbar: false">
 insert into {table}  ({list of columns}) values ({comma-separated name-value pairs})
 </pre>
-  
+
+<pre class="brush: sql; toolbar: false">
+insert into {table} values ({opaque input})
+</pre>
+
+<pre class="brush: sql; toolbar: false">
+insert into {table} values ({opaque input})
+</pre>
+
 <h2>Examples</h2>
 
 <span class="try"><a class="button" href="/console?s=insert%20into%20bitly.shorten%20(longUrl)%20values%20('http%3A%2F%2Fql.io%2Fdocs')">Try me</a></span>
 <pre class="brush: sql; toolbar: false">
 insert into bitly.shorten (longUrl) values ('http://ql.io/docs')
 </pre>
-  
+
+<h1>Name Value Pairs</h1>
+
 <h2>Clauses</h2>
   
 <h3>Columns</h3>
@@ -141,3 +151,11 @@ insert into bitly.shorten (longUrl) values ('http://ql.io/docs')
 <h3>Values</h3>
   
 <p>Comma-separated name-value pairs. The number of pairs must match the number of columns.</p>
+
+<h1>Opaque Input</h1>
+
+<p>Instead of passing name-value pairs, insert the entire input body as a string. ql.io Would not read the content of this string. Instead, treat it as an opaque input source and directly pass it to the api gateway.</p>
+
+<h1>Pass Opaque into req.body</h1>
+
+<p>If no values are specified in console, the default value of the input body would be req.body. </p>
