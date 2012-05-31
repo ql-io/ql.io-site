@@ -1,3 +1,28 @@
 <h1>update Statement</h1>
 
-<p>Not supported yet.</p>
+<p>This statement is used to modify existing data. Idempotency of this statement depends on the HTTP method
+used by the API.</p>
+
+<pre class="brush: sql; toolbar: false">
+update {table} {comma-separated name-value pairs} where {conditions}*
+</pre>
+
+<h2>Examples</h2>
+
+<span class="try"><a class="button" href="/console?s=insert%20into%20bitly.shorten%20(longUrl)%20values%20('http%3A%2F%2Fql.io%2Fdocs')">Try me</a></span>
+<pre class="brush: sql; toolbar: false">
+obj = [
+    {
+      "name" : "John",
+      "age" : 34
+    },
+    {
+      "name" : "Mary",
+      "age" : 16
+    }
+];
+update obj set age = 99 where name = 'Mary'
+return obj;
+</pre>
+
+<p>Mary's age should be 99 after the update.</p>

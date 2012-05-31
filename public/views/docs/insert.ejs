@@ -158,15 +158,46 @@ insert into bitly.shorten (longUrl) values ('http://ql.io/docs')
 
 <h2>Examples</h2>
 
-<span class="try"><a class="button" href="/console?s=insert%20into%20bitly.shorten%20(longUrl)%20values%20('http%3A%2F%2Fql.io%2Fdocs')">Try me</a></span>
+Assume there is a table
 <pre class="brush: sql; toolbar: false">
-insert into ebay.trading.UploadSiteHostedPictures values ('<?xml version="1.0" encoding="utf-8"?>\n<UploadSiteHostedPicturesRequest xmlns="urn:ebay:apis:eBLBaseComponents">\n\
-        <ExternalPictureURL>http://developer.ebay.com/DevZone/XML/docs/images/hp_book_image.jpg</ExternalPictureURL> \n\
-        <PictureName>HarryPotterPic-1</PictureName>\n\
-            <RequesterCredentials>\n\
-            <eBayAuthToken>YOUR_AUTHENTICATION_TOKEN</eBayAuthToken>\n\
-        </RequesterCredentials>\n\
-        </UploadSiteHostedPicturesRequest>')
+create table insert.into
+    on insert post to 'http://localhost:3000/'
+        using bodyTemplate 'insert-into.json.mu' type 'application/json'
+</pre>
+and the bodyTemplate
+<pre class="brush: sql; toolbar: false">
+{
+  {{#params}}
+  "name" : "{{name}}"
+  {{/params}}
+}
+</pre>
+
+on a server
+<pre class="brush: sql; toolbar: false">
+var server = http.createServer(function (req, res) {
+            res.writeHead(200, {
+                'Content-Type': 'application/json'
+            });
+            util.pump(req, res, function (e) {
+                if(e) {
+                    console.log(e.stack || e);
+                }
+                res.end();
+            });
+        });
+</pre>
+
+The conventional way of inserting into this table, is to use name-value pairs.
+
+<pre class="brush: sql; toolbar: false">
+insert into insert.into (name) values ("hello")
+</pre>
+
+Or, to ignore column-value pairs,
+
+<pre class="brush: sql; toolbar: false">
+insert into insert.into values ("<name>hello</name>")
 </pre>
 
 <h1>Pass Opaque into req.body</h1>
@@ -175,24 +206,22 @@ insert into ebay.trading.UploadSiteHostedPictures values ('<?xml version="1.0" e
 
 <h2>Examples</h2>
 
+If there is a route `/opaqueinsert
+
+
 <pre class="brush: sql; toolbar: false">
 var options = {
     host : 'localhost',
     port : 3000,
-    path : '/ebay/uploadpic',
+    path : '/opaqueinsert',
     method : 'POST',
     headers : {
         'content-type' : 'opaque'
     }
 };
 var req = http.request(options);
-var mybody = '<?xml version="1.0" encoding="utf-8"?>\n<UploadSiteHostedPicturesRequest xmlns="urn:ebay:apis:eBLBaseComponents">\n\
-<ExternalPictureURL>http://developer.ebay.com/DevZone/XML/docs/images/hp_book_image.jpg</ExternalPictureURL> \n\
-<PictureName>HarryPotterPic-1</PictureName>\n\
-  <RequesterCredentials>\n\
-  <eBayAuthToken>YOUR_AUTHENTICATION_TOKEN</eBayAuthToken>\n\
-</RequesterCredentials>\n\
-</UploadSiteHostedPicturesRequest>'
+var mybody = '<name>hello</name>'
 req.write(mybody);
 req.end();
 </pre>
+
