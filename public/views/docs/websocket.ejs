@@ -1,5 +1,91 @@
 <h1>WebSocket API</h1>
+<p>
+    ql.io exposes a clean and simple websocket interface to execute scripts.
+    <pre class="brush: text; toolbar: false;">
+    'Sec-WebSocket-Protocol' header value must be 'ql.io-console'.
+    </pre>
+</p>
 
-<p>See <a
-href="https://github.com/ql-io/ql.io/blob/master/modules/console/public/scripts/console.js">modules/console/public/scripts/console.js</a>
-for now, while we are still working on docs.</p>
+<h2> Events </h2>
+    <p>The event names are self explanatory. To get the full explanation for the event types, please refer to "Engine events" section. </p>
+
+    <b> Script Level events </b>
+    <p> These are the three events emitted once per script execution. </p>
+    <pre class="brush: text; toolbar: false;">
+      'ack', 'compile-error', 'script-done'
+    </pre>
+
+    <b> Statement Level events </b>
+     <p> These are the five events emitted for each statement in the script. The events can be associated with the corresponding statement in the script using 'line' property of the callback parameter. </p>
+        <pre class="brush: text; toolbar: false;">
+          'statement-error', 'statement-in-flight', 'statement-success', 'statement-request', 'statement-response'
+     </pre>
+
+     <b> Assignment events </b>
+     <p> If the script has assignments, then events are emitted for each assignment, if instructed. The name of the event will be the name of the RHS variable.
+      In the example below, "minis" is an assignment events.</p>
+</p>
+
+<h2> Example </h2>
+<p>
+Here is an example node script talking websockets to ws://ql.io
+
+<pre class="brush: javascript; toolbar: false;">
+
+//
+// install 'websocket' (https://github.com/Worlize/WebSocket-Node)
+// copy this code and paste in, say ql.io-ws-client.js
+// run "node ql.io-ws-client.js" to see the code in action.
+//
+var EventEmitter = require('events').EventEmitter,
+    WebSocketClient = require('websocket').client;
+
+var socket = new WebSocketClient();
+var events = ['ack', 'compile-error', 'statement-error', 'statement-in-flight',
+              'statement-success', 'statement-request', 'statement-response', 'script-done', 'minis'];
+var emitter = new EventEmitter();
+var script = "minis = select * from finditems where keywords = 'mini cooper' limit 10;  \n\
+              return select PictureURL from details where itemId = '{minis.itemId}' ";
+
+socket.on('connect', function(connection) {
+    conn = connection;
+    // Tell the server what notifications to receive
+    var packet = {
+        type : 'events',
+        data : JSON.stringify(events)
+    }
+    connection.sendUTF(JSON.stringify(packet));
+
+    packet = {
+        type : 'script',
+        data : script
+    }
+    connection.sendUTF(JSON.stringify(packet));
+    connection.on('message', function(message) {
+        var event = JSON.parse(message.utf8Data);
+        emitter.emit(event.type, event.data, connection);
+    });
+
+});
+socket.connect('ws://ql.io/', 'ql.io-console');
+
+emitter.on('ack', function() {
+        console.log("Ack received");
+});
+
+emitter.on('script-done', function(data, connection) {
+        console.log('Script Done');
+        connection.close();
+});
+
+emitter.on('statement-response' , function(data) {
+        console.log(data.timings);
+});
+
+emitter.on('minis', function() {
+        console.log('Assignment event \'minis\' raised.');
+});
+
+</pre>
+</p>
+
