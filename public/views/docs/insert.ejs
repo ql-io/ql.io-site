@@ -1,130 +1,133 @@
 <h1>insert into Statement</h1>
   
 <p>This statement is used to add new data. Idempotency of this statement depends on the HTTP method
-used by the API.</p>
-
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="752"
-     height="36">
-    <defs>
-        <style type="text/css">
-            @namespace "http://www.w3.org/2000/svg";
-            .line {
-                fill: none;
-                stroke: #332900;
-            }
-
-            filled {
-                fill: #332900;
-                stroke: none;
-            }
-
-            text {
-                font-family: Verdana, Sans-serif;
-                font-size: 12px;
-                fill: #4D3D00;
-            }
-
-            text.terminal {
-                font-family: Verdana, Sans-serif;
-                font-size: 12px;
-                fill: #4D3D00;
-                font-weight: bold;
-            }
-
-            rect, circle, polygon {
-                fill: #332900;
-                stroke: #332900;
-            }
-
-            rect.terminal {
-                fill: #FFCC00;
-                stroke: #332900;
-            }
-
-            rect.nonterminal {
-                fill: #FFEB99;
-                stroke: #332900;
-            }
-
-            polygon.regexp {
-                fill: #FFF5CC;
-                stroke: #332900;
-            }
-        </style>
-    </defs>
-    <polygon points="9 17 1 13 1 21" class="filled"/>
-    <polygon points="17 17 9 13 9 21" class="filled"/>
-    <line x1="17" y1="17" x2="19" y2="17" class="line"/>
-    <rect x="31" y="3" width="58" height="32" rx="10"/>
-    <rect x="29" y="1" width="58" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="39" y="21">insert</text>
-    <line x1="19" y1="17" x2="29" y2="17" class="line"/>
-    <line x1="87" y1="17" x2="97" y2="17" class="line"/>
-    <rect x="109" y="3" width="32" height="32" rx="10"/>
-    <rect x="107" y="1" width="32" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="117" y="21">in</text>
-    <line x1="97" y1="17" x2="107" y2="17" class="line"/>
-    <line x1="139" y1="17" x2="149" y2="17" class="line"/>
-    <rect x="161" y="3" width="32" height="32" rx="10"/>
-    <rect x="159" y="1" width="32" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="169" y="21">to</text>
-    <line x1="149" y1="17" x2="159" y2="17" class="line"/>
-    <line x1="191" y1="17" x2="201" y2="17" class="line"/>
-    <a href="#table" xlink:title="table">
-        <rect x="213" y="3" width="52" height="32"/>
-        <rect x="211" y="1" width="52" height="32" class="nonterminal"/>
-        <text class="nonterminal" x="221" y="21">table</text>
-    </a>
-    <line x1="201" y1="17" x2="211" y2="17" class="line"/>
-    <line x1="263" y1="17" x2="273" y2="17" class="line"/>
-    <rect x="285" y="3" width="26" height="32" rx="10"/>
-    <rect x="283" y="1" width="26" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="293" y="21">(</text>
-    <line x1="273" y1="17" x2="283" y2="17" class="line"/>
-    <line x1="309" y1="17" x2="319" y2="17" class="line"/>
-    <a href="#columnsClause" xlink:title="columnsClause">
-        <rect x="331" y="3" width="114" height="32"/>
-        <rect x="329" y="1" width="114" height="32" class="nonterminal"/>
-        <text class="nonterminal" x="339" y="21">columnsClause</text>
-    </a>
-    <line x1="319" y1="17" x2="329" y2="17" class="line"/>
-    <line x1="443" y1="17" x2="453" y2="17" class="line"/>
-    <rect x="465" y="3" width="26" height="32" rx="10"/>
-    <rect x="463" y="1" width="26" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="473" y="21">)</text>
-    <line x1="453" y1="17" x2="463" y2="17" class="line"/>
-    <line x1="489" y1="17" x2="499" y2="17" class="line"/>
-    <rect x="511" y="3" width="62" height="32" rx="10"/>
-    <rect x="509" y="1" width="62" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="519" y="21">values</text>
-    <line x1="499" y1="17" x2="509" y2="17" class="line"/>
-    <line x1="571" y1="17" x2="581" y2="17" class="line"/>
-    <rect x="593" y="3" width="26" height="32" rx="10"/>
-    <rect x="591" y="1" width="26" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="601" y="21">(</text>
-    <line x1="581" y1="17" x2="591" y2="17" class="line"/>
-    <line x1="617" y1="17" x2="627" y2="17" class="line"/>
-    <a href="#csv" xlink:title="csv">
-        <rect x="639" y="3" width="40" height="32"/>
-        <rect x="637" y="1" width="40" height="32" class="nonterminal"/>
-        <text class="nonterminal" x="647" y="21">csv</text>
-    </a>
-    <line x1="627" y1="17" x2="637" y2="17" class="line"/>
-    <line x1="677" y1="17" x2="687" y2="17" class="line"/>
-    <rect x="699" y="3" width="26" height="32" rx="10"/>
-    <rect x="697" y="1" width="26" height="32" class="terminal" rx="10"/>
-    <text class="terminal" x="707" y="21">)</text>
-    <line x1="687" y1="17" x2="697" y2="17" class="line"/>
-    <line x1="723" y1="17" x2="733" y2="17" class="line"/>
-    <line x1="736" y1="17" x2="733" y2="17" class="line"/>
-    <polygon points="743 17 751 13 751 21" class="filled"/>
-    <polygon points="743 17 735 13 735 21" class="filled"/>
-</svg>
-
+used by the API.
+<br>
+Below we have three methods to use the insert statement
+<br>
+<h1>Method 1</h1>
+This approach is useful when there is a limited number of column-value pairs.
+</p>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="854" height="166"><defs><style type="text/css">
+    @namespace "http://www.w3.org/2000/svg";
+    .line                 {fill: none; stroke: #332900;}
+    filled                {fill: #332900; stroke: none;}
+    text                  {font-family: Verdana, Sans-serif;
+                            font-size: 12px;
+                            fill: #4D3D00;
+                          }
+    text.terminal         {font-family: Verdana, Sans-serif;
+                            font-size: 12px;
+                            fill: #4D3D00;
+                            font-weight: bold;
+                          }
+    rect, circle, polygon {fill: #332900; stroke: #332900;}
+    rect.terminal         {fill: #FFCC00; stroke: #332900;}
+    rect.nonterminal      {fill: #FFEB99; stroke: #332900;}
+    rect.text             {fill: none; stroke: none;}
+    polygon.regexp        {fill: #FFF5CC; stroke: #332900;}
+  </style></defs><polygon points="9 33 1 29 1 37" class="filled"/>
+  <polygon points="17 33 9 29 9 37" class="filled"/>
+  <line x1="17" y1="33" x2="19" y2="33" class="line"/>
+  <rect x="31" y="19" width="58" height="32" rx="10"/>
+  <rect x="29" y="17" width="58" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="39" y="37">insert</text>
+  <line x1="19" y1="33" x2="29" y2="33" class="line"/>
+  <line x1="87" y1="33" x2="97" y2="33" class="line"/>
+  <rect x="109" y="19" width="44" height="32" rx="10"/>
+  <rect x="107" y="17" width="44" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="117" y="37">into</text>
+  <line x1="97" y1="33" x2="107" y2="33" class="line"/>
+  <line x1="151" y1="33" x2="161" y2="33" class="line"/>
+  <a xlink:href="#table" xlink:title="table">
+  <rect x="173" y="19" width="52" height="32"/>
+  <rect x="171" y="17" width="52" height="32" class="nonterminal"/>
+  <text class="nonterminal" x="181" y="37">table</text></a>
+  <line x1="161" y1="33" x2="171" y2="33" class="line"/>
+  <line x1="223" y1="33" x2="233" y2="33" class="line"/>
+  <rect x="245" y="19" width="26" height="32" rx="10"/>
+  <rect x="243" y="17" width="26" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="253" y="37">(</text>
+  <line x1="233" y1="33" x2="243" y2="33" class="line"/>
+  <line x1="269" y1="33" x2="279" y2="33" class="line"/>
+  <a xlink:href="#columnsClause" xlink:title="columnsClause">
+  <rect x="291" y="19" width="114" height="32"/>
+  <rect x="289" y="17" width="114" height="32" class="nonterminal"/>
+  <text class="nonterminal" x="299" y="37">columnsClause</text></a>
+  <line x1="279" y1="33" x2="289" y2="33" class="line"/>
+  <line x1="403" y1="33" x2="413" y2="33" class="line"/>
+  <rect x="425" y="19" width="26" height="32" rx="10"/>
+  <rect x="423" y="17" width="26" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="433" y="37">)</text>
+  <line x1="413" y1="33" x2="423" y2="33" class="line"/>
+  <line x1="449" y1="33" x2="459" y2="33" class="line"/>
+  <rect x="471" y="19" width="62" height="32" rx="10"/>
+  <rect x="469" y="17" width="62" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="479" y="37">values</text>
+  <line x1="459" y1="33" x2="469" y2="33" class="line"/>
+  <line x1="531" y1="33" x2="541" y2="33" class="line"/>
+  <rect x="553" y="19" width="26" height="32" rx="10"/>
+  <rect x="551" y="17" width="26" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="561" y="37">(</text>
+  <line x1="541" y1="33" x2="551" y2="33" class="line"/>
+  <line x1="577" y1="33" x2="587" y2="33" class="line"/>
+  <a xlink:href="#csv" xlink:title="csv">
+  <rect x="599" y="19" width="40" height="32"/>
+  <rect x="597" y="17" width="40" height="32" class="nonterminal"/>
+  <text class="nonterminal" x="607" y="37">csv</text></a>
+  <line x1="587" y1="33" x2="597" y2="33" class="line"/>
+  <line x1="637" y1="33" x2="647" y2="33" class="line"/>
+  <rect x="659" y="19" width="26" height="32" rx="10"/>
+  <rect x="657" y="17" width="26" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="667" y="37">)</text>
+  <line x1="647" y1="33" x2="657" y2="33" class="line"/>
+  <line x1="683" y1="33" x2="693" y2="33" class="line"/>
+  <rect x="745" y="19" width="48" height="32" rx="10"/>
+  <rect x="743" y="17" width="48" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="753" y="37">with</text>
+  <line x1="733" y1="33" x2="743" y2="33" class="line"/>
+  <line x1="791" y1="33" x2="801" y2="33" class="line"/>
+  <path d="M713 33 L733 33 M732 33 Q723 33 723 23 L723 11 Q723 1 733 1" class="line"/>
+  <path d="M801 33 L821 33 M801 33 Q811 33 811 23 L811 11 Q811 1 801 1" class="line"/>
+  <line x1="733" y1="1" x2="743" y2="1" class="line"/>
+  <line x1="743" y1="1" x2="801" y2="1" class="line"/>
+  <line x1="693" y1="33" x2="713" y2="33" class="line"/>
+  <line x1="821" y1="33" x2="841" y2="33" class="line"/>
+  <path d="M693 33 Q703 33 703 43" class="line"/>
+  <path d="M831 43 Q831 33 841 33" class="line"/>
+  <line x1="703" y1="43" x2="703" y2="57" class="line"/>
+  <line x1="831" y1="57" x2="831" y2="43" class="line"/>
+  <path d="M703 57 Q703 67 713 67" class="line"/>
+  <path d="M821 67 Q831 67 831 57" class="line"/>
+  <line x1="713" y1="67" x2="723" y2="67" class="line"/>
+  <line x1="723" y1="67" x2="821" y2="67" class="line"/>
+  <path class="line" d="M843 33 L845 33 M847 33 L849 33 M851 33 L853 33 M671 131 L673 131 M675 131 L677 131 M679 131 L681 131"/>
+  <a xlink:href="#parts" xlink:title="parts">
+  <rect x="735" y="117" width="52" height="32"/>
+  <rect x="733" y="115" width="52" height="32" class="nonterminal"/>
+  <text class="nonterminal" x="743" y="135">parts</text></a>
+  <line x1="723" y1="131" x2="733" y2="131" class="line"/>
+  <line x1="785" y1="131" x2="795" y2="131" class="line"/>
+  <path d="M703 131 L723 131 M722 131 Q713 131 713 121 L713 109 Q713 99 723 99" class="line"/>
+  <path d="M795 131 L815 131 M795 131 Q805 131 805 121 L805 109 Q805 99 795 99" class="line"/>
+  <line x1="723" y1="99" x2="733" y2="99" class="line"/>
+  <line x1="733" y1="99" x2="795" y2="99" class="line"/>
+  <line x1="683" y1="131" x2="703" y2="131" class="line"/>
+  <line x1="815" y1="131" x2="835" y2="131" class="line"/>
+  <path d="M683 131 Q693 131 693 141" class="line"/>
+  <path d="M825 141 Q825 131 835 131" class="line"/>
+  <line x1="693" y1="141" x2="693" y2="155" class="line"/>
+  <line x1="825" y1="155" x2="825" y2="141" class="line"/>
+  <path d="M693 155 Q693 165 703 165" class="line"/>
+  <path d="M815 165 Q825 165 825 155" class="line"/>
+  <line x1="703" y1="165" x2="713" y2="165" class="line"/>
+  <line x1="713" y1="165" x2="815" y2="165" class="line"/>
+  <line x1="838" y1="131" x2="835" y2="131" class="line"/>
+  <polygon points="845 131 853 127 853 135" class="filled"/>
+  <polygon points="845 131 837 127 837 135" class="filled"/></svg>
 <pre class="brush: sql; toolbar: false">
 insert into {table} ({list of columns}) values ({comma-separated name-value pairs}) with parts {comma-separated list of parts}
 </pre>
-  
 <h2>Examples</h2>
 
 <span class="try"><a class="button" href="/console?s=insert%20into%20bitly.shorten%20(longUrl)%20values%20('http%3A%2F%2Fql.io%2Fdocs')">Try me</a></span>
@@ -135,17 +138,253 @@ insert into bitly.shorten (longUrl) values ('http://ql.io/docs')
 <pre class="brush: sql toolbar: false;">
     insert into flickr.photos.upload with parts "{req.parts[0]}", "{req.parts[1]}"
 </pre>
-
 <h2>Clauses</h2>
-  
+
 <h3>Columns</h3>
-  
+
 <p>Comma separated list of columns.</p>
-  
+
 <h3>Values</h3>
-  
+
 <p>Comma-separated name-value pairs. The number of pairs must match the number of columns.</p>
 
 <h3>Parts</h3>
-  
+
 <p>Comma-separated list of parts. Parts are multipart attachments (<a href="http://www.w3.org/Protocols/rfc1341/7_2_Multipart.html">rfc1341</a>) and can be sent to ql.io using 'multipart/form-data', 'multipart/related' or 'multipart/mixed' content types. The first part is considered the body of the request, while the rest are considered attachments.</p>
+
+<p>
+<h1>Method 2</h1>
+This approach is useful when there are many column-value pairs which are better represented in the form of a json object.
+</p>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="526" height="36"><defs><style type="text/css">
+    @namespace "http://www.w3.org/2000/svg";
+    .line                 {fill: none; stroke: #332900;}
+    filled                {fill: #332900; stroke: none;}
+    text                  {font-family: Verdana, Sans-serif;
+                            font-size: 12px;
+                            fill: #4D3D00;
+                          }
+    text.terminal         {font-family: Verdana, Sans-serif;
+                            font-size: 12px;
+                            fill: #4D3D00;
+                            font-weight: bold;
+                          }
+    rect, circle, polygon {fill: #332900; stroke: #332900;}
+    rect.terminal         {fill: #FFCC00; stroke: #332900;}
+    rect.nonterminal      {fill: #FFEB99; stroke: #332900;}
+    rect.text             {fill: none; stroke: none;}
+    polygon.regexp        {fill: #FFF5CC; stroke: #332900;}
+  </style></defs>
+  <polygon points="9 17 1 13 1 21" class="filled"/>
+  <polygon points="17 17 9 13 9 21" class="filled"/>
+  <line x1="17" y1="17" x2="19" y2="17" class="line"/>
+  <rect x="31" y="3" width="58" height="32" rx="10"/>
+  <rect x="29" y="1" width="58" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="39" y="21">insert</text>
+  <line x1="19" y1="17" x2="29" y2="17" class="line"/>
+  <line x1="87" y1="17" x2="97" y2="17" class="line"/>
+  <rect x="109" y="3" width="26" height="32" rx="10"/>
+  <rect x="107" y="1" width="26" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="117" y="21">"</text>
+  <line x1="97" y1="17" x2="107" y2="17" class="line"/>
+  <line x1="133" y1="17" x2="143" y2="17" class="line"/>
+  <rect x="155" y="3" width="28" height="32" rx="10"/>
+  <rect x="153" y="1" width="28" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="163" y="21">{</text>
+  <line x1="143" y1="17" x2="153" y2="17" class="line"/>
+  <line x1="181" y1="17" x2="191" y2="17" class="line"/>
+  <a xlink:href="#jsonobj" xlink:title="jsonobj">
+  <rect x="203" y="3" width="66" height="32"/>
+  <rect x="201" y="1" width="66" height="32" class="nonterminal"/>
+  <text class="nonterminal" x="211" y="21">jsonobj</text></a>
+  <line x1="191" y1="17" x2="201" y2="17" class="line"/>
+  <line x1="267" y1="17" x2="277" y2="17" class="line"/>
+  <rect x="289" y="3" width="28" height="32" rx="10"/>
+  <rect x="287" y="1" width="28" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="297" y="21">}</text>
+  <line x1="277" y1="17" x2="287" y2="17" class="line"/>
+  <line x1="315" y1="17" x2="325" y2="17" class="line"/>
+  <rect x="337" y="3" width="26" height="32" rx="10"/>
+  <rect x="335" y="1" width="26" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="345" y="21">"</text>
+  <line x1="325" y1="17" x2="335" y2="17" class="line"/>
+  <line x1="361" y1="17" x2="371" y2="17" class="line"/>
+  <rect x="383" y="3" width="44" height="32" rx="10"/>
+  <rect x="381" y="1" width="44" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="391" y="21">into</text>
+  <line x1="371" y1="17" x2="381" y2="17" class="line"/>
+  <line x1="425" y1="17" x2="435" y2="17" class="line"/>
+  <a xlink:href="#table" xlink:title="table">
+  <rect x="447" y="3" width="52" height="32"/>
+  <rect x="445" y="1" width="52" height="32" class="nonterminal"/>
+  <text class="nonterminal" x="455" y="21">table</text></a>
+  <line x1="435" y1="17" x2="445" y2="17" class="line"/>
+  <line x1="497" y1="17" x2="507" y2="17" class="line"/>
+  <line x1="510" y1="17" x2="507" y2="17" class="line"/>
+  <polygon points="517 17 525 13 525 21" class="filled"/>
+  <polygon points="517 17 509 13 509 21" class="filled"/>
+  </svg>
+<pre class="brush: sql; toolbar: false">
+insert {"{json obj}"} into {table}
+</pre>
+<h2>Json Object</h2>
+
+<p>
+Another way of inserting name-value pairs is to create a json object. The object can directly be inserted into the table.
+</p>
+<h2>Examples</h2>
+
+Assume there is a table
+<pre class="brush: sql; toolbar: false">
+--Please make sure you have a valid eBayAuthToken
+create table SetSellingManagerFeedbackOptions
+    on insert post to "https://api.ebay.com/ws/api.dll?"
+    using headers 'X-EBAY-API-COMPATIBILITY-LEVEL' = '737',
+                  'X-EBAY-API-SITEID' = '0',
+                  'X-EBAY-API-CALL-NAME'= 'SetSellingManagerFeedbackOptions'
+    using defaults RequesterCredentials.eBayAuthToken = '{eBayAuthToken}'
+    using bodyTemplate 'SetSellingManagerFeedbackOptions.ejs' type 'application/xml'
+    resultset 'SetSellingManagerFeedbackOptionsResponse'
+</pre>
+The insert statement would look like :
+<p>
+<span class="try"><a class="button" href="/console?s=--Please%20make%20sure%20you%20have%20the%20eBayAuthToken%20in%20your%20table%0Ajson%20%3D%20%7B%0A%20%20%20%20%20%20%20%22AutomatedLeaveFeedbackEvent%22%20%3A%20%22PaymentReceived%22%2C%0A%20%20%20%20%20%20%20%22StoredComments.StoredCommentText%22%20%3A%20%22Prompt%20payment!%22%2C%0A%20%20%20%20%20%20%20%22StoredComments.StoredCommentText%22%20%3A%20%22Paid%20quickly!%22%2C%0A%20%20%20%20%20%20%20%22StoredComments.StoredCommentText%22%20%3A%20%22Fast%20payment!%22%0A%20%20%20%20%20%20%20%7D%0A%20%0Ainsert%20%22%7Bjson%7D%22%20into%20SetSellingManagerFeedbackOptions">Try me</a></span>
+</p>
+<pre class="brush: sql; toolbar: false">
+json = {
+       "AutomatedLeaveFeedbackEvent" : "PaymentReceived",
+       "StoredComments.StoredCommentText" : "Prompt payment!",
+       "StoredComments.StoredCommentText" : "Paid quickly!",
+       "StoredComments.StoredCommentText" : "Fast payment!"
+       }
+
+insert {"{json}"} into SetSellingManagerFeedbackOptions
+</pre>
+
+<p>
+<h1>Method 3</h1>
+This approach is useful when opaque parameters need to be passed. The entire xml can be passed after the values clause.
+</p>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="772" height="36"><defs><style type="text/css">
+    @namespace "http://www.w3.org/2000/svg";
+    .line                 {fill: none; stroke: #332900;}
+    filled                {fill: #332900; stroke: none;}
+    text                  {font-family: Verdana, Sans-serif;
+                            font-size: 12px;
+                            fill: #4D3D00;
+                          }
+    text.terminal         {font-family: Verdana, Sans-serif;
+                            font-size: 12px;
+                            fill: #4D3D00;
+                            font-weight: bold;
+                          }
+    rect, circle, polygon {fill: #332900; stroke: #332900;}
+    rect.terminal         {fill: #FFCC00; stroke: #332900;}
+    rect.nonterminal      {fill: #FFEB99; stroke: #332900;}
+    rect.text             {fill: none; stroke: none;}
+    polygon.regexp        {fill: #FFF5CC; stroke: #332900;}
+  </style></defs>
+  <polygon points="9 17 1 13 1 21" class="filled"/>
+  <polygon points="17 17 9 13 9 21" class="filled"/>
+  <line x1="17" y1="17" x2="19" y2="17" class="line"/>
+  <rect x="31" y="3" width="58" height="32" rx="10"/>
+  <rect x="29" y="1" width="58" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="39" y="21">insert</text>
+  <line x1="19" y1="17" x2="29" y2="17" class="line"/>
+  <line x1="87" y1="17" x2="97" y2="17" class="line"/>
+  <rect x="109" y="3" width="44" height="32" rx="10"/>
+  <rect x="107" y="1" width="44" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="117" y="21">into</text>
+  <line x1="97" y1="17" x2="107" y2="17" class="line"/>
+  <line x1="151" y1="17" x2="161" y2="17" class="line"/>
+  <a xlink:href="#table" xlink:title="table">
+  <rect x="173" y="3" width="52" height="32"/>
+  <rect x="171" y="1" width="52" height="32" class="nonterminal"/>
+  <text class="nonterminal" x="181" y="21">table</text></a>
+  <line x1="161" y1="17" x2="171" y2="17" class="line"/>
+  <line x1="223" y1="17" x2="233" y2="17" class="line"/>
+  <rect x="245" y="3" width="26" height="32" rx="10"/>
+  <rect x="243" y="1" width="26" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="253" y="21">(</text>
+  <line x1="233" y1="17" x2="243" y2="17" class="line"/>
+  <line x1="269" y1="17" x2="279" y2="17" class="line"/>
+  <a xlink:href="#columnsClause" xlink:title="columnsClause">
+  <rect x="291" y="3" width="114" height="32"/>
+  <rect x="289" y="1" width="114" height="32" class="nonterminal"/>
+  <text class="nonterminal" x="299" y="21">columnsClause</text></a>
+  <line x1="279" y1="17" x2="289" y2="17" class="line"/>
+  <line x1="403" y1="17" x2="413" y2="17" class="line"/>
+  <rect x="425" y="3" width="26" height="32" rx="10"/>
+  <rect x="423" y="1" width="26" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="433" y="21">)</text>
+  <line x1="413" y1="17" x2="423" y2="17" class="line"/>
+  <line x1="449" y1="17" x2="459" y2="17" class="line"/>
+  <rect x="471" y="3" width="62" height="32" rx="10"/>
+  <rect x="469" y="1" width="62" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="479" y="21">values</text>
+  <line x1="459" y1="17" x2="469" y2="17" class="line"/>
+  <line x1="531" y1="17" x2="541" y2="17" class="line"/>
+  <rect x="553" y="3" width="26" height="32" rx="10"/>
+  <rect x="551" y="1" width="26" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="561" y="21">(</text>
+  <line x1="541" y1="17" x2="551" y2="17" class="line"/>
+  <line x1="577" y1="17" x2="587" y2="17" class="line"/>
+  <a xlink:href="#opaqueinput" xlink:title="opaqueinput">
+  <rect x="599" y="3" width="100" height="32"/>
+  <rect x="597" y="1" width="100" height="32" class="nonterminal"/>
+  <text class="nonterminal" x="607" y="21">opaqueinput</text></a>
+  <line x1="587" y1="17" x2="597" y2="17" class="line"/>
+  <line x1="697" y1="17" x2="707" y2="17" class="line"/>
+  <rect x="719" y="3" width="26" height="32" rx="10"/>
+  <rect x="717" y="1" width="26" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="727" y="21">)</text>
+  <line x1="707" y1="17" x2="717" y2="17" class="line"/>
+  <line x1="743" y1="17" x2="753" y2="17" class="line"/>
+  <line x1="756" y1="17" x2="753" y2="17" class="line"/>
+  <polygon points="763 17 771 13 771 21" class="filled"/>
+  <polygon points="763 17 755 13 755 21" class="filled"/></svg>
+<pre class="brush: sql; toolbar: false">
+insert into {table} values ({opaque input})
+</pre>
+<h2>Opaque Input</h2>
+
+<p>Instead of passing name-value pairs, insert the entire input body as a string. ql.io Would not read the content of this string. Instead, treat it as an opaque input source and directly pass it to the api gateway.</p>
+
+<h2>Examples</h2>
+
+Assume there is a table
+<pre class="brush: sql; toolbar: false">
+create table insert.into
+on insert post to 'http://localhost:3000/'
+using bodyTemplate 'insert-into.json.mu' type 'application/json'
+</pre>
+and the bodyTemplate
+<pre class="brush: sql; toolbar: false">
+{
+    {{#params}}
+        "name" : "{{name}}"
+    {{/params}}
+}
+</pre>
+on a server
+<pre class="brush: sql; toolbar: false">
+    var server = http.createServer(function (req, res) {
+        res.writeHead(200, {
+            'Content-Type': 'application/json'
+        });
+    util.pump(req, res, function (e) {
+    if(e) {
+        console.log(e.stack || e);
+    }
+    res.end();
+    });
+});
+</pre>
+The conventional way of inserting into this table, is to use name-value pairs.
+<pre class="brush: sql; toolbar: false">
+insert into insert.into (name) values ("hello")
+</pre>
+    Or, to ignore column-value pairs,
+<pre class="brush: sql; toolbar: false">
+insert into insert.into values ("<name>hello</name>")
+</pre>
