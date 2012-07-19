@@ -140,6 +140,25 @@ One can also define a similar route for HTTP requests with payloads (e.g. <code>
 <p>You can also define routes for HTTP method <code>DELETE</code> by <code>'using method delete'</code> in a
 route definition similar to one given above.</p>
 
-
+//TO DO : recheck below
+<h1>Pass Opaque into req.body</h1>
+<p>If no values are specified in console, the default value of the input body would be req.body. </p>
+<h2>Examples</h2>
+If there is a route `/opaqueinsert
+<pre class="brush: sql; toolbar: false">
+var options = {
+    host : 'localhost',
+    port : 3000,
+    path : '/opaqueinsert',
+    method : 'POST',
+    headers : {
+    'content-type' : 'opaque'
+        }
+    };
+var req = http.request(options);
+var mybody = '<name>hello</name>'
+req.write(mybody);
+req.end();
+</pre>
 
 
