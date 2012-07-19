@@ -1,3 +1,68 @@
 <h1>delete Statement</h1>
 
-<p>Not supported yet.</p>
+<p>This statement is used to remove data from the table.</p>
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="382" height="36"><defs><style type="text/css">
+    @namespace "http://www.w3.org/2000/svg";
+    .line                 {fill: none; stroke: #332900;}
+    filled                {fill: #332900; stroke: none;}
+    text                  {font-family: Verdana, Sans-serif;
+                            font-size: 12px;
+                            fill: #4D3D00;
+                          }
+    text.terminal         {font-family: Verdana, Sans-serif;
+                            font-size: 12px;
+                            fill: #4D3D00;
+                            font-weight: bold;
+                          }
+    rect, circle, polygon {fill: #332900; stroke: #332900;}
+    rect.terminal         {fill: #FFCC00; stroke: #332900;}
+    rect.nonterminal      {fill: #FFEB99; stroke: #332900;}
+    rect.text             {fill: none; stroke: none;}
+    polygon.regexp        {fill: #FFF5CC; stroke: #332900;}
+  </style></defs><polygon points="9 17 1 13 1 21" class="filled"/><polygon points="17 17 9 13 9 21" class="filled"/><line x1="17" y1="17" x2="19" y2="17" class="line"/><rect x="31" y="3" width="60" height="32" rx="10"/><rect x="29" y="1" width="60" height="32" class="terminal" rx="10"/><text class="terminal" x="39" y="21">delete</text><line x1="19" y1="17" x2="29" y2="17" class="line"/><line x1="89" y1="17" x2="99" y2="17" class="line"/><rect x="111" y="3" width="50" height="32" rx="10"/><rect x="109" y="1" width="50" height="32" class="terminal" rx="10"/><text class="terminal" x="119" y="21">from</text><line x1="99" y1="17" x2="109" y2="17" class="line"/><line x1="159" y1="17" x2="169" y2="17" class="line"/><a xlink:href="#table" xlink:title="table"><rect x="181" y="3" width="52" height="32"/><rect x="179" y="1" width="52" height="32" class="nonterminal"/><text class="nonterminal" x="189" y="21">table</text></a><line x1="169" y1="17" x2="179" y2="17" class="line"/><line x1="231" y1="17" x2="241" y2="17" class="line"/><a xlink:href="#whereClause" xlink:title="whereClause"><rect x="253" y="3" width="102" height="32"/><rect x="251" y="1" width="102" height="32" class="nonterminal"/><text class="nonterminal" x="261" y="21">whereClause</text></a><line x1="241" y1="17" x2="251" y2="17" class="line"/><line x1="353" y1="17" x2="363" y2="17" class="line"/><line x1="366" y1="17" x2="363" y2="17" class="line"/><polygon points="373 17 381 13 381 21" class="filled"/><polygon points="373 17 365 13 365 21" class="filled"/></svg>
+<pre class="brush: sql; toolbar: false">
+delete from {table}
+    where {conditions}
+</pre>
+<h2>Examples</h2>
+Assume there are tables
+<pre class="brush: sql; toolbar: false">
+--Please make sure you have a valid appname, devname, certname and eBayAuthToken for the following tables
+create table AddSellingManagerInventoryFolder
+    on insert post to "https://api.ebay.com/ws/api.dll?"
+    using headers 'X-EBAY-API-COMPATIBILITY-LEVEL' = '737',
+                  'X-EBAY-API-SITEID' = '0',
+                  'X-EBAY-API-CALL-NAME'= 'AddSellingManagerInventoryFolder',
+                  'X-EBAY-API-APP-NAME' = '{appname}',
+                  'X-EBAY-API-DEV-NAME' = '{devname}',
+                  'X-EBAY-API-CERT-NAME' = '{certname}'
+    using defaults RequesterCredentials.eBayAuthToken = '{eBayAuthToken}'
+    using bodyTemplate 'AddSellingManagerInventoryFolder.ejs' type 'application/xml'
+    resultset 'AddSellingManagerInventoryFolderResponse'
+
+create table DeleteSellingManagerInventoryFolder
+    on delete post to "https://api.ebay.com/ws/api.dll?"
+    using headers 'X-EBAY-API-COMPATIBILITY-LEVEL' = '737',
+                  'X-EBAY-API-SITEID' = '0',
+                  'X-EBAY-API-CALL-NAME'= 'DeleteSellingManagerInventoryFolder',
+                  'X-EBAY-API-APP-NAME' = '{appname}',
+                  'X-EBAY-API-DEV-NAME' = '{devname}',
+                  'X-EBAY-API-CERT-NAME' = '{certname}'
+    using defaults RequesterCredentials.eBayAuthToken = '{eBayAuthToken}'
+    using bodyTemplate 'DeleteSellingManagerInventoryFolder.ejs' type 'application/xml'
+    resultset 'DeleteSellingManagerInventoryFolderResponse'
+</pre>
+The corresponding delete statement would look like :
+<p>
+<span class="try"><a class="button" href="/console?s=result%20%3D%20insert%20into%20AddSellingManagerInventoryFolder%20(ParentFolderID%2C%20FolderName%2C%20Comment)%20values%20(%226003420018%22%2C%22HarryTrial%22%2C%22for%20HP%22)%3B%0A%20%0Areturn%20delete%20from%20DeleteSellingManagerInventoryFolder%20where%20FolderID%20in%20(%22%7Bresult.FolderID%7D%22)%3B">Try me</a></span>
+</p>
+<pre class="brush: sql; toolbar: false">
+--Please note: If you try to run the statements without the correct authtoken, the script will throw error saying "FolderID" missing.
+--This is because the first statement doesn't return the correct FolderID due to wrong the authtoken and hence the second statement can't correspondingly find the FolderID.
+
+result = insert into ebay.trading.AddSellingManagerInventoryFolder (ParentFolderID, FolderName, Comment) values ("6003420018","HarryTrial","for HP");
+
+return delete from ebay.trading.DeleteSellingManagerInventoryFolder where FolderID in ("{result.FolderID}") ;
+
+
