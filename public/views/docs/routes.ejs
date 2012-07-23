@@ -161,4 +161,50 @@ req.write(mybody);
 req.end();
 </pre>
 
+<h2>Optional Parameters</h2>
+
+<h3>Required Tokens</h3>
+
+We currently use the notion of required tokens which are preceded with ^
+In this example the parameters specified with ^ are required and all others are optional.
+
+When applied to routes, an example might look like the following:
+
+<pre class="brush: sql; toolbar: false">
+
+-- Finds items on eBay based upon a keyword query and returns details for matching items.
+return select *
+from finditems where paginationInput.entriesPerPage = '{limit}' and keywords = '{keywords}'
+via route '/ebay/finding/keywords?&paginationinputentriesperpage={limit}&keywords={^keywords}'
+with optional params
+using method get;
+</pre>
+
+<pre class="brush: sql; toolbar: false">
+curl http://localhost:3000/ebay/finding/keywords?keywords=ipad
+</pre>
+
+<h3> Default Values on Routes </h3>
+
+We can specify default values for any of the parameters passed as shown below. Here the output is limited to 1 item and if no keywords are specified then the default keyword is picked up as 'iphone'
+<pre class="brush: sql; toolbar: false">
+
+-- Finds items on eBay based upon a keyword query and returns details for matching items.
+return select *
+from finditems where paginationInput.entriesPerPage = '{limit}' and keywords = '{keywords}'
+via route '/ebay/finding/keywords?&paginationinputentriesperpage={limit}&keywords={^keywords}'
+with optional params
+using defaults limit = 1, keywords = 'iphone'
+using method get;
+</pre>
+
+<pre class="brush: sql; toolbar: false">
+curl http://localhost:3000/ebay/finding/keywords
+</pre>
+
+The default values specified can be overwritten as well.
+
+<pre class="brush: sql; toolbar: false">
+curl http://http://localhost:3000/ebay/finding/keywords?limit=5&keywords=battery
+</pre>
 
