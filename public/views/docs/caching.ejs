@@ -52,7 +52,9 @@ create table finditemscached
    resultset 'findItemsByKeywordsResponse.searchResult.item'
    expires 600
 </pre>
-The 'compute key' patch looks as follows:
+<h2> compute key </h2>
+Use this patch to compute the key needed for caching.
+The compute key patch looks as follows:
 
 <pre class="brush: sql; toolbar: false;">
 'use strict';
