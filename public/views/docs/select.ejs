@@ -236,3 +236,24 @@ of conditions are supported.</p>
 <h3>Offset</h3>
   
 <p>The value of this parameter is used to paginate a response.</p>
+
+<h2>Optional Parameters</h2>
+
+<h3>Required Tokens</h3>
+
+We currently use the notion of required tokens which are preceded with ^
+In this example the parameters specified with ^ are required and all others are optional.
+
+<pre class="brush: sql; toolbar: false;">
+create table finditems
+ on select get from 'http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.8.0&GLOBAL-ID={globalid}&SECURITY-APPNAME={apikey}&RESPONSE-DATA-FORMAT={format}&REST-PAYLOAD&keywords={^keywords}'
+   using defaults format = 'XML', globalid = 'EBAY-US', sortorder ='BestMatch',
+   apikey =  "{config.eBay.apikey}", limit = 10, pageNumber = 1
+   resultset 'findItemsByKeywordsResponse.searchResult.item';
+</pre>
+<p>
+<span class="try"><a class="button" href="/console?s=select%20*%20from%20finditems">Try me</a></span>
+</p>
+<pre class="brush: sql; toolbar: false">
+select * from finditems
+</pre>
