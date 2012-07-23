@@ -1,0 +1,78 @@
+<h1>Caching</h1>
+
+<h2> Pre-requisites </h2>
+
+User needs to have memcached installed.
+
+It can be downloaded from <a href = "http://memcached.org/"> here.</a> The version should be 1.4.13 or greater.
+
+<h2> Changes needed </h2>
+
+The dev.json file needs to include the cache implementation.
+
+The following snippet should be added to the file.
+
+<pre class="brush: sql; toolbar: false;">
+"cache": {
+       "impl": "ql.io-mem-cache-local",
+       "options": {
+           "config": "127.0.0.1:8026",
+           "options": {"maxValue": 10240000, "poolSize": 100}
+       }
+</pre>
+
+Also the package.json needs to include the mem-cache as a dependency.
+
+A part of the package.json will look as follows:
+
+<pre class="brush: sql; toolbar: false;">
+"dependencies":{
+        "ql.io-ebay-app": "<0.8.0",
+        "ql.io-compiler": "<0.8.0",
+        "ql.io-mem-cache-local": ""
+        }
+</pre>
+
+<h2> Starting memcache </h2>
+
+The memcache needs to be started by using the following command :
+<pre class="brush: sql; toolbar: false;">
+memcached -d -p 8026 -m 2048
+</pre>
+
+Example:
+
+<pre class="brush: sql; toolbar: false;">
+create table finditemscached
+ on select get from 'http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.8.0&GLOBAL-ID={globalid}&SECURITY-APPNAME={apikey}&RESPONSE-DATA-FORMAT={format}&REST-PAYLOAD&keywords={^keywords}&paginationInput.entriesPerPage={limit}&paginationInput.pageNumber={pageNumber}&outputSelector%280%29=SellerInfo&sortOrder={sortOrder}'
+   with aliases format = 'RESPONSE-DATA-FORMAT', json = 'JSON', xml = 'XML'
+   using defaults format = 'XML', globalid = 'EBAY-US', sortorder ='BestMatch',
+   apikey =  "{config.eBay.apikey}", limit = 1, pageNumber = 1
+   using patch 'findingcache.js'
+   resultset 'findItemsByKeywordsResponse.searchResult.item'
+   expires 600
+</pre>
+The 'compute key' patch looks as follows:
+
+<pre class="brush: sql; toolbar: false;">
+'use strict';
+
+exports['patch uri'] = function(options) {
+    var uri = options.uri;
+    options.params.siteid = "EBAY-US";
+    return uri;
+}
+exports['compute key'] = function (args) {
+    var key = [];
+    key.push(args.table);
+    key.push(args.uri);
+    key.push(args.params.siteid);
+    return(key.join(':'));
+};
+</pre>
+<p>
+<span class="try"><a class="button" href="/console?s=select%20*%20from%20finditemscached%20where%20keywords%20%3D%20'ipad'">Try me</a></span>
+</p>
+<pre class="brush: sql; toolbar: false;">
+select * from finditemscached where keywords = 'ipad'
+</pre>
