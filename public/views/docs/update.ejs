@@ -78,6 +78,10 @@ update {table} with {"{json object}"}
 <h2>Examples</h2>
 
 Assume there is a table
+
+<p>
+<span class="try"><a class="button" href="/console?s=create%20table%20SetTaxTable%0A%20%20%20%20on%20update%20post%20to%20%22https%3A%2F%2Fapi.ebay.com%2Fws%2Fapi.dll%3F%22%0A%20%20%20%20using%20headers%20'X-EBAY-API-COMPATIBILITY-LEVEL'%20%3D%20'737'%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20'X-EBAY-API-SITEID'%20%3D%20'0'%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20'X-EBAY-API-CALL-NAME'%3D%20'SetTaxTable'%0A%20%20%20%20using%20defaults%20RequesterCredentials.eBayAuthToken%20%3D%20'%7BeBayAuthToken%7D'%0A%20%20%20%20using%20bodyTemplate%20'SetTaxTable.ejs'%20type%20'application%2Fxml'%0A%20%20%20%20resultset%20'SetTaxTableResponse'%0A%0Ajson%20%3D%20%7B%0A%09%09%22RequesterCredentials.eBayAuthToken%22%20%3A%20'eBayAuthToken'%2C%0A%20%20%20%20%20%20%20%20%22TaxTable.TaxJurisdiction.JurisdictionID%22%20%3A%20%22CA%22%2C%0A%20%20%20%20%20%20%20%20%22TaxTable.TaxJurisdiction.SalesTaxPercent%22%20%3A%20%228.25%22%2C%0A%20%20%20%20%20%20%20%20%22TaxTable.TaxJurisdiction.ShippingIncludedInTax%22%20%3A%20%22true%22%2C%0A%20%20%20%20%20%20%20%20%22TaxTable.TaxJurisdiction.JurisdictionID%22%20%3A%20%22MI%22%2C%0A%20%20%20%20%20%20%20%20%22TaxTable.TaxJurisdiction.SalesTaxPercent%22%20%3A%20%226.0%22%2C%0A%20%20%20%20%20%20%20%20%22TaxTable.TaxJurisdiction.ShippingIncludedInTax%22%20%3A%20%22false%22%0A%20%20%20%20%20%20%20%7D%0A%20%0Aupdate%20SetTaxTable%20with%20%22%7Bjson%7D%22">Try me</a></span>
+</p>
 <pre class="brush: sql; toolbar: false">
 --Please make sure you have a valid eBayAuthToken
 create table SetTaxTable
@@ -90,17 +94,16 @@ create table SetTaxTable
     resultset 'SetTaxTableResponse'
 </pre>
 The update statement would look like :
-<p>
-<span class="try"><a class="button" href="/console?s=json%20%3D%20%7B%0A%20%20%20%20%20%20%20%20%22TaxTable.TaxJurisdiction.JurisdictionID%22%20%3A%20%22CA%22%2C%0A%20%20%20%20%20%20%20%20%22TaxTable.TaxJurisdiction.SalesTaxPercent%22%20%3A%20%228.25%22%2C%0A%20%20%20%20%20%20%20%20%22TaxTable.TaxJurisdiction.ShippingIncludedInTax%22%20%3A%20%22true%22%2C%0A%20%20%20%20%20%20%20%20%22TaxTable.TaxJurisdiction.JurisdictionID%22%20%3A%20%22MI%22%2C%0A%20%20%20%20%20%20%20%20%22TaxTable.TaxJurisdiction.SalesTaxPercent%22%20%3A%20%226.0%22%2C%0A%20%20%20%20%20%20%20%20%22TaxTable.TaxJurisdiction.ShippingIncludedInTax%22%20%3A%20%22false%22%0A%20%20%20%20%20%20%20%7D%0A%0Aupdate%20SetTaxTable%20with%20%22%7Bjson%7D%22">Try me</a></span>
-</p>
+
 <pre class="brush: sql; toolbar: false">
 json = {
-        "TaxTable.TaxJurisdiction.JurisdictionID" : "CA",
-        "TaxTable.TaxJurisdiction.SalesTaxPercent" : "8.25",
-        "TaxTable.TaxJurisdiction.ShippingIncludedInTax" : "true",
-        "TaxTable.TaxJurisdiction.JurisdictionID" : "MI",
-        "TaxTable.TaxJurisdiction.SalesTaxPercent" : "6.0",
-        "TaxTable.TaxJurisdiction.ShippingIncludedInTax" : "false"
+        "RequesterCredentials.eBayAuthToken": 'eBayAuthToken',
+        "TaxTable.TaxJurisdiction.JurisdictionID": "CA",
+        "TaxTable.TaxJurisdiction.SalesTaxPercent": "8.25",
+        "TaxTable.TaxJurisdiction.ShippingIncludedInTax": "true",
+        "TaxTable.TaxJurisdiction.JurisdictionID": "MI",
+        "TaxTable.TaxJurisdiction.SalesTaxPercent": "6.0",
+        "TaxTable.TaxJurisdiction.ShippingIncludedInTax": "false"
        }
 
 update SetTaxTable with "{json}"

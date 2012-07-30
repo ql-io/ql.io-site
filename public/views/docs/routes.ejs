@@ -140,25 +140,19 @@ One can also define a similar route for HTTP requests with payloads (e.g. <code>
 <p>You can also define routes for HTTP method <code>DELETE</code> by <code>'using method delete'</code> in a
 route definition similar to one given above.</p>
 
-//TO DO : recheck below
-<h1>Pass Opaque into req.body</h1>
+<h1>HTTP request : non idempotent usage</h1>
 <p>If no values are specified in console, the default value of the input body would be req.body. </p>
 <h2>Examples</h2>
-If there is a route `/opaqueinsert
+
 <pre class="brush: sql; toolbar: false">
-var options = {
-    host : 'localhost',
-    port : 3000,
-    path : '/opaqueinsert',
-    method : 'POST',
-    headers : {
-    'content-type' : 'opaque'
-        }
-    };
-var req = http.request(options);
-var mybody = '<name>hello</name>'
-req.write(mybody);
-req.end();
+return insert into ebay.SellingManagerInventoryFolder
+via route '/opaqueparam' using method post;
+</pre>
+
+</pre>
+<pre class="brush: sql; toolbar: false">
+--Please try the command in your terminal. Also you need the ebayauthtoken in the table for the route
+curl -X POST -d '<AddSellingManagerInventoryFolderRequest xmlns="urn:ebay:apis:eBLBaseComponents"><ParentFolderID>4111589015</ParentFolderID><FolderName>HaderName><Comment>Folder For Harry Potter Products</Comment></AddSellingManagerInventoryFolderRequest>' http://localhost:3000/opaqueparam
 </pre>
 
 <h2>Optional Parameters</h2>
@@ -205,6 +199,6 @@ curl http://localhost:3000/ebay/finding/keywords
 The default values specified can be overwritten as well.
 
 <pre class="brush: sql; toolbar: false">
-curl http://http://localhost:3000/ebay/finding/keywords?limit=5&keywords=battery
+curl http://localhost:3000/ebay/finding/keywords?limit=5&keywords=battery
 </pre>
 

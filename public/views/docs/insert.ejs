@@ -248,10 +248,11 @@ create table SetSellingManagerFeedbackOptions
 </pre>
 The insert statement would look like :
 <p>
-<span class="try"><a class="button" href="/console?s=--Please%20make%20sure%20you%20have%20the%20eBayAuthToken%20in%20your%20table%0Ajson%20%3D%20%7B%0A%20%20%20%20%20%20%20%22AutomatedLeaveFeedbackEvent%22%20%3A%20%22PaymentReceived%22%2C%0A%20%20%20%20%20%20%20%22StoredComments.StoredCommentText%22%20%3A%20%22Prompt%20payment!%22%2C%0A%20%20%20%20%20%20%20%22StoredComments.StoredCommentText%22%20%3A%20%22Paid%20quickly!%22%2C%0A%20%20%20%20%20%20%20%22StoredComments.StoredCommentText%22%20%3A%20%22Fast%20payment!%22%0A%20%20%20%20%20%20%20%7D%0A%20%0Ainsert%20%22%7Bjson%7D%22%20into%20SetSellingManagerFeedbackOptions">Try me</a></span>
+<span class="try"><a class="button" href="/console?s=json%20%3D%20%7B%0A%20%20%20%20%20%20%20%22RequesterCredentials.eBayAuthToken%22%20%3A%20'eBayAuthToken'%2C%0A%20%20%20%20%20%20%20%22AutomatedLeaveFeedbackEvent%22%20%3A%20%22PaymentReceived%22%2C%0A%20%20%20%20%20%20%20%22StoredComments.StoredCommentText%22%20%3A%20%22Prompt%20payment!%22%2C%0A%20%20%20%20%20%20%20%22StoredComments.StoredCommentText%22%20%3A%20%22Paid%20quickly!%22%2C%0A%20%20%20%20%20%20%20%22StoredComments.StoredCommentText%22%20%3A%20%22Fast%20payment!%22%0A%20%20%20%20%20%20%20%7D%0A%0Ainsert%20%22%7Bjson%7D%22%20into%20SetSellingManagerFeedbackOptions">Try me</a></span>
 </p>
 <pre class="brush: sql; toolbar: false">
 json = {
+       "RequesterCredentials.eBayAuthToken" = 'eBayAuthToken',
        "AutomatedLeaveFeedbackEvent" : "PaymentReceived",
        "StoredComments.StoredCommentText" : "Prompt payment!",
        "StoredComments.StoredCommentText" : "Paid quickly!",
@@ -265,7 +266,7 @@ insert {"{json}"} into SetSellingManagerFeedbackOptions
 <h1>Method 3</h1>
 This approach is useful when opaque parameters need to be passed. The entire xml can be passed after the values clause.
 </p>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="772" height="36"><defs><style type="text/css">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="546" height="36"><defs><style type="text/css">
     @namespace "http://www.w3.org/2000/svg";
     .line                 {fill: none; stroke: #332900;}
     filled                {fill: #332900; stroke: none;}
@@ -303,46 +304,31 @@ This approach is useful when opaque parameters need to be passed. The entire xml
   <text class="nonterminal" x="181" y="21">table</text></a>
   <line x1="161" y1="17" x2="171" y2="17" class="line"/>
   <line x1="223" y1="17" x2="233" y2="17" class="line"/>
-  <rect x="245" y="3" width="26" height="32" rx="10"/>
-  <rect x="243" y="1" width="26" height="32" class="terminal" rx="10"/>
-  <text class="terminal" x="253" y="21">(</text>
+  <rect x="245" y="3" width="62" height="32" rx="10"/>
+  <rect x="243" y="1" width="62" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="253" y="21">values</text>
   <line x1="233" y1="17" x2="243" y2="17" class="line"/>
-  <line x1="269" y1="17" x2="279" y2="17" class="line"/>
-  <a xlink:href="#columnsClause" xlink:title="columnsClause">
-  <rect x="291" y="3" width="114" height="32"/>
-  <rect x="289" y="1" width="114" height="32" class="nonterminal"/>
-  <text class="nonterminal" x="299" y="21">columnsClause</text></a>
-  <line x1="279" y1="17" x2="289" y2="17" class="line"/>
-  <line x1="403" y1="17" x2="413" y2="17" class="line"/>
-  <rect x="425" y="3" width="26" height="32" rx="10"/>
-  <rect x="423" y="1" width="26" height="32" class="terminal" rx="10"/>
-  <text class="terminal" x="433" y="21">)</text>
-  <line x1="413" y1="17" x2="423" y2="17" class="line"/>
-  <line x1="449" y1="17" x2="459" y2="17" class="line"/>
-  <rect x="471" y="3" width="62" height="32" rx="10"/>
-  <rect x="469" y="1" width="62" height="32" class="terminal" rx="10"/>
-  <text class="terminal" x="479" y="21">values</text>
-  <line x1="459" y1="17" x2="469" y2="17" class="line"/>
-  <line x1="531" y1="17" x2="541" y2="17" class="line"/>
-  <rect x="553" y="3" width="26" height="32" rx="10"/>
-  <rect x="551" y="1" width="26" height="32" class="terminal" rx="10"/>
-  <text class="terminal" x="561" y="21">(</text>
-  <line x1="541" y1="17" x2="551" y2="17" class="line"/>
-  <line x1="577" y1="17" x2="587" y2="17" class="line"/>
+  <line x1="305" y1="17" x2="315" y2="17" class="line"/>
+  <rect x="327" y="3" width="26" height="32" rx="10"/>
+  <rect x="325" y="1" width="26" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="335" y="21">(</text>
+  <line x1="315" y1="17" x2="325" y2="17" class="line"/>
+  <line x1="351" y1="17" x2="361" y2="17" class="line"/>
   <a xlink:href="#opaqueinput" xlink:title="opaqueinput">
-  <rect x="599" y="3" width="100" height="32"/>
-  <rect x="597" y="1" width="100" height="32" class="nonterminal"/>
-  <text class="nonterminal" x="607" y="21">opaqueinput</text></a>
-  <line x1="587" y1="17" x2="597" y2="17" class="line"/>
-  <line x1="697" y1="17" x2="707" y2="17" class="line"/>
-  <rect x="719" y="3" width="26" height="32" rx="10"/>
-  <rect x="717" y="1" width="26" height="32" class="terminal" rx="10"/>
-  <text class="terminal" x="727" y="21">)</text>
-  <line x1="707" y1="17" x2="717" y2="17" class="line"/>
-  <line x1="743" y1="17" x2="753" y2="17" class="line"/>
-  <line x1="756" y1="17" x2="753" y2="17" class="line"/>
-  <polygon points="763 17 771 13 771 21" class="filled"/>
-  <polygon points="763 17 755 13 755 21" class="filled"/></svg>
+  <rect x="373" y="3" width="100" height="32"/>
+  <rect x="371" y="1" width="100" height="32" class="nonterminal"/>
+  <text class="nonterminal" x="381" y="21">opaqueinput</text></a>
+  <line x1="361" y1="17" x2="371" y2="17" class="line"/>
+  <line x1="471" y1="17" x2="481" y2="17" class="line"/>
+  <rect x="493" y="3" width="26" height="32" rx="10"/>
+  <rect x="491" y="1" width="26" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="501" y="21">)</text>
+  <line x1="481" y1="17" x2="491" y2="17" class="line"/>
+  <line x1="517" y1="17" x2="527" y2="17" class="line"/>
+  <line x1="530" y1="17" x2="527" y2="17" class="line"/>
+  <polygon points="537 17 545 13 545 21" class="filled"/>
+  <polygon points="537 17 529 13 529 21" class="filled"/>
+  </svg>
 <pre class="brush: sql; toolbar: false">
 insert into {table} values ({opaque input})
 </pre>
@@ -386,5 +372,5 @@ insert into insert.into (name) values ("hello")
 </pre>
     Or, to ignore column-value pairs,
 <pre class="brush: sql; toolbar: false">
-insert into insert.into values ("<name>hello</name>")
+insert into insert.into values ("<name>Tom</name>")
 </pre>

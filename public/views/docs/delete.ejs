@@ -27,9 +27,14 @@ delete from {table}
 </pre>
 <h2>Examples</h2>
 Assume there are tables
+<p>
+<span class="try"><a class="button" href="/console?s=create%20table%20ebay.trading.SellingManagerInventoryFolder%0A%20%20%20%20on%20insert%20post%20to%20%22https%3A%2F%2Fapi.ebay.com%2Fws%2Fapi.dll%3F%22%0A%20%20%20%20using%20headers%20'X-EBAY-API-COMPATIBILITY-LEVEL'%20%3D%20'737'%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20'X-EBAY-API-SITEID'%20%3D%20'0'%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20'X-EBAY-API-CALL-NAME'%3D%20'AddSellingManagerInventoryFolder'%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20'X-EBAY-API-APP-NAME'%20%3D%20'%7Bappname%7D'%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20'X-EBAY-API-DEV-NAME'%20%3D%20'%7Bdevname%7D'%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20'X-EBAY-API-CERT-NAME'%20%3D%20'%7Bcertname%7D'%0A%20%20%20%20using%20defaults%20RequesterCredentials.eBayAuthToken%20%3D%20'%7BeBayAuthToken%7D'%0A%20%20%20%20using%20bodyTemplate%20'tables%2FAddSellingManagerInventoryFolder.ejs'%20type%20'application%2Fxml'%0A%20%20%20%20resultset%20'AddSellingManagerInventoryFolderResponse'%0A%20%20%20%20on%20delete%20post%20to%20%22https%3A%2F%2Fapi.ebay.com%2Fws%2Fapi.dll%3F%22%0A%20%20%20%20using%20headers%20'X-EBAY-API-COMPATIBILITY-LEVEL'%20%3D%20'737'%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20'X-EBAY-API-SITEID'%20%3D%20'0'%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20'X-EBAY-API-CALL-NAME'%3D%20'DeleteSellingManagerInventoryFolder'%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20'X-EBAY-API-APP-NAME'%20%3D%20'%7Bappname%7D'%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20'X-EBAY-API-DEV-NAME'%20%3D%20'%7Bdevname%7D'%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20'X-EBAY-API-CERT-NAME'%20%3D%20'%7Bcertname%7D'%0A%20%20%20%20using%20defaults%20RequesterCredentials.eBayAuthToken%20%3D%20'%7BeBayAuthToken%7D'%0A%20%20%20%20using%20bodyTemplate%20'tables%2FDeleteSellingManagerInventoryFolder.ejs'%20type%20'application%2Fxml'%0A%20%20%20%20resultset%20'DeleteSellingManagerInventoryFolderResponse'%0A%20%20%20%20%0A%0Aresult%20%3D%20insert%20into%20ebay.trading.SellingManagerInventoryFolder%20(ParentFolderID%2C%20FolderName%2C%20Comment)%20values%20(%226003420018%22%2C%22HarryTrial%22%2C%22for%20HP%22)%3B%0A%20%0Areturn%20delete%20from%20ebay.trading.SellingManagerInventoryFolder%20where%20FolderID%20in%20(%22%7B%5Eresult.FolderID%7D%22)%20%3B">Try me</a></span>
+</p>
 <pre class="brush: sql; toolbar: false">
+
 --Please make sure you have a valid appname, devname, certname and eBayAuthToken for the following tables
-create table AddSellingManagerInventoryFolder
+--Please note: If you try to run the statements without the correct authtoken, the script will throw a 'null' error
+create table ebay.trading.SellingManagerInventoryFolder
     on insert post to "https://api.ebay.com/ws/api.dll?"
     using headers 'X-EBAY-API-COMPATIBILITY-LEVEL' = '737',
                   'X-EBAY-API-SITEID' = '0',
@@ -38,10 +43,8 @@ create table AddSellingManagerInventoryFolder
                   'X-EBAY-API-DEV-NAME' = '{devname}',
                   'X-EBAY-API-CERT-NAME' = '{certname}'
     using defaults RequesterCredentials.eBayAuthToken = '{eBayAuthToken}'
-    using bodyTemplate 'AddSellingManagerInventoryFolder.ejs' type 'application/xml'
+    using bodyTemplate 'tables/AddSellingManagerInventoryFolder.ejs' type 'application/xml'
     resultset 'AddSellingManagerInventoryFolderResponse'
-
-create table DeleteSellingManagerInventoryFolder
     on delete post to "https://api.ebay.com/ws/api.dll?"
     using headers 'X-EBAY-API-COMPATIBILITY-LEVEL' = '737',
                   'X-EBAY-API-SITEID' = '0',
@@ -50,19 +53,10 @@ create table DeleteSellingManagerInventoryFolder
                   'X-EBAY-API-DEV-NAME' = '{devname}',
                   'X-EBAY-API-CERT-NAME' = '{certname}'
     using defaults RequesterCredentials.eBayAuthToken = '{eBayAuthToken}'
-    using bodyTemplate 'DeleteSellingManagerInventoryFolder.ejs' type 'application/xml'
+    using bodyTemplate 'tables/DeleteSellingManagerInventoryFolder.ejs' type 'application/xml'
     resultset 'DeleteSellingManagerInventoryFolderResponse'
+
+result = insert into ebay.trading.SellingManagerInventoryFolder (ParentFolderID, FolderName, Comment) values ("6003420018","HarryTrial","for HP");
+
+return delete from ebay.trading.SellingManagerInventoryFolder where FolderID in ("{^result.FolderID}") ; </pre>
 </pre>
-The corresponding delete statement would look like :
-<p>
-<span class="try"><a class="button" href="/console?s=result%20%3D%20insert%20into%20AddSellingManagerInventoryFolder%20(ParentFolderID%2C%20FolderName%2C%20Comment)%20values%20(%226003420018%22%2C%22HarryTrial%22%2C%22for%20HP%22)%3B%0A%20%0Areturn%20delete%20from%20DeleteSellingManagerInventoryFolder%20where%20FolderID%20in%20(%22%7Bresult.FolderID%7D%22)%3B">Try me</a></span>
-</p>
-<pre class="brush: sql; toolbar: false">
---Please note: If you try to run the statements without the correct authtoken, the script will throw error saying "FolderID" missing.
---This is because the first statement doesn't return the correct FolderID due to wrong the authtoken and hence the second statement can't correspondingly find the FolderID.
-
-result = insert into ebay.trading.AddSellingManagerInventoryFolder (ParentFolderID, FolderName, Comment) values ("6003420018","HarryTrial","for HP");
-
-return delete from ebay.trading.DeleteSellingManagerInventoryFolder where FolderID in ("{result.FolderID}") ;
-
-
