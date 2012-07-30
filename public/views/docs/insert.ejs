@@ -154,7 +154,7 @@ insert into bitly.shorten (longUrl) values ('http://ql.io/docs')
 
 <p>
 <h1>Method 2</h1>
-This approach is useful when there are many column-value pairs which are better represented in the form of a json object.
+You can use this method when there are many column-value pairs which are better represented in the form of a json object.
 </p>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="526" height="36"><defs><style type="text/css">
     @namespace "http://www.w3.org/2000/svg";
@@ -230,7 +230,7 @@ insert {"{json obj}"} into {table}
 <h2>Json Object</h2>
 
 <p>
-Another way of inserting name-value pairs is to create a json object. The object can directly be inserted into the table.
+Creating a json object is another way to specify name-value pairs. You can directly insert the object into the table.
 </p>
 <h2>Examples</h2>
 
@@ -264,7 +264,7 @@ insert {"{json}"} into SetSellingManagerFeedbackOptions
 
 <p>
 <h1>Method 3</h1>
-This approach is useful when opaque parameters need to be passed. The entire xml can be passed after the values clause.
+Use this approach when you need to pass opaque parameters. You can pass the entire xml after the values clause.
 </p>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="546" height="36"><defs><style type="text/css">
     @namespace "http://www.w3.org/2000/svg";

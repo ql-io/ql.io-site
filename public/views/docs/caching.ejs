@@ -1,24 +1,24 @@
 <h1>Caching</h1>
 
-This feature is used to cache the responses from the server for a specified amount of time.
-The time is specified in the table definition using the following syntax
+You can use this feature to cache the responses from the server for a specified amount of time.
+You can specify the time in the table definition using the following syntax
 <pre class="brush: sql; toolbar: false;">
 expires 600
 </pre>
 Example specified below:
 <h2> Pre-requisites </h2>
 
-User needs to have memcached installed.
+You need to have memcached installed.
 
-It can be downloaded from <a href = "http://memcached.org/"> here.</a> The version should be 1.4.13 or greater.
+Download it <a href = "http://memcached.org/"> here.</a> The version should be 1.4.13 or greater.
 
 <h2> Changes needed </h2>
-
-The config file needs to include the cache implementation.
+<p>
+You need to include the cache implementation in the config file.
 
 Add the following snippet to your config file.
 Also specify the port on which your memcache is running.
-
+</p>
 <pre class="brush: sql; toolbar: false;">
 "cache": {
        "impl": "ql.io-mem-cache-local",
@@ -27,11 +27,11 @@ Also specify the port on which your memcache is running.
            "options": {"maxValue": 10240000, "poolSize": 100}
        }
 </pre>
-
+<p>
 Also the package.json needs to include the mem-cache as a dependency.
 
 A part of the package.json will look as follows:
-
+</p>
 <pre class="brush: sql; toolbar: false;">
 "dependencies":{
         "ql.io-ebay-app": "<0.8.0",
@@ -41,8 +41,9 @@ A part of the package.json will look as follows:
 </pre>
 
 <h2> Starting memcache </h2>
-
-The memcache needs to be started by using the following command :
+<p>
+You need to start memcache by using the following command :
+</p>
 <pre class="brush: sql; toolbar: false;">
 memcached -d -p 8026 -m 2048
 </pre>

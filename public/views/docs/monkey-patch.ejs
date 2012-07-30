@@ -176,9 +176,10 @@ exports['patch mediaType'] = function(args) {
 
 <h2> compute key</h2>
 <p> Use this patch to compute the key needed for caching.
-The compute key patch is optional. If you don't provide the patch, the key will be computed based on the params passed during the table creation.
-In many cases, the parameters are too many because of which the key might become too big. Hence you might want to provide your own patch.
-
+The compute key patch is optional. If you don't provide the patch, the ql.io engine will compute the key based on the params passed during the table creation.
+In many cases, the parameters are too many because of which the key might become too big. Hence you might want to provide your own cache key by applying a monkey patch.
+Here is an example
+</p>
 <pre class="brush: sql; toolbar: false;">
 'use strict';
 exports['compute key'] = function (args) {
