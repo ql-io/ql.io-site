@@ -1,0 +1,54 @@
+<h1> Fallbacks </h1>
+<p>
+When you use the <code>||</code> symbol between two statements, the result of the statement that executes with success (left to right) is returned.
+</p>
+
+<h2>Examples</h2>
+<h3>Example 1</h3>
+<p>
+In the example below, the first statement gets executed, hence the result of the first statement is returned back. The second statement doesn't get executed.
+</p>
+<p>
+<span class="try"><a class="button" href="/console?s=a%20%3D%20%7B%20%0A%09%20%20%22name%22%3A%20%22Tom%22%2C%0A%20%20%20%20%20%20%22location%22%3A%20%22San%20Jose%22%20%0A%20%20%20%20%7D%0A%20%20%20%20%20%20%0Ab%20%3D%20%7B%20%0A%09%20%20%22school%22%3A%20%22Georgia%20Tech%22%2C%0A%20%20%20%20%20%20%22location%22%3A%20%22Atlanta%22%0A%20%20%20%20%7D%0A%20%20%20%20%20%20%0Areturn%20select%20*%20from%20a%20%7C%7C%20select%20*%20from%20b%20%3B">Try me</a></span>
+</p>
+<pre class="brush: sql; toolbar: false;">
+a = {
+	  "name": "Tom",
+      "location": "San Jose"
+    }
+
+b = {
+	  "school": "Georgia Tech",
+      "location": "Atlanta"
+    }
+
+return select * from a || select * from b ;
+</pre>
+<h3>Example 2</h3>
+<p>
+In the example below, 'a' doesn't exist, hence the result of the second statement is returned back.
+</p>
+<p>
+<span class="try"><a class="button" href="/console?s=b%20%3D%20%7B%20%0A%09%20%20%22school%22%3A%20%22Georgia%20Tech%22%2C%0A%20%20%20%20%20%20%22location%22%3A%20%22Atlanta%22%0A%20%20%20%20%7D%0A%20%20%20%20%20%20%0Areturn%20select%20*%20from%20a%20%7C%7C%20select%20*%20from%20b%20%3B">Try me</a></span>
+</p>
+<pre class="brush: sql; toolbar: false;">
+b = {
+	  "school": "Georgia Tech",
+      "location": "Atlanta"
+    }
+
+return select * from a || select * from b ;
+</pre>
+<h3>Example 3</h3>
+<p>
+You can use two <code>||</code> symbols in one statement.
+
+In the example below, 'a' doesn't exist, 'b' doesn't exist, hence the result of the third statement is returned back.
+</p>
+<p>
+<span class="try"><a class="button" href="/console?s=c%20%3D%2010%20%0Areturn%20select%20*%20from%20a%20%7C%7C%20select%20*%20from%20b%20%7C%7C%20select%20*%20from%20c%20%3B">Try me</a></span>
+</p>
+<pre class="brush: sql; toolbar: false;">
+c = 10
+return select * from a || select * from b || select * from c ;
+</pre>

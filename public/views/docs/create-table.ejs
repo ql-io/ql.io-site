@@ -547,6 +547,26 @@ exports.auth = function(params, cb) {
 }
 </pre>
 
+<h3>using required tokens</h3>
+
+We currently use the notion of required tokens which are preceded with ^
+In this example the parameters specified with ^ are required and all others are optional.
+<p>
+<span class="try"><a class="button" href="/console?s=create%20table%20finditemsrequired%0A%20on%20select%20get%20from%20'http%3A%2F%2Fsvcs.ebay.com%2Fservices%2Fsearch%2FFindingService%2Fv1%3FOPERATION-NAME%3DfindItemsByKeywords%26SERVICE-VERSION%3D1.8.0%26GLOBAL-ID%3D%7Bglobalid%7D%26SECURITY-APPNAME%3D%7Bapikey%7D%26RESPONSE-DATA-FORMAT%3D%7Bformat%7D%26REST-PAYLOAD%26keywords%3D%7B%5Ekeywords%7D'%0A%20%20%20using%20defaults%20format%20%3D%20'XML'%2C%20globalid%20%3D%20'EBAY-US'%2C%20sortorder%20%3D'BestMatch'%2C%0A%20%20%20apikey%20%3D%20%20%22%7Bconfig.eBay.apikey%7D%22%2C%20limit%20%3D%2010%2C%20pageNumber%20%3D%201%0A%20%20%20resultset%20'findItemsByKeywordsResponse.searchResult.item'%3B%0A%20%20%20%0A%20%20%20%0Areturn%20select%20*%20from%20finditemsrequired">Try me</a></span>
+</p>
+
+<pre class="brush: sql; toolbar: false;">
+create table finditemsrequired
+ on select get from 'http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.8.0&GLOBAL-ID={globalid}&SECURITY-APPNAME={apikey}&RESPONSE-DATA-FORMAT={format}&REST-PAYLOAD&keywords={^keywords}'
+   using defaults format = 'XML', globalid = 'EBAY-US', sortorder ='BestMatch',
+   apikey =  "{config.eBay.apikey}", limit = 10, pageNumber = 1
+   resultset 'findItemsByKeywordsResponse.searchResult.item';
+</pre>
+
+<pre class="brush: sql; toolbar: false">
+select * from finditemsrequired
+</pre>
+
 <h3>resultset</h3>
   
 <p>A <code>resultset</code> clause can be used to narrow down the response to a collection within
