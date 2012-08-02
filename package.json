@@ -4,6 +4,7 @@
     "dependencies":{
         "ql.io-app": "",
         "ql.io-compiler": "",
+        "ql.io-mem-cache-local": "",
         "mustache": "",
         "headers": "",
         "express": "",

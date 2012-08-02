@@ -18,5 +18,12 @@
     "delicious": {
         "user": "qliotester",
         "pwd": "ql10tester"
+    },
+    "cache": {
+        "impl": "ql.io-mem-cache-local",
+        "options": {
+            "config": "127.0.0.1:8026",
+            "options": {"maxValue": 10240000, "poolSize": 100}
+        }
     }
 }

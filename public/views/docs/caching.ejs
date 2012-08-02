@@ -1,0 +1,88 @@
+<h1>Caching</h1>
+
+You can use this feature to cache the responses from the server for a specified amount of time.
+You can specify the time in the table definition using the following syntax
+<pre class="brush: sql; toolbar: false;">
+expires 600
+</pre>
+Example specified below:
+<h2> Pre-requisites </h2>
+
+You need to have memcached installed.
+
+Download it <a href = "http://memcached.org/"> here.</a> The version should be 1.4.13 or greater.
+
+<h2> Changes needed </h2>
+<p>
+You need to include the cache implementation in the config file.
+
+Add the following snippet to your config file.
+Also specify the port on which your memcache is running.
+</p>
+<pre class="brush: sql; toolbar: false;">
+"cache": {
+       "impl": "ql.io-mem-cache-local",
+       "options": {
+           "config": "127.0.0.1:8026",
+           "options": {"maxValue": 10240000, "poolSize": 100}
+       }
+</pre>
+<p>
+Also the package.json needs to include the mem-cache as a dependency.
+
+A part of the package.json will look as follows:
+</p>
+<pre class="brush: sql; toolbar: false;">
+"dependencies":{
+        "ql.io-ebay-app": "<0.8.0",
+        "ql.io-compiler": "<0.8.0",
+        "ql.io-mem-cache-local": ""
+        }
+</pre>
+
+<h2> Starting memcache </h2>
+<p>
+You need to start memcache by using the following command :
+</p>
+<pre class="brush: sql; toolbar: false;">
+memcached -d -p 8026 -m 2048
+</pre>
+
+Example:
+
+<pre class="brush: sql; toolbar: false;">
+create table finditemscached
+on select get from 'http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.8.0&GLOBAL-ID={globalid}&SECURITY-APPNAME={apikey}&RESPONSE-DATA-FORMAT={format}&REST-PAYLOAD&keywords={^keywords}&paginationInput.entriesPerPage={limit}&paginationInput.pageNumber={pageNumber}&outputSelector%280%29=SellerInfo&sortOrder={sortOrder}'
+   with aliases format = 'RESPONSE-DATA-FORMAT', json = 'JSON', xml = 'XML'
+   using defaults format = 'XML', globalid = 'EBAY-US', sortorder ='BestMatch',
+   apikey =  "{config.eBay.apikey}", limit = 1, pageNumber = 1
+   using patch 'findingcache.js'
+   resultset 'findItemsByKeywordsResponse.searchResult.item'
+   expires 600
+</pre>
+<h2> compute key </h2>
+Use this patch to compute the key needed for caching.
+The compute key patch looks as follows:
+
+<pre class="brush: sql; toolbar: false;">
+'use strict';
+
+exports['patch uri'] = function(options) {
+    var uri = options.uri;
+    options.params.siteid = "EBAY-US";
+    return uri;
+}
+exports['compute key'] = function (args) {
+    var key = [];
+    key.push(args.table);
+    key.push(args.uri);
+    key.push(args.params.siteid);
+    return(key.join(':'));
+};
+</pre>
+<p>
+<span class="try"><a class="button" href="/console?s=select%20*%20from%20finditemscached%20where%20keywords%20%3D%20'ipad'">Try me</a></span>
+</p>
+<pre class="brush: sql; toolbar: false;">
+select * from finditemscached where keywords = 'ipad'
+</pre>

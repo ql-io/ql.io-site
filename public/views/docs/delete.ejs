@@ -1,3 +1,62 @@
 <h1>delete Statement</h1>
 
-<p>Not supported yet.</p>
+<p>This statement is used to remove data from the table.</p>
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="382" height="36"><defs><style type="text/css">
+    @namespace "http://www.w3.org/2000/svg";
+    .line                 {fill: none; stroke: #332900;}
+    filled                {fill: #332900; stroke: none;}
+    text                  {font-family: Verdana, Sans-serif;
+                            font-size: 12px;
+                            fill: #4D3D00;
+                          }
+    text.terminal         {font-family: Verdana, Sans-serif;
+                            font-size: 12px;
+                            fill: #4D3D00;
+                            font-weight: bold;
+                          }
+    rect, circle, polygon {fill: #332900; stroke: #332900;}
+    rect.terminal         {fill: #FFCC00; stroke: #332900;}
+    rect.nonterminal      {fill: #FFEB99; stroke: #332900;}
+    rect.text             {fill: none; stroke: none;}
+    polygon.regexp        {fill: #FFF5CC; stroke: #332900;}
+  </style></defs><polygon points="9 17 1 13 1 21" class="filled"/><polygon points="17 17 9 13 9 21" class="filled"/><line x1="17" y1="17" x2="19" y2="17" class="line"/><rect x="31" y="3" width="60" height="32" rx="10"/><rect x="29" y="1" width="60" height="32" class="terminal" rx="10"/><text class="terminal" x="39" y="21">delete</text><line x1="19" y1="17" x2="29" y2="17" class="line"/><line x1="89" y1="17" x2="99" y2="17" class="line"/><rect x="111" y="3" width="50" height="32" rx="10"/><rect x="109" y="1" width="50" height="32" class="terminal" rx="10"/><text class="terminal" x="119" y="21">from</text><line x1="99" y1="17" x2="109" y2="17" class="line"/><line x1="159" y1="17" x2="169" y2="17" class="line"/><a xlink:href="#table" xlink:title="table"><rect x="181" y="3" width="52" height="32"/><rect x="179" y="1" width="52" height="32" class="nonterminal"/><text class="nonterminal" x="189" y="21">table</text></a><line x1="169" y1="17" x2="179" y2="17" class="line"/><line x1="231" y1="17" x2="241" y2="17" class="line"/><a xlink:href="#whereClause" xlink:title="whereClause"><rect x="253" y="3" width="102" height="32"/><rect x="251" y="1" width="102" height="32" class="nonterminal"/><text class="nonterminal" x="261" y="21">whereClause</text></a><line x1="241" y1="17" x2="251" y2="17" class="line"/><line x1="353" y1="17" x2="363" y2="17" class="line"/><line x1="366" y1="17" x2="363" y2="17" class="line"/><polygon points="373 17 381 13 381 21" class="filled"/><polygon points="373 17 365 13 365 21" class="filled"/></svg>
+<pre class="brush: sql; toolbar: false">
+delete from {table}
+    where {conditions}
+</pre>
+<h2>Examples</h2>
+Assume there are tables
+<p>
+<span class="try"><a class="button" href="/console?s=create%20table%20ebay.trading.SellingManagerInventoryFolder%0A%20%20%20%20on%20insert%20post%20to%20%22https%3A%2F%2Fapi.ebay.com%2Fws%2Fapi.dll%3F%22%0A%20%20%20%20using%20headers%20'X-EBAY-API-COMPATIBILITY-LEVEL'%20%3D%20'737'%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20'X-EBAY-API-SITEID'%20%3D%20'0'%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20'X-EBAY-API-CALL-NAME'%3D%20'AddSellingManagerInventoryFolder'%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20'X-EBAY-API-APP-NAME'%20%3D%20'%7Bappname%7D'%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20'X-EBAY-API-DEV-NAME'%20%3D%20'%7Bdevname%7D'%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20'X-EBAY-API-CERT-NAME'%20%3D%20'%7Bcertname%7D'%0A%20%20%20%20using%20defaults%20RequesterCredentials.eBayAuthToken%20%3D%20'%7BeBayAuthToken%7D'%0A%20%20%20%20using%20bodyTemplate%20'tables%2FAddSellingManagerInventoryFolder.ejs'%20type%20'application%2Fxml'%0A%20%20%20%20resultset%20'AddSellingManagerInventoryFolderResponse'%0A%20%20%20%20on%20delete%20post%20to%20%22https%3A%2F%2Fapi.ebay.com%2Fws%2Fapi.dll%3F%22%0A%20%20%20%20using%20headers%20'X-EBAY-API-COMPATIBILITY-LEVEL'%20%3D%20'737'%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20'X-EBAY-API-SITEID'%20%3D%20'0'%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20'X-EBAY-API-CALL-NAME'%3D%20'DeleteSellingManagerInventoryFolder'%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20'X-EBAY-API-APP-NAME'%20%3D%20'%7Bappname%7D'%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20'X-EBAY-API-DEV-NAME'%20%3D%20'%7Bdevname%7D'%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20'X-EBAY-API-CERT-NAME'%20%3D%20'%7Bcertname%7D'%0A%20%20%20%20using%20defaults%20RequesterCredentials.eBayAuthToken%20%3D%20'%7BeBayAuthToken%7D'%0A%20%20%20%20using%20bodyTemplate%20'tables%2FDeleteSellingManagerInventoryFolder.ejs'%20type%20'application%2Fxml'%0A%20%20%20%20resultset%20'DeleteSellingManagerInventoryFolderResponse'%0A%20%20%20%20%0A%0Aresult%20%3D%20insert%20into%20ebay.trading.SellingManagerInventoryFolder%20(ParentFolderID%2C%20FolderName%2C%20Comment)%20values%20(%226003420018%22%2C%22HarryTrial%22%2C%22for%20HP%22)%3B%0A%20%0Areturn%20delete%20from%20ebay.trading.SellingManagerInventoryFolder%20where%20FolderID%20in%20(%22%7B%5Eresult.FolderID%7D%22)%20%3B">Try me</a></span>
+</p>
+<pre class="brush: sql; toolbar: false">
+
+--Please make sure you have a valid appname, devname, certname and eBayAuthToken for the following tables
+--Please note: If you try to run the statements without the correct authtoken, the script will throw a 'null' error
+create table ebay.trading.SellingManagerInventoryFolder
+    on insert post to "https://api.ebay.com/ws/api.dll?"
+    using headers 'X-EBAY-API-COMPATIBILITY-LEVEL' = '737',
+                  'X-EBAY-API-SITEID' = '0',
+                  'X-EBAY-API-CALL-NAME'= 'AddSellingManagerInventoryFolder',
+                  'X-EBAY-API-APP-NAME' = '{appname}',
+                  'X-EBAY-API-DEV-NAME' = '{devname}',
+                  'X-EBAY-API-CERT-NAME' = '{certname}'
+    using defaults RequesterCredentials.eBayAuthToken = '{eBayAuthToken}'
+    using bodyTemplate 'tables/AddSellingManagerInventoryFolder.ejs' type 'application/xml'
+    resultset 'AddSellingManagerInventoryFolderResponse'
+    on delete post to "https://api.ebay.com/ws/api.dll?"
+    using headers 'X-EBAY-API-COMPATIBILITY-LEVEL' = '737',
+                  'X-EBAY-API-SITEID' = '0',
+                  'X-EBAY-API-CALL-NAME'= 'DeleteSellingManagerInventoryFolder',
+                  'X-EBAY-API-APP-NAME' = '{appname}',
+                  'X-EBAY-API-DEV-NAME' = '{devname}',
+                  'X-EBAY-API-CERT-NAME' = '{certname}'
+    using defaults RequesterCredentials.eBayAuthToken = '{eBayAuthToken}'
+    using bodyTemplate 'tables/DeleteSellingManagerInventoryFolder.ejs' type 'application/xml'
+    resultset 'DeleteSellingManagerInventoryFolderResponse'
+
+result = insert into ebay.trading.SellingManagerInventoryFolder (ParentFolderID, FolderName, Comment) values ("6003420018","HarryTrial","for HP");
+
+return delete from ebay.trading.SellingManagerInventoryFolder where FolderID in ("{^result.FolderID}") ; </pre>
+</pre>

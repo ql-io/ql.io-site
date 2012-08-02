@@ -1,0 +1,109 @@
+<h1> User Defined Functions </h1>
+
+A user-defined function is a Javascript function that can be used in <code>where</code> clauses and columns
+clauses.
+
+<h2> UDFs in the Where Clause</h2>
+
+When specified in the where clause, a UDF can apply custom logic to filter out or re-shape a row
+from a data set.
+
+Example:
+
+<pre class="brush: sql; toolbar: false;">
+    udfs = require('myudfs');
+    u = select * from users where guid = 'user01234';
+    return select id, price, tax, shipping from items where udfs.applyDiscount("{u.id}");
+
+where `applyDiscount()` computes a new price. This logic may even involve network IO.
+
+    exports.applyDiscount = function(price, u) {
+        // Current row in the result
+        var row = this.row;
+
+        // Compute - can be async too.
+        row.price = ...;
+
+        // First arg is error, second result
+        // A null/undefined second arg triggers a removal of the row from the result set.
+        this.next(null, row);
+    }
+
+</pre>
+UDFs in the where clause are invoked after invoking all non-UDF constraints in a where clause.
+
+<h2>Defining UDFs</h2>
+
+You can define UDFs using the node.js module pattern.
+<pre class="brush: sql; toolbar: false;">
+    // file: myudfs.js
+    exports.func1 = function() { ... };
+    exports.func2 = function() { ... };
+</pre>
+
+<h2>Importing UDFs</h2>
+
+In order to use a UDF in a script, you must import its module first. Importing is done via a
+built-in function called `require`.
+<pre class="brush: sql; toolbar: false;">
+    udfs = require('myudfs')
+</pre>
+Each user defined function can declare the following types of arguments:
+<p>
+    <ul>
+        <li>JSON literals (such as strings, numbers, true, false, null, object) </li>
+        <li>Column names (i.e., names of fields listed for a projection in the columns clause of select statements. </li>
+    </ul>
+</p>
+The UDF will receive its arguments in the order they were used in the script.
+
+A UDF declared in the clause receives a `this` object with the following fields:
+<p>
+    <ul>
+        <li>All the variables currently available in the script's execution context.</li>
+        <li>All the params available in the script's execution context.</li>
+        <li>A <code>rows</code> field whose value is the data set. In the case of joins, the data set is the joined set before applying this UDF.</li>
+        <li>An <code>index</code> field whose value is the current row number.</li>
+        <li>A <code>row</code> field which is the current row.</li>
+        <li>A <code>next</code> function to return updated row. The UDF must call this function to continue processing.</li>
+    </ul>
+</p>
+<h2>Example Script</h2>
+<p>
+<span class="try"><a class="button" href="/console?s=u%20%3D%20require(%22filter.js%22)%3B%0Aa1%20%3D%20%5B%7B%22name%22%3A%20%22Brand-A%22%2C%20%22keys%22%20%3A%20%5B%7B%20%22name%22%3A%20%22G1%22%7D%2C%7B%22name%22%3A%20%22G2%22%7D%2C%7B%22name%22%3A%20%22G3%22%7D%5D%7D%2C%0A%20%20%20%20%20%20%7B%22name%22%3A%20%22Brand-B%22%2C%20%22keys%22%20%3A%20%5B%7B%20%22name%22%3A%20%22G1%22%7D%2C%7B%22name%22%3A%20%22G2%22%7D%5D%7D%2C%0A%20%20%20%20%20%20%7B%22name%22%3A%20%22Brand-C%22%2C%20%22keys%22%20%3A%20%5B%7B%20%22name%22%3A%20%22G4%22%7D%2C%7B%22name%22%3A%20%22G2%22%7D%5D%7D%5D%3B%0Aa2%20%3D%20%5B%7B%22name%22%3A%20%22Brand-A%22%2C%20%22details%22%3A%20%5B%7B%22name%22%3A%20%22G3%22%2C%22count%22%3A%2032%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7B%22name%22%3A%20%22G5%22%2C%22count%22%3A%2018%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7B%22name%22%3A%20%22G1%22%2C%22count%22%3A%2040%7D%5D%7D%2C%0A%20%20%20%20%20%20%7B%22name%22%3A%20%22Brand-C%22%2C%20%22details%22%3A%20%5B%7B%22name%22%3A%20%22G3%22%2C%22count%22%3A%2032%7D%2C%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7B%22name%22%3A%20%22G5%22%2C%22count%22%3A%2018%7D%5D%7D%5D%3B%0Areturn%20select%20a2.name%2C%20a2.details%20from%20a1%20as%20a1%2C%20a2%20as%20a2%20where%20a1.name%20%3D%20a2.name%20and%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20u.filterRow(a1.keys)">Try me</a></span>
+</p>
+<pre class="brush: sql; toolbar: false;">
+
+    u = require("filter.js");
+    a1 = [{"name": "Brand-A", "keys" : [{ "name": "G1"},{"name": "G2"},{"name": "G3"}]},
+          {"name": "Brand-B", "keys" : [{ "name": "G1"},{"name": "G2"}]},
+          {"name": "Brand-C", "keys" : [{ "name": "G4"},{"name": "G2"}]}];
+    a2 = [{"name": "Brand-A", "details": [{"name": "G3","count": 32},
+                                          {"name": "G5","count": 18},
+                                          {"name": "G1","count": 40}]},
+          {"name": "Brand-C", "details": [{"name": "G3","count": 32},
+                                          {"name": "G5","count": 18}]}];
+    return select a2.name, a2.details from a1 as a1, a2 as a2 where a1.name = a2.name and
+                  u.filterRow(a1.keys)
+</pre>
+<h2>Example UDF Impl </h2>
+Here is an implementation of the UDF
+<pre class="brush: sql; toolbar: false;">
+    exports.filterRow = function(keys) {
+        var found = false;
+        var details = [];
+        for(var i = 0; i < this.row[1].length; i++) {
+            for(var j = 0; j < keys.length; j++) {
+                if(keys[j].name === this.row[1][i].name) {
+                    details.push(this.row[1][i]);
+                    found = true;
+                    break;
+                }
+            }
+        }
+        if(found) {
+            this.row[1] = details;
+        }
+        return this.next(null, found ? this.row : null);
+    };
+</pre>
