@@ -13,10 +13,12 @@ Example:
 <pre class="brush: sql; toolbar: false;">
     udfs = require('myudfs');
     u = select * from users where guid = 'user01234';
-    return select id, price, tax, shipping from items where udfs.applyDiscount("{u.id}");
+    return select id, price, tax, shipping from items where udfs.applyDiscount(price, "{u.id}");
+</pre>
 
-where `applyDiscount()` computes a new price. This logic may even involve network IO.
+where <code>applyDiscount()</code> computes a new price. This logic may even involve network IO.
 
+<pre class="brush: sql; toolbar: false;">
     exports.applyDiscount = function(price, u) {
         // Current row in the result
         var row = this.row;
