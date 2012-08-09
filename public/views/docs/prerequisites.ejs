@@ -6,12 +6,12 @@ and libexpat-dev.</p>
 
 <pre class="brush: bash; toolbar: false;">
 # Download node.js
-curl http://nodejs.org/dist/v0.6.15/node-v0.6.15.tar.gz node.tar.gz
+curl http://nodejs.org/dist/v0.8.6/node-v0.8.6.tar.gz -o node.tar.gz
 
-# Instal node.js
+# Install node.js
 tar xvfz node.tar.gz
 cd node
-./comfigure; make
+./configure; make
 sudo make install
 
 # Create /usr/local/lib/node_modules and make it writable
