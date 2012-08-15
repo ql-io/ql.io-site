@@ -133,3 +133,21 @@ requests to fetch items details in batches of <code>20</code>.</p>
 
 <p>See <a href="/docs/reference/uri-template">URI Template Syntax Reference</a> for the
 railroad diagrams.</p>
+
+<h3>Escape Params</h3>
+
+<p> You can use <code>`</code> to escape encoding of the parameters that are passed in the URL.
+<br>
+Example :
+
+</p>
+<pre class="brush: sql; toolbar: false">
+create table geocoder.test
+  on select get from "http://maps.googleapis.com/maps/api/geocode/json?address={`address}&sensor=true"
+
+
+select * from  geocoder.test where address = 'S FO'
+</pre>
+<p>
+In the example, we want to escape encoding of the parameter passed in "address". So we use <code>`</code>. Thus the parameter passed to the URL here will be 'S FO' and not 'S%20FO'.
+</p>
