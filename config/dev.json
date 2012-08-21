@@ -25,5 +25,9 @@
             "config": "127.0.0.1:8026",
             "options": {"maxValue": 10240000, "poolSize": 100}
         }
-    }
+    },
+	"gmadapter" : {
+		"url": "https://mobileclient.sandbox.paypal.com/gmadapter/GMAdapter",
+		"gmauth": "https://mobileclient.sandbox.paypal.com/gmadapter/GMAuthenticateUser"
+	}
 }
