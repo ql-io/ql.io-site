@@ -1,11 +1,23 @@
 <h1> User Defined Functions </h1>
 
-A user-defined function is a Javascript function that can be used in <code>where</code> clauses and columns
+A user-defined function is a Javascript function that can be used in regular assignment and <code>where</code> clauses and columns
 clauses.
+
+<h2> UDFs in Assignment</h2>
+When specified in variable assignment, an UDF can apply some logic to the current context.
+
+Example:
+<pre class="brush: sql; toolbar: false;">
+    udfs = require('myudfs');
+    n = 1;
+    m = myudfs.addone(n);
+    return m;
+</pre>
+
 
 <h2> UDFs in the Where Clause</h2>
 
-When specified in the where clause, a UDF can apply custom logic to filter out or re-shape a row
+When specified in the where clause, an UDF can apply custom logic to filter out or re-shape a row
 from a data set.
 
 Example:
