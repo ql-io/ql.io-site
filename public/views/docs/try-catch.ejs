@@ -1,0 +1,171 @@
+<h1>Try-Catch-Finally Statement</h1>
+
+<p>In certain cases, it may be necessary to allow exception handling
+<br>
+Sometimes it may be necessary to perform some rollbacks in order to have atomic transactions.
+With the introduction of try/catch/finally clause, exceptions handler would perform the proper rollback where a transaction fails or is aborted and its actions are undone in order to restore to its previous consistent state, and some possible error alerting logging.
+
+<br>
+Below we have the method to use the try-catch statement
+<br>
+</p>
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="926" height="134"><defs><style type="text/css">
+    @namespace "http://www.w3.org/2000/svg";
+    .line                 {fill: none; stroke: #332900;}
+    filled                {fill: #332900; stroke: none;}
+    text                  {font-family: Verdana, Sans-serif;
+                            font-size: 12px;
+                            fill: #4D3D00;
+                          }
+    text.terminal         {font-family: Verdana, Sans-serif;
+                            font-size: 12px;
+                            fill: #4D3D00;
+                            font-weight: bold;
+                          }
+    rect, circle, polygon {fill: #332900; stroke: #332900;}
+    rect.terminal         {fill: #FFCC00; stroke: #332900;}
+    rect.nonterminal      {fill: #FFEB99; stroke: #332900;}
+    rect.text             {fill: none; stroke: none;}
+    polygon.regexp        {fill: #FFF5CC; stroke: #332900;}
+  </style></defs>
+  <polygon points="9 33 1 29 1 37" class="filled"/>
+  <polygon points="17 33 9 29 9 37" class="filled"/>
+  <line x1="17" y1="33" x2="19" y2="33" class="line"/>
+  <rect x="31" y="19" width="38" height="32" rx="10"/>
+  <rect x="29" y="17" width="38" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="39" y="37">try</text>
+  <line x1="19" y1="33" x2="29" y2="33" class="line"/>
+  <line x1="67" y1="33" x2="77" y2="33" class="line"/>
+  <rect x="89" y="19" width="28" height="32" rx="10"/>
+  <rect x="87" y="17" width="28" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="97" y="37">{</text>
+  <line x1="77" y1="33" x2="87" y2="33" class="line"/>
+  <line x1="115" y1="33" x2="125" y2="33" class="line"/>
+  <a xlink:href="#statementA" xlink:title="statementA">
+  <rect x="137" y="19" width="92" height="32"/>
+  <rect x="135" y="17" width="92" height="32" class="nonterminal"/>
+  <text class="nonterminal" x="145" y="37">statementA</text></a>
+  <line x1="125" y1="33" x2="135" y2="33" class="line"/>
+  <line x1="227" y1="33" x2="237" y2="33" class="line"/>
+  <rect x="289" y="19" width="58" height="32" rx="10"/>
+  <rect x="287" y="17" width="58" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="297" y="37">throw</text>
+  <line x1="277" y1="33" x2="287" y2="33" class="line"/>
+  <line x1="345" y1="33" x2="355" y2="33" class="line"/>
+  <path d="M257 33 L277 33 M276 33 Q267 33 267 23 L267 11 Q267 1 277 1" class="line"/>
+  <path d="M355 33 L375 33 M355 33 Q365 33 365 23 L365 11 Q365 1 355 1" class="line"/>
+  <line x1="277" y1="1" x2="287" y2="1" class="line"/>
+  <line x1="287" y1="1" x2="355" y2="1" class="line"/>
+  <line x1="237" y1="33" x2="257" y2="33" class="line"/>
+  <line x1="375" y1="33" x2="395" y2="33" class="line"/>
+  <path d="M237 33 Q247 33 247 43" class="line"/>
+  <path d="M385 43 Q385 33 395 33" class="line"/>
+  <line x1="247" y1="43" x2="247" y2="57" class="line"/>
+  <line x1="385" y1="57" x2="385" y2="43" class="line"/>
+  <path d="M247 57 Q247 67 257 67" class="line"/>
+  <path d="M375 67 Q385 67 385 57" class="line"/>
+  <line x1="257" y1="67" x2="267" y2="67" class="line"/>
+  <line x1="267" y1="67" x2="375" y2="67" class="line"/>
+  <rect x="407" y="19" width="26" height="32" rx="10"/>
+  <rect x="405" y="17" width="26" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="415" y="37">(</text>
+  <line x1="395" y1="33" x2="405" y2="33" class="line"/>
+  <line x1="431" y1="33" x2="441" y2="33" class="line"/>
+  <a xlink:href="#variable" xlink:title="variable">
+  <rect x="453" y="19" width="70" height="32"/>
+  <rect x="451" y="17" width="70" height="32" class="nonterminal"/>
+  <text class="nonterminal" x="461" y="37">variable</text></a>
+  <line x1="441" y1="33" x2="451" y2="33" class="line"/>
+  <line x1="521" y1="33" x2="531" y2="33" class="line"/>
+  <rect x="543" y="19" width="26" height="32" rx="10"/>
+  <rect x="541" y="17" width="26" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="551" y="37">)</text>
+  <line x1="531" y1="33" x2="541" y2="33" class="line"/>
+  <line x1="567" y1="33" x2="577" y2="33" class="line"/>
+  <rect x="629" y="19" width="54" height="32" rx="10"/>
+  <rect x="627" y="17" width="54" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="637" y="37">catch</text>
+  <line x1="617" y1="33" x2="627" y2="33" class="line"/>
+  <line x1="681" y1="33" x2="691" y2="33" class="line"/>
+  <path d="M597 33 L617 33 M616 33 Q607 33 607 23 L607 11 Q607 1 617 1" class="line"/>
+  <path d="M691 33 L711 33 M691 33 Q701 33 701 23 L701 11 Q701 1 691 1" class="line"/>
+  <line x1="617" y1="1" x2="627" y2="1" class="line"/>
+  <line x1="627" y1="1" x2="691" y2="1" class="line"/>
+  <line x1="577" y1="33" x2="597" y2="33" class="line"/>
+  <line x1="711" y1="33" x2="731" y2="33" class="line"/>
+  <path d="M577 33 Q587 33 587 43" class="line"/>
+  <path d="M721 43 Q721 33 731 33" class="line"/>
+  <line x1="587" y1="43" x2="587" y2="57" class="line"/>
+  <line x1="721" y1="57" x2="721" y2="43" class="line"/>
+  <path d="M587 57 Q587 67 597 67" class="line"/>
+  <path d="M711 67 Q721 67 721 57" class="line"/>
+  <line x1="597" y1="67" x2="607" y2="67" class="line"/>
+  <line x1="607" y1="67" x2="711" y2="67" class="line"/>
+  <rect x="743" y="19" width="26" height="32" rx="10"/>
+  <rect x="741" y="17" width="26" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="751" y="37">(</text>
+  <line x1="731" y1="33" x2="741" y2="33" class="line"/>
+  <line x1="767" y1="33" x2="777" y2="33" class="line"/>
+  <a xlink:href="#variable" xlink:title="variable">
+  <rect x="789" y="19" width="70" height="32"/>
+  <rect x="787" y="17" width="70" height="32" class="nonterminal"/>
+  <text class="nonterminal" x="797" y="37">variable</text></a>
+  <line x1="777" y1="33" x2="787" y2="33" class="line"/>
+  <line x1="857" y1="33" x2="867" y2="33" class="line"/>
+  <rect x="879" y="19" width="26" height="32" rx="10"/>
+  <rect x="877" y="17" width="26" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="887" y="37">)</text>
+  <line x1="867" y1="33" x2="877" y2="33" class="line"/>
+  <line x1="903" y1="33" x2="913" y2="33" class="line"/>
+  <path class="line" d="M915 33 L917 33 M919 33 L921 33 M923 33 L925 33 M545 115 L547 115 M549 115 L551 115 M553 115 L555 115"/>
+  <a xlink:href="#statementB" xlink:title="statementB">
+  <rect x="569" y="101" width="92" height="32"/>
+  <rect x="567" y="99" width="92" height="32" class="nonterminal"/>
+  <text class="nonterminal" x="577" y="119">statementB</text></a>
+  <line x1="557" y1="115" x2="567" y2="115" class="line"/>
+  <line x1="659" y1="115" x2="669" y2="115" class="line"/>
+  <a xlink:href="#finally" xlink:title="finally">
+  <rect x="681" y="101" width="56" height="32"/>
+  <rect x="679" y="99" width="56" height="32" class="nonterminal"/>
+  <text class="nonterminal" x="689" y="119">finally</text></a>
+  <line x1="669" y1="115" x2="679" y2="115" class="line"/>
+  <line x1="735" y1="115" x2="745" y2="115" class="line"/>
+  <a xlink:href="#statementC" xlink:title="statementC">
+  <rect x="757" y="101" width="94" height="32"/>
+  <rect x="755" y="99" width="94" height="32" class="nonterminal"/>
+  <text class="nonterminal" x="765" y="119">statementC</text></a>
+  <line x1="745" y1="115" x2="755" y2="115" class="line"/>
+  <line x1="849" y1="115" x2="859" y2="115" class="line"/>
+  <rect x="871" y="101" width="28" height="32" rx="10"/>
+  <rect x="869" y="99" width="28" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="879" y="119">}</text>
+  <line x1="859" y1="115" x2="869" y2="115" class="line"/>
+  <line x1="897" y1="115" x2="907" y2="115" class="line"/>
+  <line x1="910" y1="115" x2="907" y2="115" class="line"/>
+  <polygon points="917 115 925 111 925 119" class="filled"/>
+  <polygon points="917 115 909 111 909 119" class="filled"/>
+  </svg>
+<pre class="brush: sql; toolbar: false">
+try
+    {do something}
+throw (something)
+catch (something)
+    {do another thing}
+finally {do this}
+</pre>
+<h2>Examples</h2>
+<span class="try"><a class="button" href="/console?s=try%20%7B%0A%09b%20%3D%20select%20*%20from%20google.geocode%20where%20address%20%3D%20%22bora%20bora%22%3B%0A%09throw%20(hello)%0A%09%7D%0Acatch%20(hello)%7B%0A%09a%20%3D%20select%20*%20from%20google.geocode%20where%20address%20%3D%20%22san%20jose%22%3B%0A%20%20%20%20%7D%0Areturn%20a%20%7C%7C%20b%3B">Try me</a></span>
+
+<pre class="brush: sql; toolbar: false">
+           try {
+           	b = select * from google.geocode where address = "bora bora";
+           	throw (hello)
+           	}
+           catch (hello){
+           	a = select * from google.geocode where address = "san jose";
+               }
+           return a || b;
+</pre>
+
+<p> This script returns returns the value of 'a' after the exception handling</p>
