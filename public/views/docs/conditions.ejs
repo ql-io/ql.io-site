@@ -1,0 +1,37 @@
+<h1> Conditions </h1>
+
+A user-defined function is a Javascript function that can be used in regular assignment and <code>where</code> clauses and columns
+clauses.
+
+<h2> if/else</h2>
+ql.io intends to execute every line of script. With if/else, users can instruct ql.io to skip some lines upon certain conditions.
+
+Example:
+<pre class="brush: sql; toolbar: false;">
+	mycond = select umbrella from tools;
+    if(mycond){
+    	update equipment (hand) values ("umbrella");
+    	-- many other executions
+    } else {
+    	update equipment (hand) values ("");
+    	-- many other executions
+    }
+</pre>
+
+
+<h2> try/catch </h2>
+If some transactions are mutable, it is possible to have incomplete execution that contains few incorrect execution may cause severe problem. e.g. Withdraw money from banking account without giving user cash.
+<pre class="brush: sql; toolbar: false;">
+	try{
+	   res = update mytable with "{json}"
+	   if(res){
+	       throw(failure1)
+	   }
+	}catch(failure1){
+	  -- some rollback
+	}
+	-- finally is optional
+	finally{
+	  --log this transaction
+	}
+</pre>
