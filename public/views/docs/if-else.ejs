@@ -1,0 +1,235 @@
+<h1>If-Else Statement</h1>
+
+<p>In certain cases, it may not be necessary to execute all statements in the script.
+<br>
+With If-Else statement, users have the choice of conditional execution to avoid wasting cycles on some very expensive lines that may not be necessary in some cases.
+<br>
+Below we have the method to use the if-else statement
+<br>
+</p>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="942" height="166"><defs><style type="text/css">
+    @namespace "http://www.w3.org/2000/svg";
+    .line                 {fill: none; stroke: #332900;}
+    filled                {fill: #332900; stroke: none;}
+    text                  {font-family: Verdana, Sans-serif;
+                            font-size: 12px;
+                            fill: #4D3D00;
+                          }
+    text.terminal         {font-family: Verdana, Sans-serif;
+                            font-size: 12px;
+                            fill: #4D3D00;
+                            font-weight: bold;
+                          }
+    rect, circle, polygon {fill: #332900; stroke: #332900;}
+    rect.terminal         {fill: #FFCC00; stroke: #332900;}
+    rect.nonterminal      {fill: #FFEB99; stroke: #332900;}
+    rect.text             {fill: none; stroke: none;}
+    polygon.regexp        {fill: #FFF5CC; stroke: #332900;}
+  </style></defs><polygon points="9 33 1 29 1 37" class="filled"/>
+  <polygon points="17 33 9 29 9 37" class="filled"/>
+  <line x1="17" y1="33" x2="19" y2="33" class="line"/>
+  <rect x="31" y="19" width="30" height="32" rx="10"/>
+  <rect x="29" y="17" width="30" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="39" y="37">If</text>
+  <line x1="19" y1="33" x2="29" y2="33" class="line"/>
+  <line x1="59" y1="33" x2="69" y2="33" class="line"/>
+  <rect x="81" y="19" width="26" height="32" rx="10"/>
+  <rect x="79" y="17" width="26" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="89" y="37">(</text>
+  <line x1="69" y1="33" x2="79" y2="33" class="line"/>
+  <line x1="105" y1="33" x2="115" y2="33" class="line"/>
+  <a xlink:href="#mycond" xlink:title="mycond">
+  <rect x="127" y="19" width="68" height="32"/>
+  <rect x="125" y="17" width="68" height="32" class="nonterminal"/>
+  <text class="nonterminal" x="135" y="37">mycond</text></a>
+  <line x1="115" y1="33" x2="125" y2="33" class="line"/>
+  <line x1="193" y1="33" x2="203" y2="33" class="line"/>
+  <rect x="215" y="19" width="26" height="32" rx="10"/>
+  <rect x="213" y="17" width="26" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="223" y="37">)</text>
+  <line x1="203" y1="33" x2="213" y2="33" class="line"/>
+  <line x1="239" y1="33" x2="249" y2="33" class="line"/>
+  <rect x="261" y="19" width="28" height="32" rx="10"/>
+  <rect x="259" y="17" width="28" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="269" y="37">{</text>
+  <line x1="249" y1="33" x2="259" y2="33" class="line"/>
+  <line x1="287" y1="33" x2="297" y2="33" class="line"/>
+  <a xlink:href="#DoSomething" xlink:title="DoSomething">
+  <rect x="309" y="19" width="104" height="32"/>
+  <rect x="307" y="17" width="104" height="32" class="nonterminal"/>
+  <text class="nonterminal" x="317" y="37">DoSomething</text></a>
+  <line x1="297" y1="33" x2="307" y2="33" class="line"/>
+  <line x1="411" y1="33" x2="421" y2="33" class="line"/>
+  <rect x="433" y="19" width="28" height="32" rx="10"/>
+  <rect x="431" y="17" width="28" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="441" y="37">}</text>
+  <line x1="421" y1="33" x2="431" y2="33" class="line"/>
+  <line x1="459" y1="33" x2="469" y2="33" class="line"/>
+  <a xlink:href="#Else" xlink:title="Else">
+  <rect x="521" y="19" width="46" height="32"/>
+  <rect x="519" y="17" width="46" height="32" class="nonterminal"/>
+  <text class="nonterminal" x="529" y="37">Else</text></a>
+  <line x1="509" y1="33" x2="519" y2="33" class="line"/>
+  <line x1="565" y1="33" x2="575" y2="33" class="line"/>
+  <path d="M489 33 L509 33 M508 33 Q499 33 499 23 L499 11 Q499 1 509 1" class="line"/>
+  <path d="M575 33 L595 33 M575 33 Q585 33 585 23 L585 11 Q585 1 575 1" class="line"/>
+  <line x1="509" y1="1" x2="519" y2="1" class="line"/>
+  <line x1="519" y1="1" x2="575" y2="1" class="line"/>
+  <line x1="469" y1="33" x2="489" y2="33" class="line"/>
+  <line x1="595" y1="33" x2="615" y2="33" class="line"/>
+  <path d="M469 33 Q479 33 479 43" class="line"/>
+  <path d="M605 43 Q605 33 615 33" class="line"/>
+  <line x1="479" y1="43" x2="479" y2="57" class="line"/>
+  <line x1="605" y1="57" x2="605" y2="43" class="line"/>
+  <path d="M479 57 Q479 67 489 67" class="line"/>
+  <path d="M595 67 Q605 67 605 57" class="line"/>
+  <line x1="489" y1="67" x2="499" y2="67" class="line"/>
+  <line x1="499" y1="67" x2="595" y2="67" class="line"/>
+  <rect x="627" y="19" width="28" height="32" rx="10"/>
+  <rect x="625" y="17" width="28" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="635" y="37">{</text>
+  <line x1="615" y1="33" x2="625" y2="33" class="line"/>
+  <line x1="653" y1="33" x2="663" y2="33" class="line"/>
+  <a xlink:href="#DoAnotherthing" xlink:title="DoAnotherthing">
+  <rect x="715" y="19" width="118" height="32"/>
+  <rect x="713" y="17" width="118" height="32" class="nonterminal"/>
+  <text class="nonterminal" x="723" y="37">DoAnotherthing</text></a>
+  <line x1="703" y1="33" x2="713" y2="33" class="line"/>
+  <line x1="831" y1="33" x2="841" y2="33" class="line"/>
+  <path d="M683 33 L703 33 M702 33 Q693 33 693 23 L693 11 Q693 1 703 1" class="line"/>
+  <path d="M841 33 L861 33 M841 33 Q851 33 851 23 L851 11 Q851 1 841 1" class="line"/>
+  <line x1="703" y1="1" x2="713" y2="1" class="line"/>
+  <line x1="713" y1="1" x2="841" y2="1" class="line"/>
+  <line x1="663" y1="33" x2="683" y2="33" class="line"/>
+  <line x1="861" y1="33" x2="881" y2="33" class="line"/>
+  <path d="M663 33 Q673 33 673 43" class="line"/>
+  <path d="M871 43 Q871 33 881 33" class="line"/>
+  <line x1="673" y1="43" x2="673" y2="57" class="line"/>
+  <line x1="871" y1="57" x2="871" y2="43" class="line"/>
+  <path d="M673 57 Q673 67 683 67" class="line"/>
+  <path d="M861 67 Q871 67 871 57" class="line"/>
+  <line x1="683" y1="67" x2="693" y2="67" class="line"/>
+  <line x1="693" y1="67" x2="861" y2="67" class="line"/>
+  <rect x="893" y="19" width="28" height="32" rx="10"/>
+  <rect x="891" y="17" width="28" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="901" y="37">}</text>
+  <line x1="881" y1="33" x2="891" y2="33" class="line"/>
+  <line x1="919" y1="33" x2="929" y2="33" class="line"/>
+  <path class="line" d="M931 33 L933 33 M935 33 L937 33 M939 33 L941 33 M471 131 L473 131 M475 131 L477 131 M479 131 L481 131"/>
+  <a xlink:href="#return" xlink:title="return">
+  <rect x="535" y="117" width="58" height="32"/>
+  <rect x="533" y="115" width="58" height="32" class="nonterminal"/>
+  <text class="nonterminal" x="543" y="135">return</text></a>
+  <line x1="523" y1="131" x2="533" y2="131" class="line"/>
+  <line x1="591" y1="131" x2="601" y2="131" class="line"/>
+  <path d="M503 131 L523 131 M522 131 Q513 131 513 121 L513 109 Q513 99 523 99" class="line"/>
+  <path d="M601 131 L621 131 M601 131 Q611 131 611 121 L611 109 Q611 99 601 99" class="line"/>
+  <line x1="523" y1="99" x2="533" y2="99" class="line"/>
+  <line x1="533" y1="99" x2="601" y2="99" class="line"/>
+  <line x1="483" y1="131" x2="503" y2="131" class="line"/>
+  <line x1="621" y1="131" x2="641" y2="131" class="line"/>
+  <path d="M483 131 Q493 131 493 141" class="line"/>
+  <path d="M631 141 Q631 131 641 131" class="line"/>
+  <line x1="493" y1="141" x2="493" y2="155" class="line"/>
+  <line x1="631" y1="155" x2="631" y2="141" class="line"/>
+  <path d="M493 155 Q493 165 503 165" class="line"/>
+  <path d="M621 165 Q631 165 631 155" class="line"/>
+  <line x1="503" y1="165" x2="513" y2="165" class="line"/>
+  <line x1="513" y1="165" x2="621" y2="165" class="line"/>
+  <rect x="653" y="117" width="28" height="32" rx="10"/>
+  <rect x="651" y="115" width="28" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="661" y="135">{</text>
+  <line x1="641" y1="131" x2="651" y2="131" class="line"/>
+  <line x1="679" y1="131" x2="689" y2="131" class="line"/>
+  <a xlink:href="#Something" xlink:title="Something">
+  <rect x="741" y="117" width="86" height="32"/>
+  <rect x="739" y="115" width="86" height="32" class="nonterminal"/>
+  <text class="nonterminal" x="749" y="135">Something</text></a>
+  <line x1="729" y1="131" x2="739" y2="131" class="line"/>
+  <line x1="825" y1="131" x2="835" y2="131" class="line"/>
+  <path d="M709 131 L729 131 M728 131 Q719 131 719 121 L719 109 Q719 99 729 99" class="line"/>
+  <path d="M835 131 L855 131 M835 131 Q845 131 845 121 L845 109 Q845 99 835 99" class="line"/>
+  <line x1="729" y1="99" x2="739" y2="99" class="line"/>
+  <line x1="739" y1="99" x2="835" y2="99" class="line"/>
+  <line x1="689" y1="131" x2="709" y2="131" class="line"/>
+  <line x1="855" y1="131" x2="875" y2="131" class="line"/>
+  <path d="M689 131 Q699 131 699 141" class="line"/>
+  <path d="M865 141 Q865 131 875 131" class="line"/>
+  <line x1="699" y1="141" x2="699" y2="155" class="line"/>
+  <line x1="865" y1="155" x2="865" y2="141" class="line"/>
+  <path d="M699 155 Q699 165 709 165" class="line"/>
+  <path d="M855 165 Q865 165 865 155" class="line"/>
+  <line x1="709" y1="165" x2="719" y2="165" class="line"/>
+  <line x1="719" y1="165" x2="855" y2="165" class="line"/>
+  <rect x="887" y="117" width="28" height="32" rx="10"/>
+  <rect x="885" y="115" width="28" height="32" class="terminal" rx="10"/>
+  <text class="terminal" x="895" y="135">}</text>
+  <line x1="875" y1="131" x2="885" y2="131" class="line"/>
+  <line x1="913" y1="131" x2="923" y2="131" class="line"/>
+  <line x1="926" y1="131" x2="923" y2="131" class="line"/>
+  <polygon points="933 131 941 127 941 135" class="filled"/>
+
+<pre class="brush: sql; toolbar: false">
+  if (condition) {do something} else {do another thing}
+  </pre>
+
+<h2>Examples</h2>
+
+<span class="try"><a class="button" href="/console?s=foo%20%3D%20%7B'foo'%20%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20'hello'%20%3A%20'Hello'%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20'world'%20%3A%20'World'%0A%20%20%20%20%20%20%20%20%7D%7D%20%20%20%20%0Azero%20%3D%20%7B'zero'%20%3A%20null%7D%20%20%20%20%0Amycond%20%3D%20select%20*%20from%20foo%0Aempty%20%3D%20select%20*%20from%20zero%0Aif(empty%20%7C%7C%20!!mycond)%7Ba%20%3D%20select%20*%20from%20foo%7D%0Aelse%20%7B%0Ab%20%3D%20select%20*%20from%20bar%7D%0Areturn%20%22%7Ba%7D%22%20%7C%7C%20%22%7Bb%7D%22">Try me</a></span>
+<pre class="brush: sql; toolbar: false">
+           foo = {
+           		'foo' : {
+                       'hello' : 'Hello',
+                       'world' : 'World'
+                   	    }
+                 }
+           zero = {'zero' : null}
+           mycond = select * from foo
+           empty = select * from zero
+           if(empty || !!mycond)
+            {
+                a = select * from foo
+            }
+           else
+            {
+                b = select * from bar
+            }
+           return "{a}" || "{b}"
+</pre>
+<p>This script returns "foo" after conditional execution</p>
+
+<p>The else logic is optional. The statement works without any else logic as well.</p>
+
+<p>The script can handle different levels of nestings within any if block or else block.</p>
+
+<h1> NOTE: The variables declared within the if-else block are considered to be global and can be accessed from anywhere else in the script </h1>
+
+<h2>Examples</h2>
+
+<span class="try"><a class="button" href="/console?s=if%20(x%7C%7Cy)%20%20%20%20%0A%7B%20%20%20%20%20%20%20%20%20%20%20%20%20%0A%20%20q%3D%2012345%20%20%0A%7D%20%20%20%20%20%20%20%20%20%20%20%20%0Aelse%20%20%20%20%20%20%20%20%20%20%0A%7B%20%20%20%20%20%20%20%20%20%20%20%20%20%0A%20%20if%20(j%20)%20%20%20%0A%20%20%7B%20%20%20%20%20%20%20%20%20%0A%20%20%20%20g%20%3D%20%22sad%22%20%20%20%0A%20%20%7D%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%0A%20%20else%20%20%20%20%20%20%20%20%20%20%20%20%0A%20%20%7B%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%0A%20%20%20%20d%3D%20%22happy%22%20%20%0A%20%20%7D%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%0A%20%20%20%20e%20%3D%20%22enjoy%22%20%20%20%20%20%0A%7D%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%0Areturn%20g%7C%7Cd%7C%7Ce%7C%7Cq%3B">Try me</a></span>
+<pre class="brush: sql; toolbar: false">
+if (x||y)
+{
+  q= 12345
+}
+else
+{
+  if (j )
+  {
+    g = "sad"
+  }
+  else
+  {
+    d= "happy"
+  }
+    e = "enjoy"
+}
+return g||d||e||q;
+</pre>
+
+<p> This script returns "happy" after conditional execution</p>
+
+
+
+
+
