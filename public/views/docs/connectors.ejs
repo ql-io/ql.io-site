@@ -1,0 +1,11 @@
+<h1>Connectors</h1>
+<p>supports built in http(s) and mongodb connector, as well as custom connector that users can specify themselves.
+</p>
+<h2>What is a custom connector</h2>
+
+<p>The directory of Custom connectors can be specified while starting the server, with --connectors option. Couple examples can be found at modules/engine/test/mock-routes/connectors.
+While specifying the directory contains connector javascript files, we do not want it to load all js files as connectors since some of them might be just helper files. To let the server know the js file is a custom connector, please follow the examples in the pattern above. module.exports.connectorName has to be a valid non-empty string that will be the name of the connector. In addition, each connector must contain a module.exports.exec that the connector coordinator can call.
+</p>
+
+<h2>Pipelines</h2>
+<p>While the custom connectors do not have monkey patches to tweak data, but it gives the power to some more advanced custom tweaks such as pipelines(shown in pipeline_connector.js). Using the when library, users can let ql.io to perform async pipeline calls per request instead.</p>
