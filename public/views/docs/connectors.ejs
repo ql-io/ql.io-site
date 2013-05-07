@@ -3,7 +3,7 @@
 </p>
 <h2>What is a custom connector</h2>
 
-<p>The directory of Custom connectors can be specified while starting the server, with --connectors option. Couple examples can be found at https://github.com/ql-io/ql.io/tree/master/modules/engine/test/mock-routes/connectors.
+<p>The directory of Custom connectors can be specified while starting the server, with --connectors option. Couple examples can be found <a href="https://github.com/ql-io/ql.io/tree/master/modules/engine/test/mock-routes/connectors">here</a>.
 While specifying the directory contains connector javascript files, we do not want it to load all js files as connectors since some of them might be just helper files. To let the server know the js file is a custom connector, please follow the examples in the pattern above. module.exports.connectorName has to be a valid non-empty string that will be the name of the connector. In addition, each connector must contain a module.exports.exec that the connector coordinator can call.
 </p>
 
