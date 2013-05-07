@@ -170,6 +170,7 @@ finally {do this}
 
 <p> This script returns returns the value of 'a' after the exception handling</p>
 
+<span class="try"><a class="button" href="/console?s=foo%20%3D%20%7B%0A%20%20%20%20%20%20%20%20'foo'%20%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20'hello'%20%3A%20'Hello'%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20'world'%20%3A%20'World'%0A%20%20%20%20%20%20%20%20%7D%7D%0A%20%0A%20bar%20%3D%20%7B%0A%20%20%20%20%20%20%20%20'bar'%20%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20'chocolate'%20%3A%20'Chocolate'%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20'milk'%20%3A%20'Milk'%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%3B%0Atry%20%7B%0Ab%20%3D%20select%20*%20from%20foo%3B%0Athrow%20(hello)%7D%0Acatch%20(hello)%7B%0Aa%20%3Dselect%20*%20from%20foo%7D%0Afinally%7B%0Ac%20%3D%20'cheese'%0A%7D%0Areturn%20c%20%7C%7C%20a%3B">Try me</a></span>
 <pre class="brush: sql; toolbar: false">
 foo = {
         'foo' : {
